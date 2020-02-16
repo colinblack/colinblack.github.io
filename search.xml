@@ -4,7 +4,7 @@
     <title>面试/tcp-ip面试</title>
     <url>/2020/02/16/%E9%9D%A2%E8%AF%95/tcp-ip%E9%9D%A2%E8%AF%95/</url>
     <content><![CDATA[<hr>
-<p>title: tcp_ip面试.md<br>date: 2020-02-16 12:11:40<br>categories:<br> &nbsp;&nbsp;&nbsp;- 面试<br>tags:<br> &nbsp;&nbsp;&nbsp;- tcp/ip  </p>
+<p>title: tcp_ip面试<br>date: 2020-02-16 12:11:40<br>categories: 面试<br>tags: [tcp/ip]<br>comments: false</p>
 <hr>
 <h2 id="TCP和UDP的区别"><a href="#TCP和UDP的区别" class="headerlink" title="TCP和UDP的区别"></a>TCP和UDP的区别</h2><p>tcp连接是永久的只要没断开<br>tcp连接是指tcp协议栈维护的状态<br>tcp 流式协议，数据是有序的。面向连接可靠，慢，开销大，容易受攻击<br>udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快，开销小  </p>
 <h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p>三次握手：<br> &nbsp;&nbsp;&nbsp;1.客户端发起连接请求，SYN=1，seq=y, 客户端进入SYN_SENT状态<br> &nbsp;&nbsp;&nbsp;2.服务端收到连接，SYN=1,ack=y+1, seq=q, 服务端进入SYN_RCVD状态<br> &nbsp;&nbsp;&nbsp;3.客户端收到服务端的回应, ACK=1，ack=q+1, 客户端进入ESTABLISHED，服务端收到后也进入ESTABLISHED<br>四次挥手：<br> &nbsp;&nbsp;&nbsp;主动关闭：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.主动关闭方close FIN=1, 进入FIN_WAIT_1状态<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.被动关闭方收到请求, 发送 ACK=1确认后进入CLOSE_WAIT状态，主动关闭方收到后进入FIN_WAIT_2<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.被动关闭close 发送FIN=1, 进入LAST_ACK状态<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.主动关闭方收到后，发送ACK=1，进入TIME_WAIT状态<br> &nbsp;&nbsp;&nbsp;同时关闭：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;双方发送ACK后进入CLOSING，不会有FIN_WAIT_2,LAST_ACK, CLOSEWAIT<br>序号：<br> &nbsp;&nbsp;&nbsp;每个字节的数据都有自己的序号，对端接收的数据是乱序时用来确定顺序<br>ISN:<br> &nbsp;&nbsp;&nbsp;三次握手第一个连接时的序列号<br>判断syn flood攻击：  </p>
