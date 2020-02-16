@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>tcp-ip面试</title>
-    <url>/2020/02/16/tcp-ip%E9%9D%A2%E8%AF%95/</url>
+    <url>/2020/02/16/%E9%9D%A2%E8%AF%95/tcp-ip%E9%9D%A2%E8%AF%95/</url>
     <content><![CDATA[<h2 id="TCP和UDP的区别"><a href="#TCP和UDP的区别" class="headerlink" title="TCP和UDP的区别"></a>TCP和UDP的区别</h2><p>tcp连接是永久的只要没断开<br>tcp连接是指tcp协议栈维护的状态<br>tcp 流式协议，数据是有序的。面向连接可靠，慢，开销大，容易受攻击<br>udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快，开销小</p>
 <a id="more"></a>  
 <h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p>三次握手：<br> &nbsp;&nbsp;&nbsp;1.客户端发起连接请求，SYN=1，seq=y, 客户端进入SYN_SENT状态<br> &nbsp;&nbsp;&nbsp;2.服务端收到连接，SYN=1,ack=y+1, seq=q, 服务端进入SYN_RCVD状态<br> &nbsp;&nbsp;&nbsp;3.客户端收到服务端的回应, ACK=1，ack=q+1, 客户端进入ESTABLISHED，服务端收到后也进入ESTABLISHED   </p>
