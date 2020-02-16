@@ -459,7 +459,7 @@ $(function() {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-16T13:18:00+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-16T13:22:44+08:00">
                 2020-02-16
               </time>
             
@@ -545,11 +545,9 @@ $(function() {
       
         
           <hr>
-<p>title: tcp_ip面试<br>date: 2020-02-16 12:11:40<br>categories: 面试<br>tags: [tcp/ip]<br>comments: false</p>
+<p>title: tcp_ip面试<br>date: 2020-02-16 12:11:40<br>categories:<br>    - 面试<br>tags:<br>    - tcp_ip</p>
 <hr>
 <h2 id="TCP和UDP的区别"><a href="#TCP和UDP的区别" class="headerlink" title="TCP和UDP的区别"></a>TCP和UDP的区别</h2><p>tcp连接是永久的只要没断开<br>tcp连接是指tcp协议栈维护的状态<br>tcp 流式协议，数据是有序的。面向连接可靠，慢，开销大，容易受攻击<br>udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快，开销小  </p>
-<h2 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h2><p>三次握手：<br> &nbsp;&nbsp;&nbsp;1.客户端发起连接请求，SYN=1，seq=y, 客户端进入SYN_SENT状态<br> &nbsp;&nbsp;&nbsp;2.服务端收到连接，SYN=1,ack=y+1, seq=q, 服务端进入SYN_RCVD状态<br> &nbsp;&nbsp;&nbsp;3.客户端收到服务端的回应, ACK=1，ack=q+1, 客户端进入ESTABLISHED，服务端收到后也进入ESTABLISHED<br>四次挥手：<br> &nbsp;&nbsp;&nbsp;主动关闭：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.主动关闭方close FIN=1, 进入FIN_WAIT_1状态<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.被动关闭方收到请求, 发送 ACK=1确认后进入CLOSE_WAIT状态，主动关闭方收到后进入FIN_WAIT_2<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.被动关闭close 发送FIN=1, 进入LAST_ACK状态<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.主动关闭方收到后，发送ACK=1，进入TIME_WAIT状态<br> &nbsp;&nbsp;&nbsp;同时关闭：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;双方发送ACK后进入CLOSING，不会有FIN_WAIT_2,LAST_ACK, CLOSEWAIT<br>序号：<br> &nbsp;&nbsp;&nbsp;每个字节的数据都有自己的序号，对端接收的数据是乱序时用来确定顺序<br>ISN:<br> &nbsp;&nbsp;&nbsp;三次握手第一个连接时的序列号<br>判断syn flood攻击：  </p>
-<pre><code>netstat -nap | grep SYN_RECV        </code></pre><p>防止Syn Flood方法：<br> &nbsp;&nbsp;&nbsp;1.清除所有的半连接<br> &nbsp;&nbsp;&nbsp;2.syn cookie(sysctl.conf tcp_syncookies选项)<br>半关闭状态：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主动关闭端发送FIN，被动关闭端回ACK后<br>三次握手中握手包丢了会怎么样<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在第三次握手中丢包，服务端会有一个定时器，负责重发，会重发5次，第一次1s，以后时间在上次基础上翻倍，如果客户端还是回ack服务端会发rst  </p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/02/16/%E9%9D%A2%E8%AF%95/tcp-ip%E9%9D%A2%E8%AF%95/#more" rel="contents">
@@ -621,7 +619,7 @@ $(function() {
               
                 
                 <a class="post-title-link" href="/2020/01/08/cpp/cpp%E7%BB%86%E8%8A%82/" itemprop="url">
-                  post title
+                  cpp细节
                 </a>
               
             
@@ -680,7 +678,7 @@ $(function() {
 			 
           
           
-             <span id="/2020/01/08/cpp/cpp%E7%BB%86%E8%8A%82/" class="leancloud_visitors" data-flag-title="post title">
+             <span id="/2020/01/08/cpp/cpp%E7%BB%86%E8%8A%82/" class="leancloud_visitors" data-flag-title="cpp细节">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
