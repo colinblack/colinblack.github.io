@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-02-16T05:42:16.801Z</updated>
+  <updated>2020-02-18T12:20:23.225Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《Linux内核完全注释》笔记</title>
+    <link href="http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/"/>
+    <id>http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</id>
+    <published>2020-02-18T11:46:41.000Z</published>
+    <updated>2020-02-18T12:20:23.225Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>  <h2 id="第二章-Linux内核体系结构"><a href="#第二章-Linux内核体系结构" class="headerlink" title="第二章 Linux内核体系结构"></a>第二章 Linux内核体系结构</h2><h3 id="Linux内核模式"><a href="#Linux内核模式" class="headerlink" title="Linux内核模式"></a>Linux内核模式</h3><p>操作系统体系结构模式主要分为：<br>整体式单内核(宏内核)<br>层次式微内核  </p><p>单核模式内核层次:<br>调用服务的主程序层<br>执行系统调用的服务层<br>支持系统调用的底层函数<br><img src="/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png" alt="p1">  </p><h3 id="Linux内核系统体系结构"><a href="#Linux内核系统体系结构" class="headerlink" title="Linux内核系统体系结构"></a>Linux内核系统体系结构</h3><p>Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块<br>模块间的依赖关系:<br><img src="/images/fc77df7e-b967-4408-934b-ba46535033e2.png" alt="p2">  </p><p>Linux 0.11架构图:<br><img src="/images/00367ae6-72cc-4b02-9f9e-4ecefac7afce.png" alt="p3">  </p><h3 id="Linux进程控制"><a href="#Linux进程控制" class="headerlink" title="Linux进程控制"></a>Linux进程控制</h3><p>内核态程序是不可抢占的(不会被schedule切换)， 用户态程序可以被抢占<br>一个进程可以在内核态或用户态下执行，内核堆栈和用户堆栈是分开的  </p><h4 id="任务数据结构"><a href="#任务数据结构" class="headerlink" title="任务数据结构"></a>任务数据结构</h4><p>进程上下文：当一个进程在执行时， CPU的所有寄存器中的值、进程的状态以及堆栈中的内容被称为该进程的上下文。<br>睡眠等待状态被分为可中断和不可中断  </p><h4 id="进程五种运行状态"><a href="#进程五种运行状态" class="headerlink" title="进程五种运行状态"></a>进程五种运行状态</h4><p>运行状态：进程正在被CPU执行，或者准备就绪随时可由调度程序执行<br>可中断睡眠状态：当系统产生中断或释放进程正在等待的资源或进程收到一个型号，进程能被唤醒转换到就绪状态<br>不可中断睡眠状态：只有被使用wake_up()明确唤醒时才能转换到可运行的就绪状态<br>暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态<br>僵死状态：进程已停止运行，但父进程还没有询问其状态<br>进程状态及转换关系：<br><img src="/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png" alt="p4"><br>进程调度发生的情况:<br>进程时间片用完<br>进程自动放弃CPU使用权    </p><p>内核态时进程不能被 抢占，内核执行临界区代码时禁止一切中断  </p><h4 id="进程初始化"><a href="#进程初始化" class="headerlink" title="进程初始化"></a>进程初始化</h4><p>sched_init()：<br>设置任务0运行环境变量<br>预先设置好任务0数据结构个字段<br>在全局描述符表中添加任务0的TTS(任务状态段)描述符和LDT(局部描述符表)的段描述符，并把他们分别加载到tr(任务寄存器)和(ldr)局部描述符表寄存器  </p><p>move_to_user_mod()：<br>把运行特权级从内核态0级变换到用户态3级, 但是任然继续执行原来的代码.  </p><h4 id="创建新进程"><a href="#创建新进程" class="headerlink" title="创建新进程"></a>创建新进程</h4><p>过程：<br>使用fork创建，所有金产能都是通过复制进程0得到， 都是进程0的子进程<br>申请内存<br>复制当前进程数据结构<br>清除信号位图<br>设置时间片<br>设置tss中各寄存器的值  </p><h4 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h4><p>被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略<br>schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如   果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：<br><img src="/images/a0bcedee-f079-4dd0-9643-99de53b48236.png" alt="p5"><br> 如果此时没有其他进程运行，系统就会选择0号进程  </p><h4 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h4><p>switch_to():<br>如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中  </p><p>任务切换操作示意图:<br><img src="/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png" alt="p6">  </p><h4 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h4><p>流程:<br>用户程序调用exit, 内核执行do_exit<br>关闭进程会释放内存，关闭进程打开着的所有文件<br>如果有子进程，让init进出给你作为紫金城的父进程<br>如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br>将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br>调用do_exit  </p><p>进程终止时，其数据结构还保留，因为父进程要用到<br>父进程使用wait或waitpid等待子进程终止  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;  
+&lt;h2 id=&quot;第二章-Linux内核体系结构&quot;&gt;&lt;a href=&quot;#第二章-Linux内核体系结构&quot; class=&quot;headerlink&quot; title=&quot;第二章 Linux内核体系结构&quot;&gt;&lt;/a&gt;第二章 Linux内核体系结构&lt;/h2&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Linux内核" scheme="http://yoursite.com/categories/Linux%E5%86%85%E6%A0%B8/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>tcp-ip面试</title>

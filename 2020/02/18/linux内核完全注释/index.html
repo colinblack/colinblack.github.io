@@ -110,12 +110,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Colin&#39;s Home">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+<meta name="description" content="第二章 Linux内核体系结构Linux内核模式操作系统体系结构模式主要分为：整体式单内核(宏内核)层次式微内核   单核模式内核层次:调用服务的主程序层执行系统调用的服务层支持系统调用的底层函数   Linux内核系统体系结构Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块模块间的依赖关系:   Linux 0.11架构图:   Li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Linux内核完全注释》笔记">
+<meta property="og:url" content="http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
+<meta property="og:description" content="第二章 Linux内核体系结构Linux内核模式操作系统体系结构模式主要分为：整体式单内核(宏内核)层次式微内核   单核模式内核层次:调用服务的主程序层执行系统调用的服务层支持系统调用的底层函数   Linux内核系统体系结构Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块模块间的依赖关系:   Linux 0.11架构图:   Li">
+<meta property="og:image" content="http://yoursite.com/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png">
+<meta property="og:image" content="http://yoursite.com/images/fc77df7e-b967-4408-934b-ba46535033e2.png">
+<meta property="og:image" content="http://yoursite.com/images/00367ae6-72cc-4b02-9f9e-4ecefac7afce.png">
+<meta property="og:image" content="http://yoursite.com/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png">
+<meta property="og:image" content="http://yoursite.com/images/a0bcedee-f079-4dd0-9643-99de53b48236.png">
+<meta property="og:image" content="http://yoursite.com/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png">
+<meta property="article:published_time" content="2020-02-18T11:46:41.000Z">
+<meta property="article:modified_time" content="2020-02-18T12:20:23.225Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png">
 
 
 
@@ -143,7 +154,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2020/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/02/18/linux内核完全注释/"/>
 
 
 
@@ -166,7 +177,7 @@
 </style>
 
 
-  <title> 归档 | Colin's Home </title>
+  <title> 《Linux内核完全注释》笔记 | Colin's Home </title>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
   	 <!-- custom analytics part create by xiamo -->
@@ -280,7 +291,7 @@ $(function() {
     
   
 
-  <div class="container one-collumn sidebar-position-right  page-archive  ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -405,140 +416,248 @@ $(function() {
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 3 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2020">2020</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/" itemprop="url">
-              
-                <span itemprop="name">《Linux内核完全注释》笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-02-18T19:46:41+08:00"
-              content="2020-02-18" >
-          02-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/02/16/%E9%9D%A2%E8%AF%95/tcp-ip%E9%9D%A2%E8%AF%95/" itemprop="url">
-              
-                <span itemprop="name">tcp-ip面试</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-02-16T13:31:11+08:00"
-              content="2020-02-16" >
-          02-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/01/08/cpp/cpp%E7%BB%86%E8%8A%82/" itemprop="url">
-              
-                <span itemprop="name">cpp细节</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-01-08T19:59:12+08:00"
-              content="2020-01-08" >
-          01-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Colinblack">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpeg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Colin's Home">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Colin's Home" src="/images/avatar.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                《Linux内核完全注释》笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-18T19:46:41+08:00">
+                2020-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E5%86%85%E6%A0%B8/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux内核</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/" class="leancloud_visitors" data-flag-title="《Linux内核完全注释》笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  3
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>  
+<h2 id="第二章-Linux内核体系结构"><a href="#第二章-Linux内核体系结构" class="headerlink" title="第二章 Linux内核体系结构"></a>第二章 Linux内核体系结构</h2><h3 id="Linux内核模式"><a href="#Linux内核模式" class="headerlink" title="Linux内核模式"></a>Linux内核模式</h3><p>操作系统体系结构模式主要分为：<br>整体式单内核(宏内核)<br>层次式微内核  </p>
+<p>单核模式内核层次:<br>调用服务的主程序层<br>执行系统调用的服务层<br>支持系统调用的底层函数<br><img src="/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png" alt="p1">  </p>
+<h3 id="Linux内核系统体系结构"><a href="#Linux内核系统体系结构" class="headerlink" title="Linux内核系统体系结构"></a>Linux内核系统体系结构</h3><p>Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块<br>模块间的依赖关系:<br><img src="/images/fc77df7e-b967-4408-934b-ba46535033e2.png" alt="p2">  </p>
+<p>Linux 0.11架构图:<br><img src="/images/00367ae6-72cc-4b02-9f9e-4ecefac7afce.png" alt="p3">  </p>
+<h3 id="Linux进程控制"><a href="#Linux进程控制" class="headerlink" title="Linux进程控制"></a>Linux进程控制</h3><p>内核态程序是不可抢占的(不会被schedule切换)， 用户态程序可以被抢占<br>一个进程可以在内核态或用户态下执行，内核堆栈和用户堆栈是分开的  </p>
+<h4 id="任务数据结构"><a href="#任务数据结构" class="headerlink" title="任务数据结构"></a>任务数据结构</h4><p>进程上下文：当一个进程在执行时， CPU的所有寄存器中的值、进程的状态以及堆栈中的内容被称为该进程的上下文。<br>睡眠等待状态被分为可中断和不可中断  </p>
+<h4 id="进程五种运行状态"><a href="#进程五种运行状态" class="headerlink" title="进程五种运行状态"></a>进程五种运行状态</h4><p>运行状态：进程正在被CPU执行，或者准备就绪随时可由调度程序执行<br>可中断睡眠状态：当系统产生中断或释放进程正在等待的资源或进程收到一个型号，进程能被唤醒转换到就绪状态<br>不可中断睡眠状态：只有被使用wake_up()明确唤醒时才能转换到可运行的就绪状态<br>暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态<br>僵死状态：进程已停止运行，但父进程还没有询问其状态<br>进程状态及转换关系：<br><img src="/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png" alt="p4"><br>进程调度发生的情况:<br>进程时间片用完<br>进程自动放弃CPU使用权    </p>
+<p>内核态时进程不能被 抢占，内核执行临界区代码时禁止一切中断  </p>
+<h4 id="进程初始化"><a href="#进程初始化" class="headerlink" title="进程初始化"></a>进程初始化</h4><p>sched_init()：<br>设置任务0运行环境变量<br>预先设置好任务0数据结构个字段<br>在全局描述符表中添加任务0的TTS(任务状态段)描述符和LDT(局部描述符表)的段描述符，并把他们分别加载到tr(任务寄存器)和(ldr)局部描述符表寄存器  </p>
+<p>move_to_user_mod()：<br>把运行特权级从内核态0级变换到用户态3级, 但是任然继续执行原来的代码.  </p>
+<h4 id="创建新进程"><a href="#创建新进程" class="headerlink" title="创建新进程"></a>创建新进程</h4><p>过程：<br>使用fork创建，所有金产能都是通过复制进程0得到， 都是进程0的子进程<br>申请内存<br>复制当前进程数据结构<br>清除信号位图<br>设置时间片<br>设置tss中各寄存器的值  </p>
+<h4 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h4><p>被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略<br>schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如   果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：<br><img src="/images/a0bcedee-f079-4dd0-9643-99de53b48236.png" alt="p5"><br> 如果此时没有其他进程运行，系统就会选择0号进程  </p>
+<h4 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h4><p>switch_to():<br>如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中  </p>
+<p>任务切换操作示意图:<br><img src="/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png" alt="p6">  </p>
+<h4 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h4><p>流程:<br>用户程序调用exit, 内核执行do_exit<br>关闭进程会释放内存，关闭进程打开着的所有文件<br>如果有子进程，让init进出给你作为紫金城的父进程<br>如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br>将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br>调用do_exit  </p>
+<p>进程终止时，其数据结构还保留，因为父进程要用到<br>父进程使用wait或waitpid等待子进程终止  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-date">
+        </li>  
+
+        <li class="post-copyright-license">
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/16/%E9%9D%A2%E8%AF%95/tcp-ip%E9%9D%A2%E8%AF%95/" rel="next" title="tcp-ip面试">
+                <i class="fa fa-chevron-left"></i> tcp-ip面试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -546,6 +665,10 @@ $(function() {
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -565,8 +688,17 @@ $(function() {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/logo.jpeg"
@@ -663,6 +795,22 @@ $(function() {
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-Linux内核体系结构"><span class="nav-number">1.</span> <span class="nav-text">第二章 Linux内核体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核模式"><span class="nav-number">1.1.</span> <span class="nav-text">Linux内核模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核系统体系结构"><span class="nav-number">1.2.</span> <span class="nav-text">Linux内核系统体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux进程控制"><span class="nav-number">1.3.</span> <span class="nav-text">Linux进程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务数据结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">任务数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程五种运行状态"><span class="nav-number">1.3.2.</span> <span class="nav-text">进程五种运行状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程初始化"><span class="nav-number">1.3.3.</span> <span class="nav-text">进程初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建新进程"><span class="nav-number">1.3.4.</span> <span class="nav-text">创建新进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程调度"><span class="nav-number">1.3.5.</span> <span class="nav-text">进程调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程切换"><span class="nav-number">1.3.6.</span> <span class="nav-text">进程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程终止"><span class="nav-number">1.3.7.</span> <span class="nav-text">进程终止</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -786,11 +934,9 @@ $(function() {
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
 
 
   
@@ -823,6 +969,10 @@ $(function() {
 
   
 
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
   
 
 
