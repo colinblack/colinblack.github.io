@@ -122,8 +122,9 @@
 <meta property="og:image" content="http://yoursite.com/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png">
 <meta property="og:image" content="http://yoursite.com/images/a0bcedee-f079-4dd0-9643-99de53b48236.png">
 <meta property="og:image" content="http://yoursite.com/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png">
+<meta property="og:image" content="http://yoursite.com/images/p1_20200224112830.png">
 <meta property="article:published_time" content="2020-02-18T11:46:41.000Z">
-<meta property="article:modified_time" content="2020-02-18T12:20:23.225Z">
+<meta property="article:modified_time" content="2020-02-24T04:05:18.188Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png">
@@ -533,7 +534,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1k
+                  1.5k
                 </span>
               
 
@@ -549,7 +550,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3
+                  5
                 </span>
               
             </div>
@@ -588,7 +589,13 @@ $(function() {
 <p>任务切换操作示意图:<br><img src="/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png" alt="p6">  </p>
 <h4 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h4><p>流程:<br>用户程序调用exit, 内核执行do_exit<br>关闭进程会释放内存，关闭进程打开着的所有文件<br>如果有子进程，让init进出给你作为紫金城的父进程<br>如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br>将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br>调用do_exit  </p>
 <p>进程终止时，其数据结构还保留，因为父进程要用到<br>父进程使用wait或waitpid等待子进程终止  </p>
-
+<h3 id="Linux内核对内存的使用方法"><a href="#Linux内核对内存的使用方法" class="headerlink" title="Linux内核对内存的使用方法"></a>Linux内核对内存的使用方法</h3><p>Linux 0.11内核物理内存分布：<br><img src="/images/p1_20200224112830.png" alt="p6">  </p>
+<p>Intel CPU两种内存管理系统：内存分段，分页<br>三种地址<br>进程的逻辑地址: 程序产生与段相关的偏移地址<br>CPU的线性地址: 逻辑地址 + 基地址<br>实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号<br>如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址</p>
+<p>分页机制应用：建立一个大而连续的内存空间映像</p>
+<p>虚拟内存，是一种利用二级或外部存储空间，使程序不受物理内存限制的方法，通常要大于物理内存</p>
+<p>虚拟内存实现：<br>程序申请一段内存，如果内存页表中相应页面不存在内存中，CPU产生一个缺页中断，并把引起中断的线性地址放到CR2控制寄存器中， 中断处理程序通过地址把页面从二级存储空间（如硬盘）加载到物理内存， 如果内存已占满，则借助二级存储空间一部分作为交换缓冲区（Swapper）把内存中暂时不用的页面交换到二级缓冲区中，然后吧要求的页面调入内存。</p>
+<p>内存映射<br>虚拟内存通过局部段描述符表(LDT)变换为CPU整个线性地址空间中的地址，再使用也目录表PDT(一级页表)和页表PT(二级页表)映射到物理地址页.</p>
+<h3 id="Linux系统中堆栈的使用方法"><a href="#Linux系统中堆栈的使用方法" class="headerlink" title="Linux系统中堆栈的使用方法"></a>Linux系统中堆栈的使用方法</h3>
       
     </div>
 
@@ -642,6 +649,10 @@ $(function() {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/20/cpp%E5%B9%B6%E5%8F%91/" rel="prev" title="cpp并发">
+                cpp并发 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -711,7 +722,7 @@ $(function() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -720,7 +731,7 @@ $(function() {
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -729,7 +740,7 @@ $(function() {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -805,7 +816,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-Linux内核体系结构"><span class="nav-number">1.</span> <span class="nav-text">第二章 Linux内核体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核模式"><span class="nav-number">1.1.</span> <span class="nav-text">Linux内核模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核系统体系结构"><span class="nav-number">1.2.</span> <span class="nav-text">Linux内核系统体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux进程控制"><span class="nav-number">1.3.</span> <span class="nav-text">Linux进程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务数据结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">任务数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程五种运行状态"><span class="nav-number">1.3.2.</span> <span class="nav-text">进程五种运行状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程初始化"><span class="nav-number">1.3.3.</span> <span class="nav-text">进程初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建新进程"><span class="nav-number">1.3.4.</span> <span class="nav-text">创建新进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程调度"><span class="nav-number">1.3.5.</span> <span class="nav-text">进程调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程切换"><span class="nav-number">1.3.6.</span> <span class="nav-text">进程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程终止"><span class="nav-number">1.3.7.</span> <span class="nav-text">进程终止</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-Linux内核体系结构"><span class="nav-number">1.</span> <span class="nav-text">第二章 Linux内核体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核模式"><span class="nav-number">1.1.</span> <span class="nav-text">Linux内核模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核系统体系结构"><span class="nav-number">1.2.</span> <span class="nav-text">Linux内核系统体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux进程控制"><span class="nav-number">1.3.</span> <span class="nav-text">Linux进程控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务数据结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">任务数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程五种运行状态"><span class="nav-number">1.3.2.</span> <span class="nav-text">进程五种运行状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程初始化"><span class="nav-number">1.3.3.</span> <span class="nav-text">进程初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建新进程"><span class="nav-number">1.3.4.</span> <span class="nav-text">创建新进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程调度"><span class="nav-number">1.3.5.</span> <span class="nav-text">进程调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程切换"><span class="nav-number">1.3.6.</span> <span class="nav-text">进程切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程终止"><span class="nav-number">1.3.7.</span> <span class="nav-text">进程终止</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux内核对内存的使用方法"><span class="nav-number">1.4.</span> <span class="nav-text">Linux内核对内存的使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux系统中堆栈的使用方法"><span class="nav-number">1.5.</span> <span class="nav-text">Linux系统中堆栈的使用方法</span></a></li></ol></li></ol></div>
             
 
           </div>

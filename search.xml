@@ -1,6 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>mysql面试</title>
+    <url>/2020/03/03/mysql_interview/</url>
+    <content><![CDATA[<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>一、 MySQL 执行一条查询语句的内部执行过程   </p>
+<ul>
+<li>答案：<br>链接器=》分析器=》优化器=》执行器=》存储引擎    <ol>
+<li>客户端先通过连接器连接到 MySQL 服务器   </li>
+<li>连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器     </li>
+<li>分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户端错误信息，如果语法正确则进入优化器  </li>
+<li>优化器是对查询语句进行优化处理，例如一个表里面有多个索引，优化器会判别哪个索引性能更好  </li>
+<li>优化器执行完就进入执行器，执行器就开始执行语句进行查询比对了，直到查询到满足条件的所有数据，然后进行返回   </li>
+</ol>
+<ul>
+<li>详解：<br>查询、更新等语句都会走下面这个图(mysql逻辑架构图)<br><img src="/images/mysql_p1_20200304092002.png" alt="p1"><br>大体上MySQL=Server层+存储引擎层<br>Server层实现的功能：内置函数(日期、时间、数学、加密函数)和跨存储引擎功能(存储过程、触发器、视图)<br>存储引擎层功能：数据存储和提取，架构模式为插件式，最常用的存储引擎InnoDB(5.5.5后默认引擎)、MyISAM、Memory<br>连接器：<br>负责与客户端建立连接，获取权限，维持和管理连接     </li>
+</ul>
+1.建立连接<br>mysql  -h$ip  -P$port  -u$user -p<br>获取权限<br>如果用户密码不对， 则报错”Access denied for user”， 然后退出<br>如果用户密码认证通过，连接器会到权限表里查出你拥有的权限 (即使管理员修改了你的权限也只能下次重新连接是生效)<br>管理连接<br>查询连接状态<br>show processlist<br>其中Command 为Sleep的表示空闲连接， 如果空闲时间超过wait_timeout则自动断开<br>2.查询缓存<br>以key-value的形式存在内存中，key是查询命令，value是结果<br>缓存利大于弊，查询缓存失效非常频繁，只要对一个表更新，这个表上所有查询缓存都会被清空 , 更新频繁的数据库不适应缓存<br>使用场景：  业务是一张静态表，长时间不更新，例如配置信息<br>设置sql语句默认不查询<br>set session query_cache_type=DEMAND  #当前会话<br>Mysql8.0后没有查询缓存功能<br>3.分析器<br>4.优化器<br>表里有多个索引是，决定用哪个索引，或一个语句有多表关联(join)是，决定各个表连接顺序<br>5.执行器<br>先判断有没有查询权限，没有则返回错误 ， 如果有则使用引擎提供的接口      </li>
+</ul>
+<p>二、 MySQL执行一条更新语句内部的执行过程    </p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql基础</title>
+    <url>/2020/02/26/mysql%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
+<li><p>MyISAM 不支持， InnoDB</p>
+</li>
+<li><p>什么是事务<br>用来处理批量的mysql操作， 为了保证数据库的完整性，这些操作要么完全执行，要么完全不执行</p>
+</li>
+<li><p>几个术语<br>回退(rollback) 撤销SQL语句的过程<br>提交(commit) 未存储的SQL语句写入数据库表<br>保留点(savepoint) 事务处理中设置临时占位符(place-holder).可以发布回退 </p>
+</li>
+<li><p>可以执行回退的语句<br>INSERT UPDATE和DELETE</p>
+</li>
+<li><p>事务的4个特性(ACID)<br>原子性: 批量的sql, 要么都发生， 要么都不发生<br>一致性：事务前后的数据保持业务上的合理一致<br>持久性：事务一旦发生不能取消，只能通过补偿性事务来抵消效果<br>隔离性：在事务进行中，其他操作开不到此事务的任何效果   </p>
+</li>
+<li><p>操作命令<br>开启事务：start transaction<br>执行命令： xxx<br>提交事务/回滚事务 commit/rollback<br>设置隔离级别：set session transaction isolation level [read uncommitted |  read committed | repeatable read |serializable] </p>
+</li>
+<li><p>示例  </p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;创建表</span><br><span class="line">mysql&gt; create table account(</span><br><span class="line">    -&gt; uname char(10),</span><br><span class="line">    -&gt; money int)</span><br><span class="line">    -&gt; engine innodb charset utf8;</span><br><span class="line">&#x2F;&#x2F;插入数据</span><br><span class="line">mysql&gt; insert into account values</span><br><span class="line">    -&gt; (&#39;zhang&#39;, 5000),</span><br><span class="line">    -&gt; (&#39;lisi&#39;, 3000);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;开启事务</span><br><span class="line">start transaction</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;更新数据</span><br><span class="line">update account set money &#x3D; money + 100000  where uname&#x3D;&#39;lisi&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;查询</span><br><span class="line">mysql&gt; select * from account;</span><br><span class="line">+-------+-------+</span><br><span class="line">| uname | money |</span><br><span class="line">+-------+-------+</span><br><span class="line">| zhang |  5000 |</span><br><span class="line">| lisi  |  3000 |</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;设置隔离级别</span><br><span class="line">mysql&gt; set session transaction  isolation level read uncommitted</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;提交事务</span><br><span class="line">mysql&gt; commit;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>隔离级别<br>read uncommit : “脏读”, 读到未提交事务的内容<br>read commited : 一个事务在进行的过程中， 读不到另外一个进行中事务的内容，但是能读到已经完成事务中的内容<br>repeatable read: 可重复读,即在一个事务过程中,所有信息都来自事务开始那一瞬间的信息,不受其他已提交事务的影响. (大多数的系统,用此隔离级别)<br>serializable: 串行化, 所有的事务,必须编号,按顺序一个一个来执行,也就取消了冲突的可能.这样隔离级别最高,但事务相互等待的等待长. 在实用,也不是很多 </p>
+</li>
+<li><p>c++中使用事务</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//参考brks</span></span><br><span class="line"><span class="keyword">bool</span> MysqlConnection::transaction(<span class="built_in">std</span>::<span class="built_in">list</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; sql)&#123;</span><br><span class="line">	<span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//手动提交</span></span><br><span class="line">	mysql_autocommit(mysql_, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开始事务</span></span><br><span class="line">	mysql_query(mysql_, <span class="string">"start transaction"</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">auto</span> iter = sql.begin(), iter != sql.end(); iter++)&#123;</span><br><span class="line">		ret = mysql_qurey(mysql_, (*iter).c_ctr());</span><br><span class="line">		<span class="keyword">if</span>(ret != <span class="number">0</span>)&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(ret != <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="comment">//回滚</span></span><br><span class="line">		mysqL_query(mysql_, <span class="string">"rollback"</span>);</span><br><span class="line">		LOG_ERROR(<span class="string">"excute transaction failed."</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="number">0</span> != mysql_query(mysql, <span class="string">"commit"</span>))&#123;</span><br><span class="line">		LOG_ERROR(<span class="string">"commit transaction failed."</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><p>一组为了完成特定功能的SQL语句集， 经编译后存储在数据库中， 用户通过存储过过程名并传参来调用它</p>
+<ul>
+<li><p>优点<br>增强的sql语音的功能和灵活性<br>存储过程允许标准组件式编程<br>较快的执行速度(存储过程是预编译的)<br>减少网络流量<br>可被作物一种安全机制充分利用   </p>
+</li>
+<li><p>创建步骤<br>选择一个数据库<br>改变分割符：delimiter $$(避免使用;作为结束标记)  </p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">mysql&gt; use test;</span><br><span class="line">mysql&gt; delimiter $$</span><br><span class="line"></span><br><span class="line">mysql&gt; create procedure p_hello()</span><br><span class="line">    -&gt; begin</span><br><span class="line">    -&gt; select 'hello';</span><br><span class="line">    -&gt; select 'world';</span><br><span class="line">    -&gt; end</span><br><span class="line">    -&gt; $$;</span><br><span class="line"></span><br><span class="line">mysql&gt; delimiter ;</span><br><span class="line"></span><br><span class="line">mysql&gt; call p_hello;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>存储过程中的参数<br>in: 输入参数<br>必须在调用存储过程之前指定<br>out: 输出参数<br>可以在存储过程内部改变并返回<br>inout:输入输出参数<br>可以在调用时指定， 并可修改和返回  </p>
+</li>
+</ul>
+<p>in 在存储过程中修值是传入值得一份拷贝，传入的值不会改变</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql&gt; create procedure v_test1(in p_int int)</span><br><span class="line">    -&gt; begin</span><br><span class="line">    -&gt; select p_int;</span><br><span class="line">    -&gt; set p_int = p_int +1;</span><br><span class="line">    -&gt; select p_int;</span><br><span class="line">    -&gt; end;</span><br><span class="line">    -&gt; $$;</span><br><span class="line"></span><br><span class="line">mysql&gt; delimiter </span><br><span class="line">mysql&gt; set @p_int =3;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//存储过程里的值被修改</span><br><span class="line">mysql&gt; call v_test1(@p_int);</span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line">| p_int |</span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line">|     3 |</span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line">| p_int |</span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line">|     <span class="number">4</span> |</span><br><span class="line">+<span class="comment">-------+</span></span><br><span class="line"></span><br><span class="line">//外面的值没变</span><br><span class="line">mysql&gt; <span class="keyword">select</span> @p_int;</span><br><span class="line">+<span class="comment">--------+</span></span><br><span class="line">| @p_int |</span><br><span class="line">+<span class="comment">--------+</span></span><br><span class="line">|      3 |</span><br><span class="line">+<span class="comment">--------+</span></span><br></pre></td></tr></table></figure>
+<p>out 不认可传入的值，修改后值会变</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql&gt; create procedure p_test_out(out v_out_int int)</span><br><span class="line">    -&gt; begin</span><br><span class="line">    -&gt; select v_out_int;</span><br><span class="line">    -&gt; set v_out_int=15;</span><br><span class="line">    -&gt; select v_out_int;</span><br><span class="line">    -&gt; end</span><br><span class="line">    -&gt; $$;</span><br><span class="line"></span><br><span class="line">mysql&gt; set @v_out_int=10;</span><br><span class="line">    -&gt; $$;</span><br><span class="line">mysql&gt; call p_test_out(@v_out_int);</span><br><span class="line">    -&gt; $$;</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| v_out_int |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">|      NULL |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| v_out_int |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">|        <span class="number">15</span> |</span><br><span class="line">+<span class="comment">-----------+</span></span><br></pre></td></tr></table></figure>
+
+<p>inout 类似于引用，认可传入的值， 修改后会改变</p>
+<p>在存储过程里面定义变量</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql&gt; create procedure p_vartest()</span><br><span class="line">    -&gt; begin</span><br><span class="line">    -&gt; declare a varchar(20) default 'abc';</span><br><span class="line">    -&gt; select a;</span><br><span class="line">    -&gt; end;</span><br><span class="line">    -&gt; $$;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; call p_vartest;</span><br><span class="line">    -&gt; $$;</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| a    |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| abc  |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>c++中使用存储过程  </li>
+<li>创建存储过程  </li>
+<li>初始化mysql: mysql_init   </li>
+<li>链接mysql: mysql_real_connect   </li>
+<li>调用存储过程: mysql_real_qurey, 第二个参数，”call xxx(xxx)”</li>
+<li>释放资源与连接：mysql_free_result， mysql_close   </li>
+</ul>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>由查询结果形成的一张虚拟表， 如果某个查询结果出现的非常频繁， 要经常拿这个查询结果来做子查询<br>视图本身不包含数据， 它返回的数据是从其他表中检索出来的</p>
+<ul>
+<li>作用   </li>
+</ul>
+<ol>
+<li>权限控制：如某几个列允许用户查询，其他的列不允许， 可以通过视图开放其中一列或几列           </li>
+<li>简化复杂的查询</li>
+</ol>
+<ul>
+<li><p>视图能否更新，删除，添加<br>如果视图的每一行是和物理表一一对应的才可以<br>如果view的行是由物理表多行经过计算的到的结果，view不可以更新  </p>
+</li>
+<li><p>视图放在哪儿（视图算法） </p>
+</li>
+</ul>
+<ol>
+<li>对于简单的查询形成的view, 再对view查询时，如where, order等， 可以把建视图的语句+查询视图的语句合并成=》查物理的语句，这种视图算法叫merge(合并)   </li>
+<li>视图的语句本身比较复杂，很难再和查询视图的语句合并，mysql先执行视图的创建语句，把结果集形成内存中的临时表，然后再去查临时表(temptable)</li>
+</ol>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>cpp并发</title>
+    <url>/2020/02/20/cpp%E5%B9%B6%E5%8F%91/</url>
+    <content><![CDATA[<a id="more"></a>
+<h2 id="c-11中创建线程"><a href="#c-11中创建线程" class="headerlink" title="c++11中创建线程"></a>c++11中创建线程</h2><p>创建线程的几种方式</p>
+<ul>
+<li>使用全局函数或类静态函数<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">threadFunc</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"subThread"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">thread <span class="title">t1</span><span class="params">(threadFunc)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li>使用函数对象<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operator</span> <span class="params">()</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"subThread"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Obj b;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">thread <span class="title">t2</span><span class="params">(b)</span></span>;</span><br></pre></td></tr></table></figure></li>
+<li>使用lambda<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> l = []&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"subThread"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">std</span>::<span class="function">thread <span class="title">t3</span><span class="params">(l)</span></span>;</span><br></pre></td></tr></table></figure>
+join<br>阻塞等待线程结束</li>
+</ul>
+<p>detach<br>线程分离，一般不使用此函数主进程结束即使子线程还在运行仍然会被终止，使用此函数，线程会被c＋＋运行时库接管，成为守护线程.</p>
+<p>joinable<br>是否可以join或detach</p>
+<h2 id="线程传参"><a href="#线程传参" class="headerlink" title="线程传参"></a>线程传参</h2><ul>
+<li>使用detach带来的陷阱<br>线程函数中无论是引用传递还是值传递编译器都会拷贝副本，所以detach下传递int&amp;安全，传递char*不安全(主线程退出内存释放掉了)<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myprint</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span>&amp; i, <span class="keyword">char</span>* pmybuf)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span> &lt;&lt; pmybuf &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> mybuf[] = <span class="string">"hello world"</span>;</span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(myprint, mvar, mybuf)</span></span>;</span><br><span class="line">mytobj.detach();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>避免隐式转换<br>从char* 到 string转换时机不确定，可能主线程退出后再发生转换此时char*指向内存已销毁</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myprint</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> i, <span class="keyword">const</span> <span class="built_in">string</span>&amp; pmybuf)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span> &lt;&lt; pmybuf.c_str() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> mybuf[] = <span class="string">"hello world"</span>; </span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(myprint, mvar, mybuf)</span></span>; <span class="comment">//改为thread mytobj(myprint, mvar, string(mybuf))可以看到内存拷贝发生在主线程退出前</span></span><br><span class="line">mytobj.detach();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>传递类对象、智能指针、函数对象, 成员函数作为线程参数<br>线程函数传递引用类型参数前需加const<br>需要使用std::ref才能传递myobj的引用 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="keyword">int</span> m_i;</span><br><span class="line">    A(<span class="keyword">int</span> a) : m_i(a)&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt;<span class="string">"A()"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">    A(<span class="keyword">const</span> A&amp; a):m_i(a.m_i)&#123;<span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt; A(constA&amp; ) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">    ~A()&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"~A()"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myprint</span><span class="params">(<span class="keyword">const</span> A&amp; a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; a.m_i &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">A <span class="title">myobj</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="comment">//thread mytobj(myprint, myobj); </span></span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(myprint, <span class="built_in">std</span>::ref(myobj))</span></span>; </span><br><span class="line">mytobj.join();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>传递std::unique_ptr使用std::move</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myprint</span><span class="params">(<span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; pzn)</span></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">100</span>));</span><br><span class="line"><span class="comment">//thread mytobj(myprint, myobj); 这样操作有问题unique_ptr是独占指针 </span></span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(myprint, <span class="built_in">std</span>::move(myobj))</span></span>; </span><br><span class="line">mytobj.join();</span><br></pre></td></tr></table></figure>
+<p>函数对象</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="keyword">int</span> m_i;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">A <span class="title">myobj</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(myobj, <span class="number">15</span>)</span></span>; <span class="comment">//会有拷贝构造</span></span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(<span class="built_in">std</span>::ref(myobj), <span class="number">15</span>)</span></span>; <span class="comment">//没有拷贝构造</span></span><br><span class="line">mytobj.join();</span><br></pre></td></tr></table></figure>
+
+<p>用成员函数指针做线程函数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">    <span class="keyword">int</span> m_i;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">thread_work</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; num &lt;&lt; <span class="string">" "</span> &lt;&lt; <span class="built_in">std</span>::this_thread::get_id() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">A <span class="title">myobj</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function">thread <span class="title">mytobj</span><span class="params">(&amp;A::thread_work, myobj, <span class="number">15</span>)</span></span>; <span class="comment">//会有拷贝构造</span></span><br><span class="line"><span class="comment">// thread mytobj(&amp;A::thread_work, std::ref(myobj), 15); //没有拷贝构造</span></span><br><span class="line"><span class="comment">// thread mytobj(&amp;A::thread_work, &amp;myobj, 15); //没有拷贝构造</span></span><br><span class="line">mytobj.join();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>并发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>《Linux内核完全注释》笔记</title>
     <url>/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</url>
     <content><![CDATA[<a id="more"></a>  
@@ -20,7 +175,13 @@
 <p>任务切换操作示意图:<br><img src="/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png" alt="p6">  </p>
 <h4 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h4><p>流程:<br>用户程序调用exit, 内核执行do_exit<br>关闭进程会释放内存，关闭进程打开着的所有文件<br>如果有子进程，让init进出给你作为紫金城的父进程<br>如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br>将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br>调用do_exit  </p>
 <p>进程终止时，其数据结构还保留，因为父进程要用到<br>父进程使用wait或waitpid等待子进程终止  </p>
-]]></content>
+<h3 id="Linux内核对内存的使用方法"><a href="#Linux内核对内存的使用方法" class="headerlink" title="Linux内核对内存的使用方法"></a>Linux内核对内存的使用方法</h3><p>Linux 0.11内核物理内存分布：<br><img src="/images/p1_20200224112830.png" alt="p6">  </p>
+<p>Intel CPU两种内存管理系统：内存分段，分页<br>三种地址<br>进程的逻辑地址: 程序产生与段相关的偏移地址<br>CPU的线性地址: 逻辑地址 + 基地址<br>实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号<br>如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址</p>
+<p>分页机制应用：建立一个大而连续的内存空间映像</p>
+<p>虚拟内存，是一种利用二级或外部存储空间，使程序不受物理内存限制的方法，通常要大于物理内存</p>
+<p>虚拟内存实现：<br>程序申请一段内存，如果内存页表中相应页面不存在内存中，CPU产生一个缺页中断，并把引起中断的线性地址放到CR2控制寄存器中， 中断处理程序通过地址把页面从二级存储空间（如硬盘）加载到物理内存， 如果内存已占满，则借助二级存储空间一部分作为交换缓冲区（Swapper）把内存中暂时不用的页面交换到二级缓冲区中，然后吧要求的页面调入内存。</p>
+<p>内存映射<br>虚拟内存通过局部段描述符表(LDT)变换为CPU整个线性地址空间中的地址，再使用也目录表PDT(一级页表)和页表PT(二级页表)映射到物理地址页.</p>
+<h3 id="Linux系统中堆栈的使用方法"><a href="#Linux系统中堆栈的使用方法" class="headerlink" title="Linux系统中堆栈的使用方法"></a>Linux系统中堆栈的使用方法</h3>]]></content>
       <categories>
         <category>Linux内核</category>
       </categories>
@@ -59,10 +220,10 @@
 <p>参考：<br><a href="https://blog.csdn.net/dog250/article/details/13760985" target="_blank" rel="noopener">TCP的TIME_WAIT快速回收与重用</a><br><a href="https://www.cnblogs.com/dadonggg/p/8778318.html" target="_blank" rel="noopener">解决TIME_WAIT过多造成的问题</a><br><a href="https://elf8848.iteye.com/blog/1739571" target="_blank" rel="noopener">TCP/IP TIME_WAIT状态原理</a><br><a href="https://blog.csdn.net/wuji0447/article/details/78356875" target="_blank" rel="noopener">tcp状态介绍最详细–没有之一</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzAxODI5ODMwOA==&mid=2666543559&idx=1&sn=83cf0e9367511d6b311909a5b3dfc81e&chksm=80dcfd6cb7ab747af19259cce70621b269c5fae25582af7c57f5be904bc18e216625cf6f4157&mpshare=1&scene=24&srcid=0110n9eggIf8eEIoZnl2Loe5&key=02793bf78abe30c4c571e7a6695d4645e0c3637a779c7915ba755677395083d39ee60f9a9d204e28b6d06d279fff9d0a25171eac0cb3e8f126cf46a027d6459f015c13308729af2f9d27c88c38e270c4&ascene=14&uin=ODI0NTI3MTg0&devicetype=Windows+7&version=62060728&lang=zh_CN&pass_ticket=wXb/sgBYyv1S7izs0CuJXuDgNxtBHPyjdhjnyZMw7twBDQnbBA0IyQV1EnfMvwsI" target="_blank" rel="noopener">“三次握手，四次挥手”你真的懂吗？</a><br><a href="https://blog.csdn.net/wdscq1234/article/details/52430382" target="_blank" rel="noopener">TCP-IP详解：Delay ACK</a><br><a href="https://my.oschina.net/xinxingegeya/blog/485643" target="_blank" rel="noopener">TCP Nagle算法&amp;&amp;延迟确认机制</a><br><a href="https://blog.csdn.net/ce123_zhouwei/article/details/9050797" target="_blank" rel="noopener">TCP中的Nagle算法</a><br><a href="https://blog.csdn.net/wdscq1234/article/details/52444277" target="_blank" rel="noopener">TCP-IP详解：滑动窗口（Sliding Window)</a><br><a href="https://www.zhihu.com/question/32255109" target="_blank" rel="noopener">TCP协议的滑动窗口具体是怎样控制流量的</a><br><a href="https://blog.csdn.net/ordeder/article/details/43243425" target="_blank" rel="noopener">TCP带外数据（URG，MSG_OOB</a><br><a href="https://blog.csdn.net/gbasp2008/article/details/47666421" target="_blank" rel="noopener">带外数据和TCP紧急指针</a><br><a href="https://blog.csdn.net/u012122743/article/details/46484675" target="_blank" rel="noopener">TCP紧急数据</a><br><a href="https://blog.csdn.net/wdscq1234/article/details/52476231" target="_blank" rel="noopener">TCP-IP详解：超时重传机制</a><br><a href="https://blog.csdn.net/wdscq1234/article/details/52503315" target="_blank" rel="noopener">TCP-IP详解：SACK选项（Selective Acknowledgment）</a><br><a href="https://blog.csdn.net/q1007729991/article/details/70185266" target="_blank" rel="noopener">27-TCP 协议（快重传与快恢复）</a><br><a href="https://perthcharles.github.io/2015/09/07/wiki-tcp-retries/" target="_blank" rel="noopener">聊一聊重传次数</a><br><a href="http://www.orczhou.com/index.php/2011/10/tcpip-protocol-start-rto/" target="_blank" rel="noopener">TCP/IP重传超时–RTO</a><br><a href="https://blog.csdn.net/q1007729991/article/details/69091877" target="_blank" rel="noopener">0-Linux 网络编程修炼指南——内功心法</a><br><a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">TCP 的那些事儿（上）</a><br><a href="https://zhuanlan.zhihu.com/p/25569676" target="_blank" rel="noopener">从TCP三次握手说起–浅析TCP协议中的疑难杂症（1)</a><br><a href="https://zhuanlan.zhihu.com/p/25596865" target="_blank" rel="noopener">从TCP三次握手说起–浅析TCP协议中的疑难杂症（2）</a><br><a href="http://netsecurity.51cto.com/art/201303/386031.htm" target="_blank" rel="noopener">中间人攻击——ARP欺骗的原理、实战及防御</a><br><a href="https://blog.csdn.net/qq_37969433/article/details/79587026" target="_blank" rel="noopener">ARP欺骗的两种方式</a><br><a href="https://blog.csdn.net/Mary19920410/article/details/72857764" target="_blank" rel="noopener">浅析TCP之头部可选项</a><br><a href="https://blog.csdn.net/mary19920410/article/details/58030147" target="_blank" rel="noopener">TCP报文格式详解</a><br><a href="https://www.cnblogs.com/xiaomayizoe/p/5258754.html" target="_blank" rel="noopener">TCP和UDP的优缺点及区别</a><br><a href="https://blog.csdn.net/freeelinux/article/details/53823731" target="_blank" rel="noopener">muduo库chat server对TCP粘包问题的处理</a><br><a href="https://blog.csdn.net/yusiguyuan/article/details/17270679" target="_blank" rel="noopener">TCP分包方法 &amp;&amp; 粘包处理策略</a><br><a href="https://blog.csdn.net/lu_embedded/article/details/77430050" target="_blank" rel="noopener">Linux 网络编程——TCP 粘包及其解决方案</a><br><a href="https://juejin.im/post/5a8102e0f265da4e710f5910" target="_blank" rel="noopener">HTTP面试题都在这里</a><br><a href="https://www.zhihu.com/question/23202402" target="_blank" rel="noopener">HTTP是一个无状态的协议。这句话里的无状态是什么意思</a><br><a href="https://www.zhihu.com/question/24938934" target="_blank" rel="noopener">服务端是如何主动推送信息到客户端的？</a><br><a href="http://www.ruanyifeng.com/blog/2016/08/http.html" target="_blank" rel="noopener">HTTP 协议入门</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzIwNTc3OTAxOA==&mid=2247484323&idx=1&sn=5513334623b73352034a828badfe985d&chksm=972afa86a05d7390fe96222718fd9ce6c21fe700af7e7f9396449815a5323e7315d96681bcac&scene=0&xtrack=1&key=a539a6045067ac190e5c71cc4876a35ec2cab39ecc57c3618a3c22861a71c8bfa13cb8c4e1190e7ca56b6fa54c00b894874dabfdb24eb7aa3f45382bd07dd271a25982549dfd70f959b71db7aeb5d371&ascene=14&uin=ODI0NTI3MTg0&devicetype=Windows+7&version=62060739&lang=zh_CN&pass_ticket=UG6jIZiPy0h82EWKj8fu5ZN0dIyjwygUpMCiLLSskgXdEE9mhfeXBtYPbOR2lLEE" target="_blank" rel="noopener">程序员过关斩将–面试官再问你Http请求过程，怼回去！</a>  </p>
 ]]></content>
       <categories>
-        <category>面试</category>
+        <category>协议</category>
       </categories>
       <tags>
-        <tag>tcp</tag>
+        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
