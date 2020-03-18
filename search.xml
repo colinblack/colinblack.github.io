@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>趣谈linux操作系统笔记</title>
+    <url>/2020/03/06/%E8%B6%A3%E8%B0%88linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="核心原理篇"><a href="#核心原理篇" class="headerlink" title="核心原理篇"></a>核心原理篇</h2><h3 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h3><ul>
+<li><p>操作系统内核体系结构图<br><img src="/images/linuxkernel_20200306.jpeg" alt="p1"></p>
+</li>
+<li><p>linux 命令图谱<br><img src="/images/linuxkernel_20200306_1.jpeg" alt="p2"></p>
+</li>
+<li><p>系统调用图谱<br><img src="/images/linuxkernel_20200306_2.jpeg" alt="p3"></p>
+</li>
+</ul>
+<h3 id="系统初始化"><a href="#系统初始化" class="headerlink" title="系统初始化"></a>系统初始化</h3><h4 id="X86架构"><a href="#X86架构" class="headerlink" title="X86架构"></a>X86架构</h4><ul>
+<li>计算机工作模式图<br><img src="/images/linuxkernel_20200307_1.jpeg" alt="p4">    </li>
+</ul>
+<ul>
+<li>CPU组成<br>运算单元: 加法、位移<br>控制单元: CPU内部缓存和寄存器组<br>数据单元: 取指令， 根据指令取数据， 计算结果后存放数据  </li>
+</ul>
+<ul>
+<li>X86架构<br><img src="/images/linuxkernel_20200307_2.jpeg" alt="p5">  </li>
+</ul>
+<ul>
+<li>程序执行过程图<br><img src="/images/linuxkernel_20200308_1.jpeg" alt="p6"></li>
+</ul>
+<ul>
+<li><p>总线<br>地址总线: 位数决定寻址的范围<br>数据总线: 位数决定一次能拿多少数据  </p>
+</li>
+<li><p>8086<br>结构图:<br><img src="/images/linuxkernel_20200307_3.jpeg" alt="p7">  </p>
+</li>
+</ul>
+<p>寄存器:<br>8个16位通用寄存器，用于计算过程中暂存数据， AX、BX、CX、DX、SP、BP、SI、DI, 其中 AX、BX、CX、DX 可以分成两个 8 位的寄存器来使用，分别是 AH、AL、BH、BL、CH、CL、DH、DL<br>16位IP(Instruction Pointer Register), 指令指针寄存器，存放下一条指令在内存中的地址<br>4个16位段寄存器， CS(代码段寄存器)、DS(数据段的寄存器)、SS(栈寄存器)、ES   </p>
+<p>实模式：<br>CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 通用寄存器中存放数据段的偏移地址<br>8086的地址总线位20位，寻址方式：起始地址*16+偏移量， 每个段的最大寻址64k  </p>
+<ul>
+<li>80386<br>寄存器:<br>8个32位通用寄存器， 低16位保留了16位和八位的使用方式， 高16位没有分的原因是不兼容之前的架构(8080和8086最大寻址分别是2^16和2^20, 通用寄存器保存地址的偏移量,高16位地址已经大于2^16)<br>32位指令寄存器EIP<br>4个16位段寄存器<br>！<a href="/images/linuxkernel_20200308_4.jpeg">p8</a>  </li>
+</ul>
+<p>保护模式：<br>段的起始地址存放在内存的某个地方，这个地方是一个表格，表格里面一项项是段描述符， 这里面才是段的起始地址， 段寄存器里面存放的是表格中的哪一项，即选择子。 CPU从段寄存器中找到表格中的选择子， 然后简介找到段起始地址， 为了更快速的拿到段起始地址， 段寄存器会从内存中拿到 CPU 的描述符高速缓存器中<br>！<a href="/images/linuxkernel_20200308_5.jpeg">p9</a>  </p>
+]]></content>
+      <categories>
+        <category>linux内核</category>
+      </categories>
+  </entry>
+  <entry>
     <title>mysql面试</title>
     <url>/2020/03/03/mysql_interview/</url>
     <content><![CDATA[<a id="more"></a>
@@ -18,6 +58,16 @@
 <li>详解：<br>查询、更新等语句都会走下面这个图(mysql逻辑架构图)<br><img src="/images/mysql_p1_20200304092002.png" alt="p1"><br>大体上MySQL=Server层+存储引擎层<br>Server层实现的功能：内置函数(日期、时间、数学、加密函数)和跨存储引擎功能(存储过程、触发器、视图)<br>存储引擎层功能：数据存储和提取，架构模式为插件式，最常用的存储引擎InnoDB(5.5.5后默认引擎)、MyISAM、Memory<br>连接器：<br>负责与客户端建立连接，获取权限，维持和管理连接<br>建立连接<br>mysql  -h$ip  -P$port  -u$user -p<br>获取权限<br>如果用户密码不对， 则报错”Access denied for user”， 然后退出<br>如果用户密码认证通过，连接器会到权限表里查出你拥有的权限 (即使管理员修改了你的权限也只能下次重新连接是生效)<br>管理连接<br>查询连接状态<br>show processlist<br>其中Command 为Sleep的表示空闲连接， 如果空闲时间超过wait_timeout则自动断开<br>查询缓存：<br>以key-value的形式存在内存中，key是查询命令，value是结果<br>缓存利大于弊，查询缓存失效非常频繁，只要对一个表更新，这个表上所有查询缓存都会被清空 , 更新频繁的数据库不适应缓存<br>使用场景：  业务是一张静态表，长时间不更新，例如配置信息<br>设置sql语句默认不查询<br>set session query_cache_type=DEMAND  #当前会话<br>Mysql8.0后没有查询缓存功能<br>分析器<br>优化器：<br>表里有多个索引是，决定用哪个索引，或一个语句有多表关联(join)时，决定各个表连接顺序<br>执行器：<br>先判断有没有查询权限，没有则返回错误 ， 如果有则使用引擎提供的接口      </li>
 </ul>
 <p>二、 MySQL执行一条更新语句内部的执行过程    </p>
+<ul>
+<li>答案:<br>与查询语句的流程一样：链接器=》分析器=》优化器=》执行器=》存储引擎<br>执行器和存储引擎(innodb)的细节不同：   </li>
+</ul>
+<ol>
+<li>执行器先找引擎取指定主键的数据（B-,b+树）, 如果数据在内存上直接返回给执行器，否则从磁盘读入内存在返回   </li>
+<li>执行器根据更新语句对数据进行操作后调用引擎接口写入  </li>
+<li>引擎将这行数据更新到内存，并将更新操作记录到redo log, 此时redo log处于prepare状态，通知执行器可以提交事务。  </li>
+<li>执行器生成这个操作的binlog, 并将binlog写入磁盘</li>
+<li>执行器调用引擎提交事务接口，引擎讲redo log改为commit状态，更新完成      </li>
+</ol>
 ]]></content>
       <categories>
         <category>mysql</category>
