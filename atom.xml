@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-18T08:21:33.126Z</updated>
+  <updated>2020-03-30T01:07:30.809Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,84 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux系统编程</title>
+    <link href="http://yoursite.com/2020/03/30/linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/"/>
+    <id>http://yoursite.com/2020/03/30/linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/</id>
+    <published>2020-03-30T01:02:55.000Z</published>
+    <updated>2020-03-30T01:07:30.809Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>  <h3 id="exec函数簇和system区别"><a href="#exec函数簇和system区别" class="headerlink" title="exec函数簇和system区别"></a>exec函数簇和system区别</h3><p>exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行   </p><h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;  
+&lt;h3 id=&quot;exec函数簇和system区别&quot;&gt;&lt;a href=&quot;#exec函数簇和system区别&quot; class=&quot;headerlink&quot; title=&quot;exec函数簇和system区别&quot;&gt;&lt;/a&gt;exec函数簇和system区别&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>模板</title>
+    <link href="http://yoursite.com/2020/03/29/%E6%A8%A1%E6%9D%BF/"/>
+    <id>http://yoursite.com/2020/03/29/%E6%A8%A1%E6%9D%BF/</id>
+    <published>2020-03-29T02:24:59.000Z</published>
+    <updated>2020-03-29T05:45:44.045Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="函数模板"><a href="#函数模板" class="headerlink" title="函数模板"></a>函数模板</h2><p>定义模板是不会生成代码，只有当实例化时才会生成  </p><h3 id="类型模板参数"><a href="#类型模板参数" class="headerlink" title="类型模板参数"></a>类型模板参数</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">a</span>, <span class="title">T</span> <span class="title">b</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="非类型模板参数"><a href="#非类型模板参数" class="headerlink" title="非类型模板参数"></a>非类型模板参数</h3><p>非类型是指不是泛型， 即基本类型<br>即显示使用&lt;&gt;指定<br>非类型模板参数必须是常量， 因为模板代码在编译期生成</p><ul><li>所有参数都是非类型<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">int</span> a, <span class="keyword">int</span> b&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="number">1</span>, <span class="number">2</span>&gt;() <span class="comment">//显示指定参数</span></span><br></pre></td></tr></table></figure></li><li>非类型和类型参数混合<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">a</span> , <span class="title">int</span> <span class="title">b</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">c</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)c + a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="keyword">int</span>, <span class="number">1</span>, <span class="number">2</span>&gt;(<span class="number">3</span>);</span><br></pre></td></tr></table></figure></li><li>非类型模板也可以不用&lt;&gt;指定<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">unsigned</span> L1, <span class="keyword">unsigned</span> L1&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strcomp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>(&amp;p1)[L1], <span class="keyword">const</span> <span class="keyword">char</span>(&amp;p2)[L2])</span></span>&#123;  <span class="comment">//数组的引用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>(p1, p2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strcomp(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//字符串长度由编译器默认推到</span></span><br><span class="line">strcomp&lt;<span class="number">5</span>, <span class="number">6</span>&gt;(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//也可以显示指定</span></span><br></pre></td></tr></table></figure></li></ul><h2 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h2><p>类模板编译器不能自动推导参数所以要显示用&lt;&gt;指定  </p><h3 id="类模板成员函数"><a href="#类模板成员函数" class="headerlink" title="类模板成员函数"></a>类模板成员函数</h3><ul><li><p>定义在类内部不用写类型参数   </p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li><li><p>定义在类外部   </p></li></ul><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="非类型模板参数-1"><a href="#非类型模板参数-1" class="headerlink" title="非类型模板参数"></a>非类型模板参数</h3><p>非类型参数不能是浮点数和类</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span> = 100&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T, V&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;函数模板&quot;&gt;&lt;a href=&quot;#函数模板&quot; class=&quot;headerlink&quot; title=&quot;函数模板&quot;&gt;&lt;/a&gt;函数模板&lt;/h2&gt;&lt;p&gt;定义模板是不会生成代码，只有当实例化时才会生成  &lt;/p&gt;
+&lt;h3 id=&quot;类型模板参数
+      
+    
+    </summary>
+    
+    
+      <category term="c++" scheme="http://yoursite.com/categories/c/"/>
+    
+    
+      <category term="泛型" scheme="http://yoursite.com/tags/%E6%B3%9B%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>patchelf</title>
+    <link href="http://yoursite.com/2020/03/26/%E5%B7%A5%E5%85%B7/patchelf/"/>
+    <id>http://yoursite.com/2020/03/26/%E5%B7%A5%E5%85%B7/patchelf/</id>
+    <published>2020-03-26T13:09:29.000Z</published>
+    <updated>2020-03-26T13:25:49.367Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。  </p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>wget <a href="https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz" target="_blank" rel="noopener">https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz</a><br>tar -zxvf patchelf-0.10.tar.gz<br>cd patchelf-0.10<br>./configure –prefix=/usr/local<br>make &amp;&amp; make install</p><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="修改动态库的rpath"><a href="#修改动态库的rpath" class="headerlink" title="修改动态库的rpath"></a>修改动态库的rpath</h3><p>rpath全称是run-time search path。Linux下所有elf格式的文件都包含它，特别是可执行文件。它规定了可执行文件在寻找.so文件时的第一优先位置. linux下在链接共享库的时候可以通过rpath选项来指定运行时共享库加载路径。通过这个选项指定的路径会写到ELF文件dynamic段的RPATH里, 运行时链接器会在此路径下搜索ELF文件所依赖的共享库   </p><p>编译代码时如果不指定所依赖动态库的路径很可能会编译报错<br>有如下解决方法:</p><ul><li>将所依赖的动态库路径添加到LD_LIBRARY_PATH环境变量中</li><li>链接时直接将搜索路径写到rpath中，如:<br>gcc -L. -larith main.c -Wl,-rpath=依赖动态库所在路径 -o main<br>readelf -d main | grep PATH   //查看rpath<br>如果我们拿到的时已经编译好的可执行文件，就不能像方法2一样指定rpath,<br>这时可以使用pathelf, 它可以修改elf文件，如:<br>patchelf  –set-rpath 依赖动态库路径 main 或<br>patchelf  –set-rpath ‘$ORIGIN/lib’ main //ORIGIN会在运行时解析成程序所在路径</li><li>ldd main //查看可执行程序依赖动态库</li></ul><p>–set-rpath 实际上是修改runpath, 关于rpath和runpath的区别，前者不会覆盖LD_LIBARAY_PATH, 后者会推荐使用后者</p><p>–force-rpath pathelf的默认动作是修改runpath, 如果要修改rpath就要加上该字段</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patchelf [--force-rpath] --set-rpath &quot;&lt;desired-rpath&gt;&quot; &lt;path-to-elf&gt;</span><br></pre></td></tr></table></figure><p><desired-path> 是用逗号分隔的目录列表，例如： /my/libs:/my/other/libs<br>如果指定–force-rpath，则设置RPATH，否则设置RUNPATH    </p><h3 id="修改动态库的名称"><a href="#修改动态库的名称" class="headerlink" title="修改动态库的名称"></a>修改动态库的名称</h3><p>如果有这样的场景: 某一个库依赖了一个第三库库的版本1，另外一个库依赖了同样的这个第三库的版本2，两个库的名字是一样的，程序运行时两个动态库都要加载，但是加载的时候由于第三库版本不一致导致程序运行过程中崩溃。这种情况下就可以通关patchelf修改其中一个的依赖库的名字，从而达到同时加载不同版本的动态库的效果，解决运行中的崩溃问题。<br>相关命令:<br>patchelf –print-needed test.so //查看依赖动态库，假设test.so依赖a.so<br>patchelf –replace-needed a.so b.so test.so //将a.so改成b.so</p><h3 id="删除rpath中未使用的路径"><a href="#删除rpath中未使用的路径" class="headerlink" title="删除rpath中未使用的路径"></a>删除rpath中未使用的路径</h3><pre><code>patchelf --shrink-rpath 可执行文件patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   </code></pre><h3 id="修改动态链接器-dynamic-linker"><a href="#修改动态链接器-dynamic-linker" class="headerlink" title="修改动态链接器(dynamic linker)"></a>修改动态链接器(dynamic linker)</h3><p>在实际运行程序时，经常会遇到一个问题，电脑上安装的glibc版本不符合要求，由于glibc是最底层的库，不可能重新编译glibc，这样会导致系统崩溃。两种方法修改：<br>有代码的情况下，gcc main.c -o main - -Wl –dynamic-linker 动态链接库路径<br>二进制文件情况下，patchelf –set-interpreter 动态链接库路径 可执行文件</p><h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>PatchELF已在i386-linux， x86_64-linux和powerpc-linux上进行了测试。它能在所有32位或64位，大端或小端   Linux平台上运行。稍作修改，它也可以在其他ELF平台上运行   </p><p>关于动态库的搜索：<br><a href="https://blog.csdn.net/FoxBryant/article/details/53389804" target="_blank" rel="noopener">https://blog.csdn.net/FoxBryant/article/details/53389804</a><br><a href="https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox" target="_blank" rel="noopener">https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox</a><br><a href="https://en.wikipedia.org/wiki/Rpath" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Rpath</a></p><pre><code>https://nixos.org/patchelf.html https://www.dazhuanlan.com/2019/09/24/5d89371175726/https://blog.csdn.net/force_eagle/article/details/48263365https://www.jianshu.com/p/505a32ccdc91http://shibing.github.io/2016/08/20/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%B8%8Erpath/https://blog.csdn.net/farmwang/article/details/73195799                                                                                                                     https://cqlin1995.github.io/2018/06/26/%E8%BF%90%E8%A1%8C%E4%B8%8D%E5%90%8Cglibc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%87%E4%BB%B6/</code></pre><p>ORIGIN<br><a href="https://medium.com/@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98" target="_blank" rel="noopener">https://medium.com/@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及
+      
+    
+    </summary>
+    
+    
+      <category term="tools" scheme="http://yoursite.com/categories/tools/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>趣谈linux操作系统笔记</title>
@@ -128,7 +206,7 @@
     <link href="http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/"/>
     <id>http://yoursite.com/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</id>
     <published>2020-02-18T11:46:41.000Z</published>
-    <updated>2020-02-24T04:05:18.188Z</updated>
+    <updated>2020-03-30T01:04:56.405Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a>  <h2 id="第二章-Linux内核体系结构"><a href="#第二章-Linux内核体系结构" class="headerlink" title="第二章 Linux内核体系结构"></a>第二章 Linux内核体系结构</h2><h3 id="Linux内核模式"><a href="#Linux内核模式" class="headerlink" title="Linux内核模式"></a>Linux内核模式</h3><p>操作系统体系结构模式主要分为：<br>整体式单内核(宏内核)<br>层次式微内核  </p><p>单核模式内核层次:<br>调用服务的主程序层<br>执行系统调用的服务层<br>支持系统调用的底层函数<br><img src="/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png" alt="p1">  </p><h3 id="Linux内核系统体系结构"><a href="#Linux内核系统体系结构" class="headerlink" title="Linux内核系统体系结构"></a>Linux内核系统体系结构</h3><p>Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块<br>模块间的依赖关系:<br><img src="/images/fc77df7e-b967-4408-934b-ba46535033e2.png" alt="p2">  </p><p>Linux 0.11架构图:<br><img src="/images/00367ae6-72cc-4b02-9f9e-4ecefac7afce.png" alt="p3">  </p><h3 id="Linux进程控制"><a href="#Linux进程控制" class="headerlink" title="Linux进程控制"></a>Linux进程控制</h3><p>内核态程序是不可抢占的(不会被schedule切换)， 用户态程序可以被抢占<br>一个进程可以在内核态或用户态下执行，内核堆栈和用户堆栈是分开的  </p><h4 id="任务数据结构"><a href="#任务数据结构" class="headerlink" title="任务数据结构"></a>任务数据结构</h4><p>进程上下文：当一个进程在执行时， CPU的所有寄存器中的值、进程的状态以及堆栈中的内容被称为该进程的上下文。<br>睡眠等待状态被分为可中断和不可中断  </p><h4 id="进程五种运行状态"><a href="#进程五种运行状态" class="headerlink" title="进程五种运行状态"></a>进程五种运行状态</h4><p>运行状态：进程正在被CPU执行，或者准备就绪随时可由调度程序执行<br>可中断睡眠状态：当系统产生中断或释放进程正在等待的资源或进程收到一个型号，进程能被唤醒转换到就绪状态<br>不可中断睡眠状态：只有被使用wake_up()明确唤醒时才能转换到可运行的就绪状态<br>暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态<br>僵死状态：进程已停止运行，但父进程还没有询问其状态<br>进程状态及转换关系：<br><img src="/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png" alt="p4"><br>进程调度发生的情况:<br>进程时间片用完<br>进程自动放弃CPU使用权    </p><p>内核态时进程不能被 抢占，内核执行临界区代码时禁止一切中断  </p><h4 id="进程初始化"><a href="#进程初始化" class="headerlink" title="进程初始化"></a>进程初始化</h4><p>sched_init()：<br>设置任务0运行环境变量<br>预先设置好任务0数据结构个字段<br>在全局描述符表中添加任务0的TTS(任务状态段)描述符和LDT(局部描述符表)的段描述符，并把他们分别加载到tr(任务寄存器)和(ldr)局部描述符表寄存器  </p><p>move_to_user_mod()：<br>把运行特权级从内核态0级变换到用户态3级, 但是任然继续执行原来的代码.  </p><h4 id="创建新进程"><a href="#创建新进程" class="headerlink" title="创建新进程"></a>创建新进程</h4><p>过程：<br>使用fork创建，所有金产能都是通过复制进程0得到， 都是进程0的子进程<br>申请内存<br>复制当前进程数据结构<br>清除信号位图<br>设置时间片<br>设置tss中各寄存器的值  </p><h4 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h4><p>被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略<br>schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如   果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：<br><img src="/images/a0bcedee-f079-4dd0-9643-99de53b48236.png" alt="p5"><br> 如果此时没有其他进程运行，系统就会选择0号进程  </p><h4 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h4><p>switch_to():<br>如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中  </p><p>任务切换操作示意图:<br><img src="/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png" alt="p6">  </p><h4 id="进程终止"><a href="#进程终止" class="headerlink" title="进程终止"></a>进程终止</h4><p>流程:<br>用户程序调用exit, 内核执行do_exit<br>关闭进程会释放内存，关闭进程打开着的所有文件<br>如果有子进程，让init进出给你作为紫金城的父进程<br>如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br>将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br>调用do_exit  </p><p>进程终止时，其数据结构还保留，因为父进程要用到<br>父进程使用wait或waitpid等待子进程终止  </p><h3 id="Linux内核对内存的使用方法"><a href="#Linux内核对内存的使用方法" class="headerlink" title="Linux内核对内存的使用方法"></a>Linux内核对内存的使用方法</h3><p>Linux 0.11内核物理内存分布：<br><img src="/images/p1_20200224112830.png" alt="p6">  </p><p>Intel CPU两种内存管理系统：内存分段，分页<br>三种地址<br>进程的逻辑地址: 程序产生与段相关的偏移地址<br>CPU的线性地址: 逻辑地址 + 基地址<br>实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号<br>如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址</p><p>分页机制应用：建立一个大而连续的内存空间映像</p><p>虚拟内存，是一种利用二级或外部存储空间，使程序不受物理内存限制的方法，通常要大于物理内存</p><p>虚拟内存实现：<br>程序申请一段内存，如果内存页表中相应页面不存在内存中，CPU产生一个缺页中断，并把引起中断的线性地址放到CR2控制寄存器中， 中断处理程序通过地址把页面从二级存储空间（如硬盘）加载到物理内存， 如果内存已占满，则借助二级存储空间一部分作为交换缓冲区（Swapper）把内存中暂时不用的页面交换到二级缓冲区中，然后吧要求的页面调入内存。</p><p>内存映射<br>虚拟内存通过局部段描述符表(LDT)变换为CPU整个线性地址空间中的地址，再使用也目录表PDT(一级页表)和页表PT(二级页表)映射到物理地址页.</p><h3 id="Linux系统中堆栈的使用方法"><a href="#Linux系统中堆栈的使用方法" class="headerlink" title="Linux系统中堆栈的使用方法"></a>Linux系统中堆栈的使用方法</h3>]]></content>
     
@@ -143,7 +221,7 @@
     </summary>
     
     
-      <category term="Linux内核" scheme="http://yoursite.com/categories/Linux%E5%86%85%E6%A0%B8/"/>
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
     
   </entry>
