@@ -110,14 +110,14 @@
 
 
 
-<meta name="description" content="事务 MyISAM 不支持， InnoDB  什么是事务用来处理批量的mysql操作， 为了保证数据库的完整性，这些操作要么完全执行，要么完全不执行  几个术语回退(rollback) 撤销SQL语句的过程提交(commit) 未存储的SQL语句写入数据库表保留点(savepoint) 事务处理中设置临时占位符(place-holder).可以发布回退   可以执行回退的语句INSERT UPDA">
+<meta name="description" content="索引创建索引 创建普通索引CREATE INDEX indexName ON tableName(columnName(length)) 1create index name_idx on base(name); CREATE UNIQUE INDEX indexName ON tableName(columnName(length))     创建唯一索引 1create unique inde">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql基础">
 <meta property="og:url" content="http://yoursite.com/2020/02/26/mysql%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="事务 MyISAM 不支持， InnoDB  什么是事务用来处理批量的mysql操作， 为了保证数据库的完整性，这些操作要么完全执行，要么完全不执行  几个术语回退(rollback) 撤销SQL语句的过程提交(commit) 未存储的SQL语句写入数据库表保留点(savepoint) 事务处理中设置临时占位符(place-holder).可以发布回退   可以执行回退的语句INSERT UPDA">
+<meta property="og:description" content="索引创建索引 创建普通索引CREATE INDEX indexName ON tableName(columnName(length)) 1create index name_idx on base(name); CREATE UNIQUE INDEX indexName ON tableName(columnName(length))     创建唯一索引 1create unique inde">
 <meta property="article:published_time" content="2020-02-25T23:27:19.000Z">
-<meta property="article:modified_time" content="2020-03-04T02:55:29.688Z">
+<meta property="article:modified_time" content="2020-04-22T23:40:18.347Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
 
@@ -526,7 +526,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.4k
+                  2k
                 </span>
               
 
@@ -542,7 +542,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  5
+                  8
                 </span>
               
             </div>
@@ -564,7 +564,50 @@ $(function() {
       
 
       
-        <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
+        <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ul>
+<li><p>创建普通索引<br>CREATE INDEX indexName ON tableName(columnName(length))</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> name_idx <span class="keyword">on</span> base(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+<p>CREATE UNIQUE INDEX indexName ON tableName(columnName(length))   </p>
+</li>
+<li><p>创建唯一索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> <span class="keyword">index</span> name_idx <span class="keyword">on</span> base(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建复合索引<br>CREATE INDEX indexName ON tableName(columnName1, columnName2, …)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> muti_idx <span class="keyword">on</span> base(<span class="keyword">name</span>, sex, age);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><p>DROP INDEX [indexName] ON tableName;  </p>
+<h3 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h3><p>SHOW INDEX FROM tableName;  </p>
+<ul>
+<li>使用索引分析器 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explain</span> <span class="keyword">select</span> * <span class="keyword">from</span> base <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'cp'</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="复合索引"><a href="#复合索引" class="headerlink" title="复合索引"></a>复合索引</h3><ul>
+<li>前导列特性（最左前缀）<br>在MySQL中，如果创建了复合索引(name, salary, dept)，就相当于创建了(name, salary, dept)、<br>(name, salary)和(name)三个索引，这被称为复合索引前导列特性， 因此在创建复合索引时应该将<br>最常用作查询条件的列放在最左边，依次递减</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">未使用索引</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> salary=<span class="number">8800</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> dept=<span class="string">'部门A'</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> salary=<span class="number">8800</span> <span class="keyword">and</span> dept=<span class="string">'部门A'</span>;</span><br><span class="line"></span><br><span class="line">使用索引</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'liufeng'</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'liufeng'</span> <span class="keyword">and</span> salary=<span class="number">8800</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'liufeng'</span> <span class="keyword">and</span> salary=<span class="number">8800</span> <span class="keyword">and</span> dept=<span class="string">'部门A'</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><ul>
+<li><p>什么是覆盖索引<br>即select的数据列只从索引中就能得到，不必读取数据行，也就是只需扫描索引就可以得到查询结果  </p>
+</li>
+<li><p>几点说明  </p>
+</li>
+</ul>
+<ol>
+<li>使用覆盖索引，只需要从索引中就能检索到需要的数据，而不要再扫描数据表；  </li>
+<li>索引的体量往往要比数据表小很多，因此只读取索引速度会非常快，也会极大减少数据访问量；  </li>
+<li>MySQL的查询优化器会在执行查询前判断，是否有一个索引可以覆盖所有的查询列；  </li>
+<li>并非所有类型的索引都可以作为覆盖索引，覆盖索引必须要存储索引列的值。像哈希索引、空间索引、全<br>文索引等并不会真正存储索引列的值  </li>
+<li>当一个查询使用了覆盖索引， 在查询分析器EXPLAIN的Extra列可以看到“Using index”       </li>
+</ol>
+<h3 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h3><ul>
+<li>选择区分度高的列建立索引<br>区分度计算公式：count(distinct col)/count(*)，表示字段不重复的比例   </li>
+<li>避免对索引列进行计算<br>from_unixtime(create_time)=’2014-05-29’ 不会用到索引   </li>
+<li>每次查询每张表仅能使用一个索引  </li>
+</ul>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><ul>
 <li><p>MyISAM 不支持， InnoDB</p>
 </li>
 <li><p>什么是事务<br>用来处理批量的mysql操作， 为了保证数据库的完整性，这些操作要么完全执行，要么完全不执行</p>
@@ -580,7 +623,7 @@ $(function() {
 <li><p>示例  </p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建表</span><br><span class="line">mysql&gt; create table account(</span><br><span class="line">    -&gt; uname char(10),</span><br><span class="line">    -&gt; money int)</span><br><span class="line">    -&gt; engine innodb charset utf8;</span><br><span class="line">&#x2F;&#x2F;插入数据</span><br><span class="line">mysql&gt; insert into account values</span><br><span class="line">    -&gt; (&#39;zhang&#39;, 5000),</span><br><span class="line">    -&gt; (&#39;lisi&#39;, 3000);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;开启事务</span><br><span class="line">start transaction</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;更新数据</span><br><span class="line">update account set money &#x3D; money + 100000  where uname&#x3D;&#39;lisi&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;查询</span><br><span class="line">mysql&gt; select * from account;</span><br><span class="line">+-------+-------+</span><br><span class="line">| uname | money |</span><br><span class="line">+-------+-------+</span><br><span class="line">| zhang |  5000 |</span><br><span class="line">| lisi  |  3000 |</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;设置隔离级别</span><br><span class="line">mysql&gt; set session transaction  isolation level read uncommitted</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;提交事务</span><br><span class="line">mysql&gt; commit;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//创建表</span><br><span class="line">mysql&gt; create table account(</span><br><span class="line">    -&gt; uname char(10),</span><br><span class="line">    -&gt; money int)</span><br><span class="line">    -&gt; engine innodb charset utf8;</span><br><span class="line">//插入数据</span><br><span class="line">mysql&gt; insert into account values</span><br><span class="line">    -&gt; ('zhang', 5000),</span><br><span class="line">    -&gt; ('lisi', 3000);</span><br><span class="line"></span><br><span class="line">//开启事务</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span></span><br><span class="line"></span><br><span class="line">//更新数据</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">account</span> <span class="keyword">set</span> money = money + <span class="number">100000</span>  <span class="keyword">where</span> uname=<span class="string">'lisi'</span>;</span><br><span class="line"></span><br><span class="line">//查询</span><br><span class="line">mysql&gt; select * from account;</span><br><span class="line">+<span class="comment">-------+-------+</span></span><br><span class="line">| uname | money |</span><br><span class="line">+<span class="comment">-------+-------+</span></span><br><span class="line">| zhang |  5000 |</span><br><span class="line">| lisi  |  3000 |</span><br><span class="line"></span><br><span class="line">//设置隔离级别</span><br><span class="line">mysql&gt; set session transaction  isolation level read uncommitted</span><br><span class="line"></span><br><span class="line">//提交事务</span><br><span class="line">mysql&gt; commit;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>隔离级别<br>read uncommit : “脏读”, 读到未提交事务的内容<br>read commited : 一个事务在进行的过程中， 读不到另外一个进行中事务的内容，但是能读到已经完成事务中的内容<br>repeatable read: 可重复读,即在一个事务过程中,所有信息都来自事务开始那一瞬间的信息,不受其他已提交事务的影响. (大多数的系统,用此隔离级别)<br>serializable: 串行化, 所有的事务,必须编号,按顺序一个一个来执行,也就取消了冲突的可能.这样隔离级别最高,但事务相互等待的等待长. 在实用,也不是很多 </p>
@@ -761,7 +804,7 @@ $(function() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -855,7 +898,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">1.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程"><span class="nav-number">2.</span> <span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">3.</span> <span class="nav-text">视图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">1.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">1.1.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除索引"><span class="nav-number">1.2.</span> <span class="nav-text">删除索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看索引"><span class="nav-number">1.3.</span> <span class="nav-text">查看索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合索引"><span class="nav-number">1.4.</span> <span class="nav-text">复合索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#覆盖索引"><span class="nav-number">1.5.</span> <span class="nav-text">覆盖索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引优化"><span class="nav-number">1.6.</span> <span class="nav-text">索引优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">2.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程"><span class="nav-number">3.</span> <span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">4.</span> <span class="nav-text">视图</span></a></li></ol></div>
             
 
           </div>
