@@ -110,22 +110,14 @@
 
 
 
-<meta name="description" content="title: godate: 2020-04-18 09:24:43categories:    - go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go">
 <meta property="og:url" content="http://yoursite.com/2020/07/04/go/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="title: godate: 2020-04-18 09:24:43categories:    - go">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_1.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_2.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_3.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_4.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_5.png">
-<meta property="article:published_time" content="2020-07-04T06:53:06.821Z">
-<meta property="article:modified_time" content="2020-07-04T06:53:06.818Z">
+<meta property="article:published_time" content="2020-07-04T07:26:14.000Z">
+<meta property="article:modified_time" content="2020-07-04T07:26:14.417Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_1.png">
 
 
 
@@ -464,7 +456,7 @@ $(function() {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-04T14:53:06+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-04T15:26:14+08:00">
                 2020-07-04
               </time>
             
@@ -510,7 +502,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2.6k
+                  0
                 </span>
               
 
@@ -526,7 +518,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  11
+                  1
                 </span>
               
             </div>
@@ -548,334 +540,7 @@ $(function() {
       
 
       
-        <hr>
-<p>title: go<br>date: 2020-04-18 09:24:43<br>categories:<br>    - go  </p>
-<hr>
-<a id="more"></a>  
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>gofmt &nbsp;-w *.go &nbsp;//格式化代码<br>go build -o /bin/test &nbsp;&nbsp;/src/test &nbsp;//安装  </p>
-<h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><p>标识符以字母或下划线开头，大小写敏感  </p>
-<h2 id="保留关键字"><a href="#保留关键字" class="headerlink" title="保留关键字"></a>保留关键字</h2><p>break default func interface select case defer go map struct chan else goto package switch<br>const fallthough &nbsp;if range &nbsp;type &nbsp;continue for import return var   </p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h3 id="包的别名"><a href="#包的别名" class="headerlink" title="包的别名"></a>包的别名</h3><pre><code class="go"><span class="keyword">import</span>(  
-    a  <span class="string">"fmt"</span>  <span class="comment">//a是fmt的别名  </span>
-)  </code></pre>
-<p>go get安装第三方包  </p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
-<li>init函数<br>每个源文件都有一个init函数， 在main函数调用之前会执行init  <pre><code class="go"><span class="keyword">import</span>(  
-_ <span class="string">"test"</span>  <span class="comment">//仅初始化， 不使用包里面的东西  </span>
-)  </code></pre>
-嵌套包的初始化顺序， 最里层包先初始化<br><img src="/data/colin/blog/source/images/go_20200408_1.png" alt="p1">  </li>
-</ul>
-<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>编译时已经确定  </p>
-<pre><code class="go"><span class="keyword">const</span> 只能修饰boolean, number(<span class="keyword">int</span>相关， 浮点， <span class="built_in">complex</span>)和<span class="keyword">string</span>  
-<span class="keyword">const</span> b <span class="keyword">string</span> = <span class="string">"hello word"</span>  
-<span class="keyword">const</span> b = <span class="string">"hello word"</span>  
-<span class="keyword">const</span> c = getValue()  <span class="comment">//错误，与c++不同  </span>
-优雅的写法：  
-<span class="keyword">const</span>(  
-    a = <span class="number">0</span>  
-    b = <span class="number">1</span>  
-    c = <span class="number">2</span>  
-)  
-更加专业的写法：  
-<span class="keyword">const</span>(  
-    a = <span class="literal">iota</span> <span class="comment">//0  </span>
-    b  <span class="comment">//1  </span>
-    c   <span class="comment">//2  </span>
-)  </code></pre>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><pre><code class="go"><span class="keyword">var</span> identifier <span class="keyword">type</span>  
-<span class="keyword">var</span> a <span class="keyword">int</span>  
-<span class="keyword">var</span> b <span class="keyword">string</span>  
-<span class="keyword">var</span> c <span class="keyword">bool</span>  
-d <span class="keyword">int</span> = <span class="number">8</span>  
-e <span class="keyword">string</span> = <span class="string">"hello world"</span>  
-
-Var(  
-    a <span class="keyword">int</span>  <span class="comment">//默认0  </span>
-    b <span class="keyword">string</span> <span class="comment">//默认""  </span>
-    c <span class="keyword">bool</span> <span class="comment">//默认false  </span>
-    d = <span class="number">8</span>  
-    e = <span class="string">"hello world"</span>  
-)  </code></pre>
-<h3 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h3><p>值类型： 基本数据类型int, float, bool, string以及数组和struct，内存在栈中分配<br>引用类型： 指针, slice, map, chan, interface等， 内存在对上分配，GC回收  </p>
-<p>变量的作用域<br>局部变量–生命周期在函数内或语句块内<br>全局变量–生命周期在整个包，大写的可以外部访问<br> a :=1 实际是两条语句: var a int a = 1 go中不能在函数外赋值，所以:= 不能用于函数外   </p>
-<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>int int8 int16 int32 int64 uint8 uint16 uint32 uint64 float32 float64   </p>
-<h3 id="指针类型"><a href="#指针类型" class="headerlink" title="指针类型"></a>指针类型</h3><p>var p *int = &amp;a  </p>
-<h3 id="类型转化"><a href="#类型转化" class="headerlink" title="类型转化"></a>类型转化</h3><p>type(var)<br>int 和 int32是不同类型， 不能直接运算  </p>
-<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>两种表示方式：<br>1.”” 允许转义<br>2.`` 原生字符串，允许换行  </p>
-<pre><code class="go">strings  
-strings.HasPrefix(s <span class="keyword">string</span>, prefix <span class="keyword">string</span>) <span class="keyword">bool</span>：判断字符串s是否以prefix开头  
-strings.HasSuffix(s <span class="keyword">string</span>, suffix <span class="keyword">string</span>) <span class="keyword">bool</span>：判断字符串s是否以suffix结尾。  
-strings.Index(s <span class="keyword">string</span>, str <span class="keyword">string</span>) <span class="keyword">int</span>：判断str在s中首次出现的位置，如果没有出现，则返回<span class="number">-1</span>  
-strings.LastIndex(s <span class="keyword">string</span>, str <span class="keyword">string</span>) <span class="keyword">int</span>：判断str在s中最后出现的位置，如果没有出现，则返回<span class="number">-1</span>  
-strings.Replace(str <span class="keyword">string</span>, old <span class="keyword">string</span>, <span class="built_in">new</span> <span class="keyword">string</span>, n <span class="keyword">int</span>)：字符串替换  
-strings.Count(str <span class="keyword">string</span>, substr <span class="keyword">string</span>)<span class="keyword">int</span>：字符串计数  
-strings.ToLower(str <span class="keyword">string</span>)<span class="keyword">string</span>：转为小写  
-strings.ToUpper(str <span class="keyword">string</span>)<span class="keyword">string</span>：转为大写  
-strings.TrimSpace(str <span class="keyword">string</span>)：去掉字符串首尾空白字符  
-strings.Trim(str <span class="keyword">string</span>, cut <span class="keyword">string</span>)：去掉字符串首尾cut字符  
-strings.TrimLeft(str <span class="keyword">string</span>, cut <span class="keyword">string</span>)：去掉字符串首cut字符  
-strings.TrimRight(str <span class="keyword">string</span>, cut <span class="keyword">string</span>)：去掉字符串尾cut字符  
-strings.Field(str <span class="keyword">string</span>)：返回str空格分隔的所有子串的slice  
-strings.Split(str <span class="keyword">string</span>, split <span class="keyword">string</span>)：返回str split分隔的所有子串的slice  
-strings.Join(s1 []<span class="keyword">string</span>, sep <span class="keyword">string</span>)：用sep把s1中的所有元素链接起来  
-strconv.Itoa(i <span class="keyword">int</span>)：把一个整数i转成字符串  
-strconv.Atoi(str <span class="keyword">string</span>)(<span class="keyword">int</span>, error)：把一个字符串转成整数  </code></pre>
-<h2 id="时间和日期"><a href="#时间和日期" class="headerlink" title="时间和日期"></a>时间和日期</h2><pre><code class="go">获取当前时间， now := time.Now()  
-time.Now().Day()，time.Now().Minute()，time.Now().Month()，time.Now().Year()  
-格式化，fmt.Printf(“%<span class="number">02</span>d/%<span class="number">02</span>d%<span class="number">02</span>d %<span class="number">02</span>d:%<span class="number">02</span>d:%<span class="number">02</span>d”, now.Year()…)  
-time.Duration用来表示纳秒  
-一些常量：  
-<span class="keyword">const</span> (  
-  Nanosecond  Duration = <span class="number">1</span>  
-  Microsecond          = <span class="number">1000</span> * Nanosecond  
-  Millisecond          = <span class="number">1000</span> * Microsecond  
-  Second               = <span class="number">1000</span> * Millisecond  
-  Minute               = <span class="number">60</span> * Second  
-  Hour                 = <span class="number">60</span> * Minute  
-)  
-格式化:  
-now := time.Now()  
-fmt.Println(now.Format(“<span class="number">02</span>/<span class="number">1</span>/<span class="number">2006</span> <span class="number">15</span>:<span class="number">04</span>”))  
-fmt.Println(now.Format(“<span class="number">2006</span>/<span class="number">1</span>/<span class="number">02</span> <span class="number">15</span>:<span class="number">04</span>”))  
-fmt.Println(now.Format(“<span class="number">2006</span>/<span class="number">1</span>/<span class="number">02</span>”))  </code></pre>
-<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2><pre><code class="go"><span class="keyword">if</span>  
-(<span class="number">1</span>) <span class="keyword">if</span> condition {  
-     }  
-(<span class="number">2</span>) <span class="keyword">if</span> condition {  
-    } <span class="keyword">else</span> {  
-
-    }  
-(<span class="number">3</span>) <span class="keyword">if</span> condition1 {  
-      } <span class="keyword">else</span> <span class="keyword">if</span> condition2 {  
-      } <span class="keyword">else</span> <span class="keyword">if</span> condition3 {  
-      } <span class="keyword">else</span> {  
-      }  
-错误代码：  
-    <span class="keyword">if</span> condition {  
-    }  
-    <span class="keyword">else</span>{     <span class="comment">//else必须和上一个}在一行否则编译不过去  </span>
-    }  
- <span class="keyword">switch</span>  
-（<span class="number">1</span>）<span class="keyword">switch</span> <span class="keyword">var</span> {  
-        <span class="keyword">case</span> var1:  
-        <span class="keyword">fallthrough</span> <span class="comment">//继续往下执行  </span>
-        <span class="keyword">case</span> var2:  
-        <span class="keyword">case</span> var3:  
-        <span class="keyword">default</span>:  
-    }  
-<span class="comment">//注意没有break  </span>
-（<span class="number">2</span>）<span class="keyword">switch</span> <span class="keyword">var</span> {  
-        <span class="keyword">case</span> var1, var2: <span class="comment">//多条件在一行  </span>
-        <span class="keyword">case</span> <span class="keyword">var</span> <span class="number">3</span>:  
-        <span class="keyword">default</span>:  
-        }  
-  (<span class="number">3</span>) <span class="keyword">switch</span>{  <span class="comment">//没有变量  </span>
-            condition1:  
-            condition2:  
-            <span class="keyword">default</span>:  
-        }  
-  (<span class="number">4</span>) <span class="keyword">switch</span> 语句块 {  
-            ...  
-        }  
- <span class="keyword">for</span>  
- (<span class="number">1</span>) <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>;  i++{  <span class="comment">//注意for没有()  </span>
-               ...  
-       }  
-
- (<span class="number">2</span>)  <span class="keyword">for</span> 条件{  
-       }  
-
- (<span class="number">3</span>) fro <span class="keyword">range</span>  
-    str := “hello world,中国”  
-    <span class="keyword">for</span> i, v := <span class="keyword">range</span> str {  
-        fmt.Printf(“index[%d] val[%c] <span class="built_in">len</span>[%d]\n”, i, v, <span class="built_in">len</span>([]<span class="keyword">byte</span>(v)))  
-    }  </code></pre>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>不支持重载，一个包不能有两个名字一样的函数<br>函数是一等公民，函数也是一种类型，一个函数可以赋值给变量<br>匿名函数<br>多返回值  </p>
-<h3 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h3><p>当函数返回时，执行defer语句。因此，可以用来做资源清理<br>多个defer语句，按先进后出的方式执行<br>defer语句中的变量，在defer声明时就决定了  </p>
-<ul>
-<li>关闭文件句柄  <pre><code class="go"><span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> {  
-  file := open(filename)  
-  <span class="keyword">defer</span> file.Close()  
-<span class="comment">//文件操作  </span>
-}  </code></pre>
-</li>
-<li>锁资源释放  <pre><code class="go"><span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> {  
-  mc.Lock()  
-  <span class="keyword">defer</span> mc.Unlock()  
-  <span class="comment">//其他操作  </span>
-}  </code></pre>
-</li>
-<li>数据库连接释放  <pre><code class="go"><span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> {  
-  conn := openDatabase()  
-  <span class="keyword">defer</span> conn.Close()  
-  <span class="comment">//其他操作  </span>
-}  </code></pre>
-</li>
-</ul>
-<h3 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h3><pre><code class="go">不需要导入包  
-<span class="built_in">close</span>：主要用来关闭channel  
-<span class="built_in">len</span>：用来求长度，比如<span class="keyword">string</span>、array、slice、<span class="keyword">map</span>、channel  
-<span class="built_in">new</span>：用来分配内存，主要用来分配值类型，比如<span class="keyword">int</span>、<span class="keyword">struct</span>。返回的是指针  
-<span class="built_in">make</span>：用来分配内存，主要用来分配引用类型，比如<span class="keyword">chan</span>、<span class="keyword">map</span>、slice  
-<span class="built_in">append</span>：用来追加元素到数组、slice中  
-<span class="built_in">panic</span>和<span class="built_in">recover</span>：用来做错误处理  </code></pre>
-<ul>
-<li>new和make的区别<br><img src="/data/colin/blog/source/images/go_20200408_2.png" alt="p2">  </li>
-</ul>
-<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><pre><code class="go"><span class="keyword">var</span> a [<span class="built_in">len</span>]<span class="keyword">int</span>，比如：<span class="keyword">var</span> a[<span class="number">5</span>]<span class="keyword">int</span>  
-长度是数组类型的一部分，因此，<span class="keyword">var</span> a[<span class="number">5</span>] <span class="keyword">int</span>和<span class="keyword">var</span> a[<span class="number">10</span>]<span class="keyword">int</span>是不同的类型  
-数组可以通过下标进行访问，下标是从<span class="number">0</span>开始，最后一个元素下标是：<span class="built_in">len</span><span class="number">-1</span>  
-访问越界，如果下标在数组合法范围之外，则触发访问越界，会<span class="built_in">panic</span>  
-数组是值类型，因此改变副本的值，不会改变本身的值  
-
-初始化  
-<span class="keyword">var</span> age0 [<span class="number">5</span>] <span class="keyword">int</span> = [<span class="number">5</span>] <span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>}  
-<span class="keyword">var</span> age1 = [<span class="number">5</span>]<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>}  
-<span class="keyword">var</span> age2 = [...]<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>}  
-<span class="keyword">var</span> str = [<span class="number">5</span>]<span class="keyword">string</span>{<span class="number">3</span>:”hello world”, <span class="number">4</span>:”tom”} <span class="comment">//指定索引赋值  </span>
-
-多维数组  
-<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span>  
-<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span> = [...][<span class="number">3</span>]<span class="keyword">int</span>&lt;!--￼<span class="number">0</span>--&gt;  </code></pre>
-<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><pre><code class="go">切片是数组的一个引用，因此切片是引用类型  
-切片的长度可以改变，因此，切片是一个可变的数组  
-<span class="built_in">cap</span>可以求出slice最大的容量，<span class="number">0</span> &lt;= <span class="built_in">len</span>(slice) &lt;= <span class="built_in">cap</span>(array)，其中array  
-切片的定义：<span class="keyword">var</span> 变量名 []类型，比如 <span class="keyword">var</span> str []<span class="keyword">string</span>  <span class="keyword">var</span> arr []<span class="keyword">int</span>  
-切片初始化：<span class="keyword">var</span> slice []<span class="keyword">int</span> = arr[start:end]  
-        包含start到end之间的元素，但不包含end  
-<span class="keyword">var</span> slice []<span class="keyword">int</span> = arr[<span class="number">0</span>:end]可以简写为 <span class="keyword">var</span> slice []<span class="keyword">int</span>=arr[:end]  
-<span class="keyword">var</span> slice []<span class="keyword">int</span> = arr[start:<span class="built_in">len</span>(arr)] 可以简写为 <span class="keyword">var</span> slice[]<span class="keyword">int</span> = arr[start:]  
-<span class="keyword">var</span> slice []<span class="keyword">int</span> = arr[<span class="number">0</span>, <span class="built_in">len</span>(arr)] 可以简写为 <span class="keyword">var</span> slice[]<span class="keyword">int</span> = arr[:]  
-如果要切片最后一个元素去掉，可以这么写  
-        slice = slice[:<span class="built_in">len</span>(slice)<span class="number">-1</span>]  </code></pre>
-<ul>
-<li><p>切片的内存布局<br><img src="/data/colin/blog/source/images/go_20200408_3.png" alt="p3">  </p>
-</li>
-<li><p>切片的创建   </p>
-<pre><code class="go"><span class="keyword">var</span> slice []<span class="keyword">type</span> = <span class="built_in">make</span>([]<span class="keyword">type</span>, <span class="built_in">len</span>)  
-         slice  := <span class="built_in">make</span>([]<span class="keyword">type</span>, <span class="built_in">len</span>)  
-         slice  := <span class="built_in">make</span>([]<span class="keyword">type</span>, <span class="built_in">len</span>, <span class="built_in">cap</span>)  
-<span class="keyword">var</span>  s = []<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>, <span class="number">3</span>}  
-a := [...]<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>}  
-s := a[:]  </code></pre>
-<p><img src="/data/colin/blog/source/images/go_20200408_4.png" alt="p4">  </p>
-</li>
-</ul>
-<h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><pre><code class="go">用<span class="built_in">append</span>内置函数操作切片  
-<span class="keyword">for</span> <span class="keyword">range</span> 遍历切片  
-切片resize  
-<span class="keyword">var</span> a = []<span class="keyword">int</span> {<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>}  
-b := a[<span class="number">1</span>:<span class="number">2</span>]  
-b = b[<span class="number">0</span>:<span class="number">3</span>]  </code></pre>
-<ul>
-<li><p>切片拷贝<br>copy, append  </p>
-</li>
-<li><p>string与slice<br>string底层就是一个byte的数组，因此，也可以进行切片操作  </p>
-<pre><code class="go">str := “hello world”  
-s1 := str[<span class="number">0</span>:<span class="number">5</span>]  
-fmt.Println(s1)  
-s2 := str[<span class="number">5</span>:]  
-fmt.Println(s2)  </code></pre>
-</li>
-</ul>
-<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><pre><code class="go">key-value的数据结构，又叫字典或关联数组  
-申明 : 声明是不会分配内存的，初始化需要<span class="built_in">make</span>  
- <span class="keyword">var</span> map1 <span class="keyword">map</span>[keytype]valuetype  
- <span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>  
- <span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>  
- <span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>  
- <span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>  
-
-<span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span> = <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>{“hello”: “world”}  
-a = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">10</span>)  
-a[“hello”] = “world”            <span class="comment">//插入和更新  </span>
-Val, ok := a[“hello”]           <span class="comment">//查找  </span>
-<span class="keyword">for</span> k, v := <span class="keyword">range</span> a {           <span class="comment">//遍历  </span>
-fmt.Println(k,v)  
-}  
-<span class="built_in">delete</span>(a, “hello”)              <span class="comment">//删除  </span>
-<span class="built_in">len</span>(a)                          <span class="comment">//长度  </span>
-
-<span class="comment">//slice of map  </span>
-Items := <span class="built_in">make</span>([]<span class="keyword">map</span>[<span class="keyword">int</span>][<span class="keyword">int</span>], <span class="number">5</span>)  
-For I := <span class="number">0</span>; I &lt; <span class="number">5</span>; i++ {  
-        items[i] = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>][<span class="keyword">int</span>])  
-}  
-</code></pre>
-<ul>
-<li><p>排序<br>map中key值是无序的<br>a. 先获取所有key，把key进行排序<br>b. 按照排序好的key，进行遍历  </p>
-</li>
-<li><p>翻转<br>初始化另外一个map，把key、value互换即可  </p>
-</li>
-</ul>
-<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ul>
-<li>线程同步<br>a. import(“sync”)<br>b. 互斥锁, var mu sync.Mutex<br>c. 读写锁, var mu sync.RWMutex  </li>
-</ul>
-<h2 id="struct"><a href="#struct" class="headerlink" title="struct"></a>struct</h2><p>用来自定义复杂数据结构<br>struct里面可以包含多个字段（属性）<br>struct类型可以定义方法，注意和函数的区分<br>struct类型是值类型<br>struct类型可以嵌套<br>Go语言没有class类型，只有struct类型<br>golang中的struct没有构造函数，一般可以使用工厂模式来解决这个问题  </p>
-<pre><code class="go">Package model  
-<span class="keyword">type</span> student <span class="keyword">struct</span> {  
-       Name stirng  
-    Age <span class="keyword">int</span>  
-}  
-<span class="function"><span class="keyword">func</span> <span class="title">NewStudent</span><span class="params">(name <span class="keyword">string</span>, age <span class="keyword">int</span>)</span> *<span class="title">student</span></span> {  
-<span class="keyword">return</span> &amp;student{  
-       Name:name,  
-       Age:age,  
-}  
-}  
-Package main  
-S := <span class="built_in">new</span> (student)  
-S := model.NewStudent(“tony”, <span class="number">20</span>)  </code></pre>
-<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><pre><code class="go"><span class="keyword">type</span> Student <span class="keyword">struct</span>{  
-    Name <span class="keyword">string</span>  
-    Next *Student  
-}  </code></pre>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>Golang中的方法是作用在特定类型的变量上，因此自定义类型，都可以有方法，而不仅仅是struct<br>定义：func (recevier type) methodName(参数列表)(返回值列表){}  </p>
-<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>通过匿名字段来实现   </p>
-<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>Interface类型可以定义一组方法，但是这些不需要实现。并且interface不能包含任何变量<br>如果一个变量含有了多个interface类型的方法，那么这个变量就实现了多个接口<br>如果一个变量只含有了1个interface的方部分方法，那么这个变量没有实现这个接口  </p>
-<h2 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h2><p>类型断言，由于接口是一般类型，不知道具体类型，如果要转成具体类型可以采用以下方法进行转换  </p>
-<pre><code class="go"><span class="keyword">var</span> t <span class="keyword">int</span>  
-<span class="keyword">var</span> x <span class="keyword">interface</span>{}  
-x = t  
-y, ok = x.(<span class="keyword">int</span>)   <span class="comment">//转成int，带检查  </span></code></pre>
-<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><pre><code class="go">可以在运行时动态获取变量的相关信息  
-<span class="keyword">import</span> (“reflect”)  
-reflect.TypeOf，获取变量的类型，返回reflect.Type类型  
-reflect.ValueOf，获取变量的值，返回reflect.Value类型  
-reflect.Value.Kind，获取变量的类别，返回一个常量  
-reflect.Value.Interface()，转换成<span class="keyword">interface</span>{}类型  
-reflect.Value.Kind()方法返回的常量  </code></pre>
-<p><img src="/data/colin/blog/source/images/go_20200408_5.png" alt="p5">  </p>
-<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><pre><code class="go">终端读写  
-os.Stdin：标准输入  
-os.Stdout：标准输出  
-os.Stderr：标准错误输出  
-
-文件写入  
-os.OpenFile(“output.dat”,  os.O_WRONLY|os.O_CREATE, <span class="number">0666</span>)  
-第二个参数：文件打开模式：  
-<span class="number">1.</span> os.O_WRONLY：只写  
-<span class="number">2.</span> os.O_CREATE：创建文件  
-<span class="number">3.</span> os.O_RDONLY：只读  
-<span class="number">4.</span>  os.O_RDWR：读写  
-<span class="number">5.</span>  os.O_TRUNC ：清空  
-第三个参数：权限控制：  
-r ——&gt; <span class="number">004</span>  
-w——&gt; <span class="number">002</span>  
-x——&gt; <span class="number">001</span>  
-
-命令行参数  
-os.Args是一个<span class="keyword">string</span>的切片，用来存储所有的命令行参数  </code></pre>
-<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><h3 id="Json"><a href="#Json" class="headerlink" title="Json"></a>Json</h3><pre><code class="go">导入包：<span class="keyword">import</span> “encoding/json”  
-序列化: json.Marshal(data <span class="keyword">interface</span>{})  
-反序列化: json.UnMarshal(data []<span class="keyword">byte</span>,  v  <span class="keyword">interface</span>{})  </code></pre>
-<h2 id="goroutine"><a href="#goroutine" class="headerlink" title="goroutine"></a>goroutine</h2><p>不同goroutine之间如何通信  </p>
-<ul>
-<li>全局变量和锁同步  </li>
-<li>Channel<br>类似unix中的管道<br>先进先出<br>线程安全, 多个goroutine同时访问, 不需要加锁<br>channel是有类型的, 一个整数的channel只能存放整数<br>channel带缓冲区  </li>
-</ul>
-<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>文件名必须以_test.go结尾<br>函数名必须以Test开头</p>
-
+        
       
     </div>
 
@@ -975,17 +640,8 @@ os.Args是一个<span class="keyword">string</span>的切片，用来存储所�
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/logo.jpeg"
@@ -1082,22 +738,6 @@ os.Args是一个<span class="keyword">string</span>的切片，用来存储所�
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">1.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标识符"><span class="nav-number">2.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保留关键字"><span class="nav-number">3.</span> <span class="nav-text">保留关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包"><span class="nav-number">4.</span> <span class="nav-text">包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包的别名"><span class="nav-number">4.1.</span> <span class="nav-text">包的别名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">5.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常量"><span class="nav-number">6.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">7.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#值类型和引用类型"><span class="nav-number">7.1.</span> <span class="nav-text">值类型和引用类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">7.2.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针类型"><span class="nav-number">7.3.</span> <span class="nav-text">指针类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转化"><span class="nav-number">7.4.</span> <span class="nav-text">类型转化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">8.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间和日期"><span class="nav-number">9.</span> <span class="nav-text">时间和日期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制"><span class="nav-number">10.</span> <span class="nav-text">流程控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">11.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">11.1.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置函数"><span class="nav-number">11.2.</span> <span class="nav-text">内置函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">12.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">13.</span> <span class="nav-text">切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#切片操作"><span class="nav-number">13.1.</span> <span class="nav-text">切片操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#map"><span class="nav-number">14.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发"><span class="nav-number">15.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#struct"><span class="nav-number">16.</span> <span class="nav-text">struct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链表"><span class="nav-number">17.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">18.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">19.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口"><span class="nav-number">20.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型断言"><span class="nav-number">21.</span> <span class="nav-text">类型断言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射"><span class="nav-number">22.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO"><span class="nav-number">23.</span> <span class="nav-text">IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">24.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Json"><span class="nav-number">24.1.</span> <span class="nav-text">Json</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#goroutine"><span class="nav-number">25.</span> <span class="nav-text">goroutine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试"><span class="nav-number">26.</span> <span class="nav-text">单元测试</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
