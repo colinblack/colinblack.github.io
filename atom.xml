@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-04T07:26:14.417Z</updated>
+  <updated>2020-07-04T07:32:42.754Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,12 +21,14 @@
     <link href="http://yoursite.com/2020/07/04/go/"/>
     <id>http://yoursite.com/2020/07/04/go/</id>
     <published>2020-07-04T07:26:14.000Z</published>
-    <updated>2020-07-04T07:26:14.417Z</updated>
+    <updated>2020-07-04T07:32:42.754Z</updated>
     
     <summary type="html">
     
     </summary>
     
+    
+      <category term="go" scheme="http://yoursite.com/categories/go/"/>
     
     
   </entry>
