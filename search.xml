@@ -336,11 +336,12 @@ os.Args是一个<span class="keyword">string</span>的切片，用来存储所�
     <title>linux内核实战</title>
     <url>/2020/05/07/linux%E5%86%85%E6%A0%B8%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h2 id="内核C中结构体初始化"><a href="#内核C中结构体初始化" class="headerlink" title="内核C中结构体初始化"></a>内核C中结构体初始化</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span>&#123;</span></span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">  <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> __percpu       __attribute__((noderef, address_space(3)))</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">As</span>&#123;</span> </span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">A</span> <span class="title">gdt</span>[2];</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PER_CPU_DEF_ATTRIBUTES</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFINE_AS \</span></span><br><span class="line">        __percpu PER_CPU_DEF_ATTRIBUTES \</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">As</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">main</span>()&#123;</span></span><br><span class="line">    <span class="comment">//struct As ss =&#123;.gdt=&#123;[0]=&#123;.a= 1, .b = 2&#125;, [1]=&#123;.a=3, .b=4&#125;&#125;&#125;;</span></span><br><span class="line">    DEFINE_AS ss =&#123;.gdt=&#123;[<span class="number">0</span>]=&#123;.a= <span class="number">1</span>, .b = <span class="number">2</span>&#125;, [<span class="number">1</span>]=&#123;.a=<span class="number">3</span>, .b=<span class="number">4</span>&#125;&#125;&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ss.gdt[<span class="number">0</span>].a);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
-    <title>linux_kernel实战</title>
-    <url>/2020/04/28/linux-kernel%E5%AE%9E%E6%88%98/</url>
-    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux内核</tag>
+      </tags>
   </entry>
   <entry>
     <title>muduo笔记</title>
