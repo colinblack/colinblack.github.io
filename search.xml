@@ -4,10 +4,7 @@
     <title>go</title>
     <url>/2020/07/04/go/</url>
     <content><![CDATA[<hr>
-<p>title: go<br>date: 2020-04-18 09:24:43<br>categories:  </p>
-<ul>
-<li>go  </li>
-</ul>
+<p>title: go<br>date: 2020-04-18 09:24:43<br>categories:<br>    - go  </p>
 <hr>
 <a id="more"></a>  
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>gofmt &nbsp;-w *.go &nbsp;//格式化代码<br>go build -o /bin/test &nbsp;&nbsp;/src/test &nbsp;//安装  </p>
