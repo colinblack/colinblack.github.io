@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-04T13:34:07.357Z</updated>
+  <updated>2020-07-05T05:37:19.615Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,63 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="http://yoursite.com/2020/07/04/mysql/"/>
+    <id>http://yoursite.com/2020/07/04/mysql/</id>
+    <published>2020-07-04T14:10:21.000Z</published>
+    <updated>2020-07-05T05:37:19.615Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><ul><li><p>新建数据库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE 名</span><br></pre></td></tr></table></figure></li><li><p>删除表  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLES 名</span><br></pre></td></tr></table></figure></li><li><p>插入　　</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO 表 VALUES()</span><br><span class="line">eg: insert into user(name) values(&quot;cale&quot;)</span><br></pre></td></tr></table></figure></li><li><p>sql导出数据库  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">＃只导整个库结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃导出整个库结构和数据:</span><br><span class="line">    mysqldump -uroot -p1234 sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃只导出表结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 concern &gt; concern.sql</span><br></pre></td></tr></table></figure></li><li><p>sql导入数据库　　</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source [所在的路径&#x2F;&#x2F;*.sql]</span><br><span class="line">mysql -uabc_f -p abc &lt; abc.sql</span><br></pre></td></tr></table></figure></li><li><p>查看端口 </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show global variables like &#39;port&#39;</span><br></pre></td></tr></table></figure></li><li><p>insert into 和 replace into 比较  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">数据存在时, replace 为替换</span><br><span class="line">数据不存在时，replace 为插入且效率比insert高</span><br></pre></td></tr></table></figure></li><li><p>显示建表语句  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table mainline_task_stat_zkw</span><br></pre></td></tr></table></figure></li><li><p>删除带主键约束的行<br><img src="/images/mysql_20200705_1.png" alt="p1"></p></li></ul><ul><li><p>删除主键约束</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table stat_online_players drop primary key; #增加主键约束（要先删掉数据吗?)</span><br><span class="line">alter table stat_online_players add primary key(zone_id, date);#主键要先删再加才行</span><br></pre></td></tr></table></figure></li><li><p>增加新行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table stat_online_players add time char(12);</span><br></pre></td></tr></table></figure></li><li><p>删除行　　</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table stat_online_players drop column hour, drop column minute;　＃如果有主键约束必须先删掉主键约束</span><br></pre></td></tr></table></figure></li><li><p>修改字段  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table base modify column recover_time int(10) NOT NULL DEFAULT &#39;0&#39;;</span><br></pre></td></tr></table></figure></li><li><p>调换行的位置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table stat_online_players modify player int(10) unsigned after time;</span><br></pre></td></tr></table></figure></li><li><p>修改数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update base set assist_end_ts&#x3D;0 where uid&#x3D;10001348;</span><br></pre></td></tr></table></figure></li><li><p>修改字段名 </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table base change barrier archive_chip binary(24) NOT NULL DEFAULT &#39;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&#39;;</span><br></pre></td></tr></table></figure></li><li><p>求和</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sum(peoples) as total from tutorial_stage_stat where day_id&#x3D;19;</span><br></pre></td></tr></table></figure></li><li><p>修改表结构</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table stat_key_data_online modify &#96;date&#96; char(12) NOT NULL</span><br></pre></td></tr></table></figure></li><li><p>按列显示  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from T_Account limit 1\G</span><br></pre></td></tr></table></figure></li><li><p>pymysql </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">安装(centos 6)：</span><br><span class="line">安装pip: sudo yum -y install epel-release, sudo yum -y install python-pip</span><br><span class="line">安装mypython: yum install -y mysql-devel, python-devel python-setuptools</span><br><span class="line">             pip install MySQL-python</span><br><span class="line">安装mysql.connector包 pip install mysql-connector</span><br></pre></td></tr></table></figure></li><li><p>查看mysql 配置文件的方法  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">which mysqld</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysql --verbose --help | grep -A 1 &#39;Default options&#39;</span><br></pre></td></tr></table></figure></li><li><p>MySQL中文乱码<br><a href="https://mp.weixin.qq.com/s?__biz=MzIzNjg4MTE2Ng==&idx=4&mid=100000774&sn=c4ed7a8c2fee681523c3e30600be4bf8" target="_blank" rel="noopener">彻底解决MySQL中文乱码</a></p></li><li><p>mysql修改数据库表和表中的字段的编码格式的修改<br><a href="https://blog.csdn.net/luo4105/article/details/50804148" target="_blank" rel="noopener">mysql修改数据库表和表中的字段的编码格式的修改</a></p></li><li><p>mysql的latin1支持中文<br><a href="https://blog.csdn.net/congcongsuiyue/article/details/41979643" target="_blank" rel="noopener">mysql的latin1支持中文</a></p></li><li><p>mysql 两表联合查询<br><a href="https://blog.csdn.net/wj123446/article/details/52870114/" target="_blank" rel="noopener">mysql两表联合查询的四种情况</a></p></li><li><p>mysql 设置最大连接数</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.第一种：命令行查看和修改最大连接数(max_connections)。</span><br><span class="line">  &gt;mysql -uuser -ppassword(命令行登录MySQL)</span><br><span class="line">  mysql&gt;show variables like &#39;max_connections&#39;;(查可以看当前的最大连接数)</span><br><span class="line">  msyql&gt;set global max_connections&#x3D;1000;(设置最大连接数为1000，可以再次查看是否设置成功)</span><br><span class="line">  mysql&gt;exit  </span><br><span class="line">2.设置&#x2F;etc&#x2F;my.cnf</span><br><span class="line">  注:似乎两者都要设置才会成功</span><br></pre></td></tr></table></figure></li><li><p>查看错误日志路径  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在配置中查看</span><br><span class="line">&#x2F;data&#x2F;mysql&#x2F;var</span><br><span class="line">数据库存放路径</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;message</span><br><span class="line">系统日志</span><br></pre></td></tr></table></figure></li><li><p>数据库遭到攻击<br><a href="https://jason5.cn/blog/ji-%5B%3F%5D-ci-shu-ju-ku-bei-gong-ji-de-jing-li.html" target="_blank" rel="noopener">数据库遭到攻击</a></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;命令&quot;&gt;&lt;a href=&quot;#命令&quot; class=&quot;headerlink&quot; title=&quot;命令&quot;&gt;&lt;/a&gt;命令&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;新建数据库&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td clas
+      
+    
+    </summary>
+    
+    
+      <category term="中间件" scheme="http://yoursite.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    
+      <category term="mysql" scheme="http://yoursite.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>makefile</title>
+    <link href="http://yoursite.com/2020/07/04/makefile/"/>
+    <id>http://yoursite.com/2020/07/04/makefile/</id>
+    <published>2020-07-04T13:40:24.000Z</published>
+    <updated>2020-07-04T14:01:00.182Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>makefile中赋值号<br>=  直接赋值<br>:= 把之前的值替换掉<br>?= 如果变量中没值则赋值，有值则不赋值   </li></ul><p>+= 在变量未追加   </p><ul><li>makefile中的shell<br>作用域<br>目标项冒号后另起一行才是shell代码<br>$(shell  这里是shell代码)    <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">define</span> get_trunk_path  </span><br><span class="line">    trunk_path=`pwd`; \ </span><br><span class="line">    for dir in <span class="variable">$(dirs)</span>; do \ </span><br><span class="line">      if [[ $$&#123;trunk_path&#125; = *$$dir* ]]; then \ </span><br><span class="line">        trunk_path=`echo $$&#123;trunk_path&#125; | sed <span class="string">"s/\/$$dir.*//"</span>`; \</span><br><span class="line">        break; \    </span><br><span class="line">      fi \    </span><br><span class="line">    done; \</span><br><span class="line">    echo $$&#123;trunk_path&#125;</span><br><span class="line"><span class="keyword">endef</span>  </span><br><span class="line"></span><br><span class="line">PATH_PLATFORM_PRJ := <span class="variable">$(<span class="built_in">shell</span> $(<span class="built_in">call</span> get_trunk_path)</span>)</span><br></pre></td></tr></table></figure>makefile中的shell，每一行是一个进程，不同行之间变量值不能传递。所以，Makefile中的shell不管多长也要写在一行，每行后面加;\ 如上例  </li></ul><p>makefile定义的变量使用${var}, shell定义的变量使用$${var}  </p><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//运行方式，直接make</span><br><span class="line">PATH=<span class="string">"data"</span></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">   echo &#123;PATH&#125;</span><br><span class="line">   PATH=<span class="string">"555"</span>;\</span><br><span class="line">   echo $&#123;PATH&#125;;\ //data</span><br><span class="line">   echo $$&#123;PATH&#125; //555</span><br></pre></td></tr></table></figure><p>makefile中赋值可以这样写var = 123, shell中不能留空格var=123  </p><ul><li>makefile中的模式规则  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">%:%.cpp  #冒号左边表示所有的target, 右边表示依赖的cpp文件           </span></span><br><span class="line">  g++ <span class="variable">$&lt;</span> -o <span class="variable">$@</span>   <span class="comment">#"$&lt;"表示了所有依赖目标的挨个值, "$@"表示所有的目标的挨个值</span></span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;makefile中赋值号&lt;br&gt;=  直接赋值&lt;br&gt;:= 把之前的值替换掉&lt;br&gt;?= 如果变量中没值则赋值，有值则不赋值   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;+= 在变量未追加   &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;makefile中的shell&lt;br&gt;作用域&lt;br
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>shell</title>
