@@ -196,7 +196,16 @@ makefile中的shell，每一行是一个进程，不同行之间变量值不能�
     <title>go</title>
     <url>/2020/07/04/go/</url>
     <content><![CDATA[<a id="more"></a>  
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>gofmt &nbsp;-w *.go &nbsp;//格式化代码<br>go build -o /bin/test &nbsp;&nbsp;/src/test &nbsp;//安装  </p>
+<h2 id="项目构建"><a href="#项目构建" class="headerlink" title="项目构建"></a>项目构建</h2><ul>
+<li><p>个人<br><img src="/images/go_20200706_p1.png" alt="p1"></p>
+</li>
+<li><p>公司<br><img src="/images/go_20200706_p2.png" alt="p2"></p>
+</li>
+</ul>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">gofmt -w *.<span class="keyword">go</span>;   <span class="comment">//格式化代码   </span></span><br><span class="line"><span class="keyword">go</span> build -o /bin/test &amp;nbsp;&amp;nbsp;/src/test &amp;nbsp;  <span class="comment">//安装</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><p>标识符以字母或下划线开头，大小写敏感  </p>
 <h2 id="保留关键字"><a href="#保留关键字" class="headerlink" title="保留关键字"></a>保留关键字</h2><p>break default func interface select case defer go map struct chan else goto package switch<br>const fallthough &nbsp;if range &nbsp;type &nbsp;continue for import return var   </p>
 <h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h3 id="包的别名"><a href="#包的别名" class="headerlink" title="包的别名"></a>包的别名</h3><pre><code class="go"><span class="keyword">import</span>(  
@@ -380,7 +389,7 @@ fmt.Println(now.Format(“<span class="number">2006</span>/<span class="number">
 
 多维数组  
 <span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span>  
-<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span> = [...][<span class="number">3</span>]<span class="keyword">int</span>&lt;!--￼<span class="number">0</span>--&gt;  </code></pre>
+<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span> = [...][<span class="number">3</span>]<span class="keyword">int</span>&lt;!--￼<span class="number">1</span>--&gt;  </code></pre>
 <h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><pre><code class="go">切片是数组的一个引用，因此切片是引用类型  
 切片的长度可以改变，因此，切片是一个可变的数组  
 <span class="built_in">cap</span>可以求出slice最大的容量，<span class="number">0</span> &lt;= <span class="built_in">len</span>(slice) &lt;= <span class="built_in">cap</span>(array)，其中array  
