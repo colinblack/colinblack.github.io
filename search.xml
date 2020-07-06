@@ -202,46 +202,63 @@ makefile中的shell，每一行是一个进程，不同行之间变量值不能�
 <li><p>公司<br><img src="/images/go_20200706_p2.png" alt="p2"></p>
 </li>
 </ul>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line">gofmt -w *.<span class="keyword">go</span>;   <span class="comment">//格式化代码   </span></span><br><span class="line"><span class="keyword">go</span> build -o /bin/test &amp;nbsp;&amp;nbsp;/src/test &amp;nbsp;  <span class="comment">//安装</span></span><br></pre></td></tr></table></figure>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> fmt -w *.<span class="keyword">go</span>   <span class="comment">//格式化代码 </span></span><br><span class="line"><span class="keyword">go</span> fmt github.com/hello   </span><br><span class="line"><span class="keyword">go</span> run  src/xx/xx.<span class="keyword">go</span>  <span class="comment">//编译+执行</span></span><br><span class="line"><span class="keyword">go</span> build -o /bin/test /src/test  <span class="comment">//编译生成二进制文件， -o指定目录</span></span><br><span class="line"><span class="keyword">go</span> build  github.com/xx   <span class="comment">//注意src目录不用写</span></span><br><span class="line"><span class="keyword">go</span> install  github.com/xx  <span class="comment">//生成可执行文件到bin目录下</span></span><br><span class="line"><span class="keyword">go</span> env <span class="comment">//显示环境变量</span></span><br><span class="line"><span class="keyword">go</span> get <span class="comment">//安装第三方包</span></span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><p>标识符以字母或下划线开头，大小写敏感  </p>
 <h2 id="保留关键字"><a href="#保留关键字" class="headerlink" title="保留关键字"></a>保留关键字</h2><p>break default func interface select case defer go map struct chan else goto package switch<br>const fallthough &nbsp;if range &nbsp;type &nbsp;continue for import return var   </p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h3 id="包的别名"><a href="#包的别名" class="headerlink" title="包的别名"></a>包的别名</h3><pre><code class="go"><span class="keyword">import</span>(  
-    a  <span class="string">"fmt"</span>  <span class="comment">//a是fmt的别名  </span>
-)  </code></pre>
-<p>go get安装第三方包  </p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
-<li>init函数<br>每个源文件都有一个init函数， 在main函数调用之前会执行init  <pre><code class="go"><span class="keyword">import</span>(  
-_ <span class="string">"test"</span>  <span class="comment">//仅初始化， 不使用包里面的东西  </span>
-)  </code></pre>
-嵌套包的初始化顺序， 最里层包先初始化<br><img src="/data/colin/blog/source/images/go_20200408_1.png" alt="p1">  </li>
-</ul>
-<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>编译时已经确定  </p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><h3 id="包的别名"><a href="#包的别名" class="headerlink" title="包的别名"></a>包的别名</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span>(  </span><br><span class="line">    a  <span class="string">"fmt"</span>  <span class="comment">//a是fmt的别名  </span></span><br><span class="line">)  </span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 初始化  </span></span><br><span class="line"><span class="string">* init函数  </span></span><br><span class="line"><span class="string">每个源文件都有一个init函数， 在main函数调用之前会执行init  </span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span>  </span><br><span class="line"><span class="keyword">import</span>(  </span><br><span class="line">_ <span class="string">"test"</span>  <span class="comment">//仅初始化， 不使用包里面的东西  </span></span><br><span class="line">)  </span><br><span class="line"><span class="string">``</span><span class="string">`  </span></span><br><span class="line"><span class="string">嵌套包的初始化顺序， 最里层包先初始化     </span></span><br><span class="line"><span class="string">![p1](/data/colin/blog/source/images/go_20200408_1.png)  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## 数据类型  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span><span class="keyword">go</span></span><br><span class="line">    <span class="keyword">int</span> <span class="keyword">int8</span> <span class="keyword">int16</span> <span class="keyword">int32</span> <span class="keyword">int64</span> <span class="keyword">uint8</span> <span class="keyword">uint16</span> <span class="keyword">uint32</span> <span class="keyword">uint64</span> <span class="keyword">float32</span> <span class="keyword">float64</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="标识符-1"><a href="#标识符-1" class="headerlink" title="标识符"></a>标识符</h3><p>以字母或_开头, 后面跟着字母,_或数字  </p>
+<h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">break</span> <span class="keyword">default</span> <span class="function"><span class="keyword">func</span> <span class="title">interface</span> <span class="title">select</span> <span class="title">case</span> <span class="title">defer</span> <span class="title">go</span> <span class="title">map</span> <span class="title">struct</span></span> </span><br><span class="line"><span class="keyword">chan</span> <span class="keyword">else</span> <span class="keyword">goto</span> <span class="keyword">package</span> <span class="keyword">switch</span> <span class="keyword">const</span> fallthough  <span class="keyword">if</span> <span class="keyword">range</span> <span class="keyword">type</span> </span><br><span class="line"><span class="keyword">continue</span> <span class="keyword">for</span> <span class="keyword">import</span> <span class="keyword">return</span> <span class="keyword">var</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><p>编译时已经确定, const修饰，只读<br>常量必须要赋值   </p>
 <pre><code class="go"><span class="keyword">const</span> 只能修饰boolean, number(<span class="keyword">int</span>相关， 浮点， <span class="built_in">complex</span>)和<span class="keyword">string</span>  
 <span class="keyword">const</span> b <span class="keyword">string</span> = <span class="string">"hello word"</span>  
 <span class="keyword">const</span> b = <span class="string">"hello word"</span>  
 <span class="keyword">const</span> c = getValue()  <span class="comment">//错误，与c++不同  </span>
-优雅的写法：  
+
+
+<span class="comment">//优雅的写法  </span>
 <span class="keyword">const</span>(  
     a = <span class="number">0</span>  
     b = <span class="number">1</span>  
-    c = <span class="number">2</span>  
+    c = <span class="number">2</span> 
+    d     <span class="comment">//2 </span>
 )  
-更加专业的写法：  
+
+<span class="comment">//更加专业的写法 </span>
 <span class="keyword">const</span>(  
     a = <span class="literal">iota</span> <span class="comment">//0  </span>
     b  <span class="comment">//1  </span>
     c   <span class="comment">//2  </span>
-)  </code></pre>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><pre><code class="go"><span class="keyword">var</span> identifier <span class="keyword">type</span>  
+)  
+
+<span class="keyword">const</span>(  
+    a = <span class="number">1</span> &lt;&lt; <span class="literal">iota</span> <span class="comment">//1</span>
+    b  <span class="comment">//2 </span>
+    c   <span class="comment">//4  </span>
+)  
+
+<span class="keyword">const</span>(
+    a  = <span class="literal">iota</span>  <span class="comment">//0</span>
+    b          <span class="comment">//1 </span>
+    c          <span class="comment">//2 </span>
+    d  = <span class="number">8</span>    <span class="comment">//8  </span>
+    e         <span class="comment">//8 </span>
+    f  = <span class="literal">iota</span> <span class="comment">//5</span>
+    g         <span class="comment">//6</span>
+)</code></pre>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><pre><code class="go"><span class="comment">//第一种写法</span>
+<span class="keyword">var</span> identifier <span class="keyword">type</span>  
 <span class="keyword">var</span> a <span class="keyword">int</span>  
 <span class="keyword">var</span> b <span class="keyword">string</span>  
 <span class="keyword">var</span> c <span class="keyword">bool</span>  
 d <span class="keyword">int</span> = <span class="number">8</span>  
 e <span class="keyword">string</span> = <span class="string">"hello world"</span>  
 
+<span class="comment">//第二种写法</span>
 Var(  
     a <span class="keyword">int</span>  <span class="comment">//默认0  </span>
     b <span class="keyword">string</span> <span class="comment">//默认""  </span>
@@ -251,8 +268,7 @@ Var(
 )  </code></pre>
 <h3 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h3><p>值类型： 基本数据类型int, float, bool, string以及数组和struct，内存在栈中分配<br>引用类型： 指针, slice, map, chan, interface等， 内存在对上分配，GC回收  </p>
 <p>变量的作用域<br>局部变量–生命周期在函数内或语句块内<br>全局变量–生命周期在整个包，大写的可以外部访问<br> a :=1 实际是两条语句: var a int a = 1 go中不能在函数外赋值，所以:= 不能用于函数外   </p>
-<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>int int8 int16 int32 int64 uint8 uint16 uint32 uint64 float32 float64   </p>
-<h3 id="指针类型"><a href="#指针类型" class="headerlink" title="指针类型"></a>指针类型</h3><p>var p *int = &amp;a  </p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h3 id="指针类型"><a href="#指针类型" class="headerlink" title="指针类型"></a>指针类型</h3><p>var p *int = &amp;a  </p>
 <h3 id="类型转化"><a href="#类型转化" class="headerlink" title="类型转化"></a>类型转化</h3><p>type(var)<br>int 和 int32是不同类型， 不能直接运算  </p>
 <h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>两种表示方式：<br>1.”” 允许转义<br>2.`` 原生字符串，允许换行  </p>
 <pre><code class="go">strings  
@@ -389,7 +405,7 @@ fmt.Println(now.Format(“<span class="number">2006</span>/<span class="number">
 
 多维数组  
 <span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span>  
-<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span> = [...][<span class="number">3</span>]<span class="keyword">int</span>&lt;!--￼<span class="number">1</span>--&gt;  </code></pre>
+<span class="keyword">var</span> age [<span class="number">5</span>][<span class="number">3</span>] <span class="keyword">int</span> = [...][<span class="number">3</span>]<span class="keyword">int</span>&lt;!--￼<span class="number">3</span>--&gt;  </code></pre>
 <h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><pre><code class="go">切片是数组的一个引用，因此切片是引用类型  
 切片的长度可以改变，因此，切片是一个可变的数组  
 <span class="built_in">cap</span>可以求出slice最大的容量，<span class="number">0</span> &lt;= <span class="built_in">len</span>(slice) &lt;= <span class="built_in">cap</span>(array)，其中array  
@@ -749,9 +765,10 @@ https://blog.csdn.net/farmwang/article/details/73195799                         
 <h3 id="为什么建议使用主键自增索引"><a href="#为什么建议使用主键自增索引" class="headerlink" title="为什么建议使用主键自增索引"></a>为什么建议使用主键自增索引</h3><p>表的存储结构， 表空间有段(索引=索引段+数据段)组成， 区=1M=64页， 1页=16k<br>不使用自增索引插入数据时B+树的结构可能也会跟着调整， 可能产生磁盘碎片降低磁盘利用率</p>
 <h3 id="为什么索引使用整型而不是字符串"><a href="#为什么索引使用整型而不是字符串" class="headerlink" title="为什么索引使用整型而不是字符串"></a>为什么索引使用整型而不是字符串</h3>]]></content>
       <categories>
-        <category>mysql</category>
+        <category>中间件</category>
       </categories>
       <tags>
+        <tag>mysql</tag>
         <tag>面试</tag>
       </tags>
   </entry>
@@ -873,8 +890,11 @@ https://blog.csdn.net/farmwang/article/details/73195799                         
 </ol>
 ]]></content>
       <categories>
-        <category>mysql</category>
+        <category>中间件</category>
       </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>cpp并发</title>
