@@ -110,15 +110,15 @@
 
 
 
-<meta name="description" content="数据库与表的基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名  创建表123456789101112131415#语法  CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name">
+<meta name="description" content="基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名  创建表123456789101112131415#语法  CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name [(cre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql">
 <meta property="og:url" content="http://yoursite.com/2020/07/04/mysql/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="数据库与表的基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名  创建表123456789101112131415#语法  CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name">
+<meta property="og:description" content="基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名  创建表123456789101112131415#语法  CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name [(cre">
 <meta property="og:image" content="http://yoursite.com/images/mysql_20200705_1.png">
 <meta property="article:published_time" content="2020-07-04T14:10:21.000Z">
-<meta property="article:modified_time" content="2020-07-08T12:37:10.833Z">
+<meta property="article:modified_time" content="2020-07-08T13:11:16.178Z">
 <meta property="article:author" content="Colinblack">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
@@ -567,7 +567,7 @@ $(function() {
       
 
       
-        <h3 id="数据库与表的基本操作"><a href="#数据库与表的基本操作" class="headerlink" title="数据库与表的基本操作"></a>数据库与表的基本操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#新建数据库</span><br><span class="line">CREATE DATABASE 名</span><br><span class="line">#显示当前使用的数据库</span><br><span class="line">select database();</span><br><span class="line"># 查询数据库支持的存储引擎  </span><br><span class="line">show engines;</span><br><span class="line">#删除表  </span><br><span class="line">DROP TABLES 名</span><br></pre></td></tr></table></figure>
+        <h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#新建数据库</span><br><span class="line">CREATE DATABASE 名</span><br><span class="line">#显示当前使用的数据库</span><br><span class="line">select database();</span><br><span class="line"># 查询数据库支持的存储引擎  </span><br><span class="line">show engines;</span><br><span class="line">#删除表  </span><br><span class="line">DROP TABLES 名</span><br></pre></td></tr></table></figure>
 
 <h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#语法  </span><br><span class="line">CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name [(create_definition,…)] [table_options]</span><br><span class="line">[select_statement] </span><br><span class="line">#TEMPORARY：表示创建临时表，在当前会话结束后将自动消失</span><br><span class="line">#IF NOT EXISTS：在建表前，先判断表是否存在，只有该表不存在时才创建</span><br><span class="line">#create_definition：建表语句的关键部分，用于定义表中各列的属性</span><br><span class="line">#table_options：表的配置选项，例如：表的默认存储引擎、字符集</span><br><span class="line">#select_statement：通过select语句建表</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">create table contacts(</span><br><span class="line">    id int not null auto_increment primay key,</span><br><span class="line">    name varchar(30),</span><br><span class="line">    phone varchar(20)</span><br><span class="line">) engine&#x3D;innodb default charset&#x3D;utf8;</span><br></pre></td></tr></table></figure>
 
@@ -847,7 +847,7 @@ mysql -uabc_f -p abc &lt; abc.sql</code></pre><figure class="highlight plain"><t
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库与表的基本操作"><span class="nav-number">1.</span> <span class="nav-text">数据库与表的基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">1.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段操作"><span class="nav-number">1.2.</span> <span class="nav-text">字段操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据操作"><span class="nav-number">1.3.</span> <span class="nav-text">数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#插入数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改数据"><span class="nav-number">1.3.2.</span> <span class="nav-text">修改数据</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本操作"><span class="nav-number">1.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">1.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段操作"><span class="nav-number">1.2.</span> <span class="nav-text">字段操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据操作"><span class="nav-number">1.3.</span> <span class="nav-text">数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#插入数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改数据"><span class="nav-number">1.3.2.</span> <span class="nav-text">修改数据</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
