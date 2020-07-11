@@ -118,11 +118,11 @@
 <meta property="og:description" content="项目构建 个人  公司   工具12345678go fmt -w *.go   &#x2F;&#x2F;格式化代码 go fmt github.com&#x2F;hello   go run  src&#x2F;xx&#x2F;xx.go  &#x2F;&#x2F;编译+执行go build -o &#x2F;bin&#x2F;test &#x2F;src&#x2F;test  &#x2F;&#x2F;编译生成二进制文件， -o指定目录go build  github.com&#x2F;xx   &#x2F;&#x2F;注意src目录不用写go">
 <meta property="og:image" content="http://yoursite.com/images/go_20200706_p1.png">
 <meta property="og:image" content="http://yoursite.com/images/go_20200706_p2.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_3.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_4.png">
-<meta property="og:image" content="http://yoursite.com/data/colin/blog/source/images/go_20200408_5.png">
+<meta property="og:image" content="http://yoursite.com/data/blog/source/images/go_20200408_3.png">
+<meta property="og:image" content="http://yoursite.com/data/blog/source/images/go_20200408_4.png">
+<meta property="og:image" content="http://yoursite.com/data/blog/source/images/go_20200408_5.png">
 <meta property="article:published_time" content="2020-07-04T07:26:14.000Z">
-<meta property="article:modified_time" content="2020-07-11T10:24:04.030Z">
+<meta property="article:modified_time" content="2020-07-11T10:27:10.391Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/go_20200706_p1.png">
@@ -637,10 +637,10 @@ $(function() {
 </li>
 </ul>
 <h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>基于数组类型做的一层封装，可以自动扩容<br>切片是数组的一个引用，因此切片是引用类型<br>切片的长度可以改变，因此，切片是一个可变的数组  </p>
-<p>*定义 </p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 变量名 []类型</span><br><span class="line"><span class="comment">//eg</span></span><br><span class="line"><span class="keyword">var</span> str []<span class="keyword">string</span>  </span><br><span class="line"><span class="keyword">var</span> arr []<span class="keyword">int</span></span><br></pre></td></tr></table></figure>
-
 <ul>
+<li><p>定义 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 变量名 []类型</span><br><span class="line"><span class="comment">//eg</span></span><br><span class="line"><span class="keyword">var</span> str []<span class="keyword">string</span>  </span><br><span class="line"><span class="keyword">var</span> arr []<span class="keyword">int</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>初始化</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法1 基于数组  </span></span><br><span class="line"><span class="comment">//a[start:end]创建一个包括从start到end-1的切片  </span></span><br><span class="line">a := [<span class="number">5</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;</span><br><span class="line"><span class="keyword">var</span> b[]<span class="keyword">int</span> = a[<span class="number">1</span>:<span class="number">4</span>] <span class="comment">//2 3 4 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//方法二</span></span><br><span class="line">c := []<span class="keyword">int</span>&#123;<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125; <span class="comment">//写长度就是数组</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -656,7 +656,7 @@ $(function() {
 如果要切片最后一个元素去掉，可以这么写  
         slice = slice[:<span class="built_in">len</span>(slice)<span class="number">-1</span>]  </code></pre>
 <ul>
-<li><p>切片的内存布局<br><img src="/data/colin/blog/source/images/go_20200408_3.png" alt="p3">  </p>
+<li><p>切片的内存布局<br><img src="/data/blog/source/images/go_20200408_3.png" alt="p3">  </p>
 </li>
 <li><p>切片的创建   </p>
 <pre><code class="go"><span class="keyword">var</span> slice []<span class="keyword">type</span> = <span class="built_in">make</span>([]<span class="keyword">type</span>, <span class="built_in">len</span>)  
@@ -665,7 +665,7 @@ $(function() {
 <span class="keyword">var</span>  s = []<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>, <span class="number">3</span>}  
 a := [...]<span class="keyword">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>}  
 s := a[:]  </code></pre>
-<p><img src="/data/colin/blog/source/images/go_20200408_4.png" alt="p4">  </p>
+<p><img src="/data/blog/source/images/go_20200408_4.png" alt="p4">  </p>
 </li>
 </ul>
 <h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><pre><code class="go">用<span class="built_in">append</span>内置函数操作切片  
@@ -752,7 +752,7 @@ reflect.ValueOf，获取变量的值，返回reflect.Value类型
 reflect.Value.Kind，获取变量的类别，返回一个常量  
 reflect.Value.Interface()，转换成<span class="keyword">interface</span>{}类型  
 reflect.Value.Kind()方法返回的常量  </code></pre>
-<p><img src="/data/colin/blog/source/images/go_20200408_5.png" alt="p5">  </p>
+<p><img src="/data/blog/source/images/go_20200408_5.png" alt="p5">  </p>
 <h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><pre><code class="go">终端读写  
 os.Stdin：标准输入  
 os.Stdout：标准输出  
