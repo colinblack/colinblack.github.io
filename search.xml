@@ -36,6 +36,9 @@
 <li>RPC模式</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>project</category>
+      </categories>
       <tags>
         <tag>go</tag>
       </tags>
