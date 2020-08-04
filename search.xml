@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>interview</title>
+    <url>/2020/08/03/interview/</url>
+    <content><![CDATA[<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列　"></a>消息队列　</h2><h3 id="为什么使用消息队列"><a href="#为什么使用消息队列" class="headerlink" title="为什么使用消息队列　"></a>为什么使用消息队列　</h3><ol>
+<li><p>解耦<br>解耦前:<br><img src="/images/interview_2020080401.png" alt="interview_2020080401"><br>解耦后:<br><img src="/images/interview_2020080402.png" alt="interview_2020080402">  </p>
+</li>
+<li><p>异步<br>同步:<br><img src="/images/interview_2020080403.png" alt="interview_2020080403">  </p>
+</li>
+</ol>
+<p>异步:<br><img src="/images/interview_2020080404.png" alt="interview_2020080404">  </p>
+<ol start="3">
+<li>削峰<br>削峰前:<br><img src="/images/interview_2020080405.png" alt="interview_2020080405">  </li>
+</ol>
+<p>削峰后:<br><img src="/images/interview_2020080406.png" alt="interview_2020080406">  </p>
+]]></content>
+      <tags>
+        <tag>面试　</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>秒杀系统设计</title>
     <url>/2020/07/29/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
     <content><![CDATA[<h3 id="需求原型设计"><a href="#需求原型设计" class="headerlink" title="需求原型设计"></a>需求原型设计</h3><p>主要设计页面(墨刀原型设计工具)</p>
@@ -35,7 +54,7 @@
 <ol start="6">
 <li>RPC模式</li>
 </ol>
-]]></content>
+<h3 id="后台功能开发"><a href="#后台功能开发" class="headerlink" title="后台功能开发　　"></a>后台功能开发　　</h3>]]></content>
       <categories>
         <category>project</category>
       </categories>
@@ -1072,11 +1091,10 @@ join<br>阻塞等待线程结束</li>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">    <span class="comment">// 因为ADDPARAM( 1 ) 是作为PARAM的宏参数，所以先将ADDPARAM( 1 )展开为INT_1，然后再将INT_1放进PARAM</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> PARAM( x ) x</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> ADDPARAM( x ) INT_##x</span></span><br><span class="line">   PARAM( ADDPARAM( <span class="number">1</span> ) );</span><br><span class="line">```   </span><br><span class="line"></span><br><span class="line">例外情况是，如果PARAM宏里对宏参数使用了#或##，那么宏参数不会被展开</span><br><span class="line">```cpp</span><br><span class="line">   <span class="comment">//将被展开为"ADDPARAM( 1 )"</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> PARAM( x ) #x</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> ADDPARAM( x ) INT_##x</span></span><br><span class="line">   PARAM( ADDPARAM( <span class="number">1</span> ) );</span><br></pre></td></tr></table></figure>
 
 <p>打印出一个宏被展开后的样子  </p>
-<pre><code class="cpp"><span class="comment">//TO_STRING首先会将x全部展开(如果x也是一个宏的话)，然后再传给TO_STRING1转换为字符串，现在你可以这样</span>
-<span class="meta">#<span class="meta-keyword">define</span> TO_STRING( x ) TO_STRING1( x )</span>
-<span class="meta">#<span class="meta-keyword">define</span> TO_STRING1( x ) #x</span></code></pre>
-<p>如果一个像函数的宏在使用时没有出现括号，那么预处理器只是将这个宏作为一般的符号处理(那就是不处理)</p>
-]]></content>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//TO_STRING首先会将x全部展开(如果x也是一个宏的话)，然后再传给TO_STRING1转换为字符串，现在你可以这样</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> TO_STRING( x ) TO_STRING1( x )</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> TO_STRING1( x ) #x</span></span><br><span class="line">```  </span><br><span class="line">如果一个像函数的宏在使用时没有出现括号，那么预处理器只是将这个宏作为一般的符号处理(那就是不处理)</span><br><span class="line"></span><br><span class="line">#<span class="meta"># do...while(false)实现类似goto功能　　</span></span><br><span class="line">```cpp</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( A==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;　　<span class="comment">//跳出循环　</span></span><br><span class="line">        <span class="keyword">if</span>( B==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span>( C==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span>( D==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">//实现功能代码</span></span><br><span class="line">    &#125;<span class="keyword">while</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误处理代码</span></span><br></pre></td></tr></table></figure>
+<h2 id="void"><a href="#void" class="headerlink" title="void *"></a>void *</h2><h3 id="delete-void"><a href="#delete-void" class="headerlink" title="delete void*"></a>delete void*</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;使用delete　void* 仅仅释放内存而不执行析构，如果析构函数里释放内存则会存在内存泄露　</span><br><span class="line">&#x2F;&#x2F;解决　</span><br><span class="line">&#x2F;&#x2F;使用shared_ptr</span><br><span class="line">class A&#123;</span><br><span class="line">public:</span><br><span class="line">    A()&#123;</span><br><span class="line">       std::cout &lt;&lt; &quot;A()&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    ~A()&#123;</span><br><span class="line">       std::cout &lt;&lt; &quot;~A()&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void func(std::shared_ptr&lt;void&gt; var)&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    func(std::shared_ptr&lt;A&gt;(new A));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/imjustice/p/how_shared_ptr_void_works.html" target="_blank" rel="noopener">std::shared_ptr<void>的工作原理</a></p>
+<h2 id="模板实现写在源文件里链接时会找不到定义"><a href="#模板实现写在源文件里链接时会找不到定义" class="headerlink" title="模板实现写在源文件里链接时会找不到定义　"></a>模板实现写在源文件里链接时会找不到定义　</h2>]]></content>
       <categories>
         <category>c++</category>
       </categories>
