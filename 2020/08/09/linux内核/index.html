@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="内存管理　物理内存管理　页区域　内存分配　Slab, Slub, Slob高端内存　Per-CPU虚拟内存">
+<meta name="description" content="内存管理  物理内存管理  页  区域  内存分配  Slab, Slub, Slob  高端内存  Per-CPU  虚拟内存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux内核">
 <meta property="og:url" content="http://yoursite.com/2020/08/09/linux%E5%86%85%E6%A0%B8/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="内存管理　物理内存管理　页区域　内存分配　Slab, Slub, Slob高端内存　Per-CPU虚拟内存">
+<meta property="og:description" content="内存管理  物理内存管理  页  区域  内存分配  Slab, Slub, Slob  高端内存  Per-CPU  虚拟内存">
 <meta property="article:published_time" content="2020-08-09T12:07:41.000Z">
 <meta property="article:modified_time" content="2020-08-10T11:32:04.928Z">
 <meta property="article:author" content="Colinblack">
@@ -565,7 +565,16 @@ $(function() {
       
 
       
-        <h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理　"></a>内存管理　</h2><h4 id="物理内存管理"><a href="#物理内存管理" class="headerlink" title="物理内存管理　"></a>物理内存管理　</h4><h3 id="页"><a href="#页" class="headerlink" title="页"></a>页</h3><h3 id="区域"><a href="#区域" class="headerlink" title="区域　"></a>区域　</h3><h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配　"></a>内存分配　</h3><h3 id="Slab-Slub-Slob"><a href="#Slab-Slub-Slob" class="headerlink" title="Slab, Slub, Slob"></a>Slab, Slub, Slob</h3><h3 id="高端内存"><a href="#高端内存" class="headerlink" title="高端内存　"></a>高端内存　</h3><h3 id="Per-CPU"><a href="#Per-CPU" class="headerlink" title="Per-CPU"></a>Per-CPU</h3><h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存　"></a>虚拟内存　</h3>
+        <h2 id="内存管理"><a class="markdownIt-Anchor" href="#内存管理"></a> 内存管理</h2>
+<h4 id="物理内存管理"><a class="markdownIt-Anchor" href="#物理内存管理"></a> 物理内存管理</h4>
+<h3 id="页"><a class="markdownIt-Anchor" href="#页"></a> 页</h3>
+<h3 id="区域"><a class="markdownIt-Anchor" href="#区域"></a> 区域</h3>
+<h3 id="内存分配"><a class="markdownIt-Anchor" href="#内存分配"></a> 内存分配</h3>
+<h3 id="slab-slub-slob"><a class="markdownIt-Anchor" href="#slab-slub-slob"></a> Slab, Slub, Slob</h3>
+<h3 id="高端内存"><a class="markdownIt-Anchor" href="#高端内存"></a> 高端内存</h3>
+<h3 id="per-cpu"><a class="markdownIt-Anchor" href="#per-cpu"></a> Per-CPU</h3>
+<h3 id="虚拟内存"><a class="markdownIt-Anchor" href="#虚拟内存"></a> 虚拟内存</h3>
+
       
     </div>
 
@@ -792,7 +801,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">1.</span> <span class="nav-text">内存管理　</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#物理内存管理"><span class="nav-number">1.0.1.</span> <span class="nav-text">物理内存管理　</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页"><span class="nav-number">1.1.</span> <span class="nav-text">页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区域"><span class="nav-number">1.2.</span> <span class="nav-text">区域　</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配"><span class="nav-number">1.3.</span> <span class="nav-text">内存分配　</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Slab-Slub-Slob"><span class="nav-number">1.4.</span> <span class="nav-text">Slab, Slub, Slob</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高端内存"><span class="nav-number">1.5.</span> <span class="nav-text">高端内存　</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Per-CPU"><span class="nav-number">1.6.</span> <span class="nav-text">Per-CPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存"><span class="nav-number">1.7.</span> <span class="nav-text">虚拟内存　</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">1.</span> <span class="nav-text"> 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#物理内存管理"><span class="nav-number">1.0.1.</span> <span class="nav-text"> 物理内存管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页"><span class="nav-number">1.1.</span> <span class="nav-text"> 页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区域"><span class="nav-number">1.2.</span> <span class="nav-text"> 区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存分配"><span class="nav-number">1.3.</span> <span class="nav-text"> 内存分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slab-slub-slob"><span class="nav-number">1.4.</span> <span class="nav-text"> Slab, Slub, Slob</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高端内存"><span class="nav-number">1.5.</span> <span class="nav-text"> 高端内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#per-cpu"><span class="nav-number">1.6.</span> <span class="nav-text"> Per-CPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存"><span class="nav-number">1.7.</span> <span class="nav-text"> 虚拟内存</span></a></li></ol></li></ol></div>
             
 
           </div>
