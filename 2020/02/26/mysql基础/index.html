@@ -116,11 +116,13 @@
 <meta property="og:url" content="http://yoursite.com/2020/02/26/mysql%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
 <meta property="og:description" content="数据类型 数值    123456789类型      所占字节       说明tinyint    1            小整数值，如状态smallint   2            大整数值mediumint  3            大整数值int        4            大整数值bigint     8            极大整数值float      4">
+<meta property="og:image" content="https://i.loli.net/2020/08/20/QBWxtJcN8Lq2iDg.png">
 <meta property="article:published_time" content="2020-02-25T23:27:19.000Z">
-<meta property="article:modified_time" content="2020-07-13T13:07:39.396Z">
+<meta property="article:modified_time" content="2020-08-26T22:14:33.123Z">
 <meta property="article:author" content="Colinblack">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/08/20/QBWxtJcN8Lq2iDg.png">
 
 
 
@@ -527,7 +529,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3.1k
+                  4.1k
                 </span>
               
 
@@ -543,7 +545,7 @@ $(function() {
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  12
+                  16
                 </span>
               
             </div>
@@ -611,7 +613,162 @@ $(function() {
 
 </li>
 </ul>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志　　"></a>慢查询日志　　</h3><h4 id="mysql的日志类型"><a href="#mysql的日志类型" class="headerlink" title="mysql的日志类型　"></a>mysql的日志类型　</h4><table>
+<thead>
+<tr>
+<th>日志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重做日志（redo log）</td>
+<td>重做日志是一种物理格式的日志，记录的是物理数据页面的修改的信息，其redo log是顺序 写入redo log file的物理文件中去的。</td>
+</tr>
+<tr>
+<td>回滚日志（undo log）</td>
+<td>回滚日志是一种逻辑格式的日志，在执行undo的时候，仅仅是将数据从逻辑上恢复至事务 之前的状态，而不是从物理页面上操作实现的，这一点是不同于redo log的。</td>
+</tr>
+<tr>
+<td>二进制日志（binlog）</td>
+<td>二进制日志是一种逻辑格式的日志，以二进制文件的形式记录了数据库中的操作，但不记录 查询语句。</td>
+</tr>
+<tr>
+<td>错误日志（errorlog）</td>
+<td>错误日志记录着mysqld启动和停止，以及服务器在运行过程中发生的错误的相关信息。</td>
+</tr>
+<tr>
+<td>慢查询日志（slow query log）</td>
+<td>慢查询日志记录执行时间过长和没有使用索引的查询语句</td>
+</tr>
+<tr>
+<td>一般查询日志（general log）</td>
+<td>记录了服务器接收到的每一个查询或是命令，无论这些查询或是命令是否正确甚至是否包含 语法错误，general log都会将其记录下来</td>
+</tr>
+<tr>
+<td>中继日志（relay log）</td>
+<td>中继日志类似二进制；可用于复制架构中，使从服务器和主服务器的数据保持一致</td>
+</tr>
+</tbody></table>
+<h4 id="慢查询日志属性"><a href="#慢查询日志属性" class="headerlink" title="慢查询日志属性　　"></a>慢查询日志属性　　</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>slow_query_log</td>
+<td>是否开启慢查询日志，1表示开启，0表示关闭。</td>
+</tr>
+<tr>
+<td>slow_query_log_file</td>
+<td>慢查询日志存储路径，可选。 注意：MySQL 5.6之前的版本，参数名为 log-slow-queries</td>
+</tr>
+<tr>
+<td>long_query_time</td>
+<td>阈值，当SQL语句的响应时间超过该阈值就会被记录到日志中。</td>
+</tr>
+<tr>
+<td>log_queries_not_using_indexes</td>
+<td>未使用索引的查询也被记录到慢查询日志中，可选。</td>
+</tr>
+<tr>
+<td>log_output</td>
+<td>日志存储方式，默认为FILE。 log_output=‘FILE’表示将日志存入文件 log_output=‘TABLE’表示将日志存入数据库 log_output=‘FILE,TABLE’表示同时将日志存入文件和数据库</td>
+</tr>
+</tbody></table>
+<h4 id="开启慢查询日志"><a href="#开启慢查询日志" class="headerlink" title="开启慢查询日志　"></a>开启慢查询日志　</h4><p>慢查询日志可以通过命令临时设置，也可以修改配置文件永久设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#查看是否开启慢查询日志</span><br><span class="line">show variables like &#39;slow%&#39;;</span><br><span class="line">#临时开启慢查询日志</span><br><span class="line">set slow_query_log&#x3D;&#39;ON&#39;;</span><br><span class="line">set long_query_time&#x3D;1;</span><br><span class="line">#慢查询日志文件所在位置</span><br><span class="line">show variables like &#39;%datadir%&#39;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询分析器"><a href="#查询分析器" class="headerlink" title="查询分析器"></a>查询分析器</h3><p>explain命令可以查看SQL语句的执行计划。当explain与SQL语句一起使用时，MySQL将显示来自<br>优化器的有关语句执行计划的信息。也就是说，MySQL解释了它将如何处理语句，包括有关如何联<br>接表以及以何种顺序联接表的信息</p>
+<h4 id="explain功能"><a href="#explain功能" class="headerlink" title="explain功能　"></a>explain功能　</h4><p>分析出表的读取顺序<br>数据读取操作的操作类型<br>哪些索引可以使用<br>哪些索引被实际使用<br>表之间的引用<br>每张表有多少行被优化器查询</p>
+<h4 id="explain-使用"><a href="#explain-使用" class="headerlink" title="explain 使用　"></a>explain 使用　</h4><img src="https://i.loli.net/2020/08/20/QBWxtJcN8Lq2iDg.png"/>   
+
+<h4 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析　"></a>结果分析　</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>执行select子句或操作表的顺序</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>查询的类型，如SIMPLE、PRIMARY、SUBQUERY、DERIVED、UNION等</td>
+</tr>
+<tr>
+<td>table</td>
+<td>当前行使用的表名</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td>匹配的分区</td>
+</tr>
+<tr>
+<td>type</td>
+<td>连接类型，如system、const、eq_ref、ref、range、index、all等</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td>可能使用的索引</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际使用的索引，NULL表示未使用索引</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>查询中使用的索引长度</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>列与索引的比较</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>扫描的行数</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>选取的行数占扫描的行数的百分比，理想的结果是100</td>
+</tr>
+<tr>
+<td>extra</td>
+<td>其他额外信息</td>
+</tr>
+</tbody></table>
+<h3 id="索引种类"><a href="#索引种类" class="headerlink" title="索引种类"></a>索引种类</h3><table>
+<thead>
+<tr>
+<th>索引种类</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通索引</td>
+<td>最基本的索引，没有任何限制，仅加速查询</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>索引列的值必须唯一，但允许有空值</td>
+</tr>
+<tr>
+<td>主键索引</td>
+<td>一种特殊的唯一索引，不允许有空值 一般是在建表的同时自动创建主键索引</td>
+</tr>
+<tr>
+<td>复合索引</td>
+<td>两个或多个列上的索引被称作复合索引</td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>对文本内容进行分词索引</td>
+</tr>
+</tbody></table>
+<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ul>
 <li><p>创建普通索引<br>CREATE INDEX indexName ON tableName(columnName(length))</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> name_idx <span class="keyword">on</span> base(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
 <p>CREATE UNIQUE INDEX indexName ON tableName(columnName(length))   </p>
@@ -857,7 +1014,7 @@ $(function() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -875,7 +1032,7 @@ $(function() {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -951,7 +1108,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据完整性"><span class="nav-number">2.</span> <span class="nav-text">数据完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">3.</span> <span class="nav-text">函数　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">4.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">4.1.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除索引"><span class="nav-number">4.2.</span> <span class="nav-text">删除索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看索引"><span class="nav-number">4.3.</span> <span class="nav-text">查看索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合索引"><span class="nav-number">4.4.</span> <span class="nav-text">复合索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#覆盖索引"><span class="nav-number">4.5.</span> <span class="nav-text">覆盖索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引优化"><span class="nav-number">4.6.</span> <span class="nav-text">索引优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">5.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程"><span class="nav-number">6.</span> <span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">7.</span> <span class="nav-text">视图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据完整性"><span class="nav-number">2.</span> <span class="nav-text">数据完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">3.</span> <span class="nav-text">函数　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">4.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#慢查询日志"><span class="nav-number">4.1.</span> <span class="nav-text">慢查询日志　　</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql的日志类型"><span class="nav-number">4.1.1.</span> <span class="nav-text">mysql的日志类型　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#慢查询日志属性"><span class="nav-number">4.1.2.</span> <span class="nav-text">慢查询日志属性　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启慢查询日志"><span class="nav-number">4.1.3.</span> <span class="nav-text">开启慢查询日志　</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询分析器"><span class="nav-number">4.2.</span> <span class="nav-text">查询分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#explain功能"><span class="nav-number">4.2.1.</span> <span class="nav-text">explain功能　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#explain-使用"><span class="nav-number">4.2.2.</span> <span class="nav-text">explain 使用　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结果分析"><span class="nav-number">4.2.3.</span> <span class="nav-text">结果分析　</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引种类"><span class="nav-number">4.3.</span> <span class="nav-text">索引种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">4.4.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除索引"><span class="nav-number">4.5.</span> <span class="nav-text">删除索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看索引"><span class="nav-number">4.6.</span> <span class="nav-text">查看索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复合索引"><span class="nav-number">4.7.</span> <span class="nav-text">复合索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#覆盖索引"><span class="nav-number">4.8.</span> <span class="nav-text">覆盖索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引优化"><span class="nav-number">4.9.</span> <span class="nav-text">索引优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">5.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储过程"><span class="nav-number">6.</span> <span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">7.</span> <span class="nav-text">视图</span></a></li></ol></div>
             
 
           </div>

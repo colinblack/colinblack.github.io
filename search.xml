@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>leetcode题解</title>
+    <url>/2020/08/27/leetcode%E9%A2%98%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><h4 id="5-最长回文子串"><a href="#5-最长回文子串" class="headerlink" title="5.最长回文子串"></a>5.最长回文子串</h4><p>状态转移方程:<br>子串长度大于２:<br>$$<br>P(i,j) = P(i+1, j-1) ∧ (Si == Sj)<br>$$<br>否则:<br>$$<br>\begin{cases} P(i,i) = true \ P(i, i+1) = (Si == Si+1) \end{cases}<br>$$</p>
+<p>遍历方式:</p>
+<ol>
+<li>斜着遍历</li>
+<li>从上至下遍历</li>
+</ol>
+<h4 id="91-解码方法"><a href="#91-解码方法" class="headerlink" title="91.解码方法"></a>91.解码方法</h4><p>状态转移方程:<br>$$<br>f(i)=\begin{cases} 1, \quad i = 0\ f(i-1)+f(i-2){i-1=1 or i-1=2  and i &lt; 7},\quad i&gt;0 \end{cases}<br>$$</p>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络编程</title>
+    <url>/2020/08/27/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>##　Tcp中的异常处理　<br>当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息:</p>
+<ol>
+<li>connect一个不存在的端口，客户端会收到一条RST，报错Connection refused</li>
+<li>程序崩溃或异常退出，会向对端发送</li>
+<li>对端断电重启，send数据时会收到来自对端的RST</li>
+<li>close(sockfd)时，直接丢弃接收缓冲区未读取的数据，并给对方发一个RST。这个是由                SO_LINGER选项来控制的</li>
+</ol>
+<p>有些情况服务端感知不到客户端断开:</p>
+<ol>
+<li>客户端断电或者网络异常　</li>
+<li>拔掉网线<br>这个时候服务端可能存在资源泄露的情况, 直至服务端资源耗尽拒绝提供服务, 解决方法加心跳</li>
+</ol>
+<h3 id="Tcp半开连接"><a href="#Tcp半开连接" class="headerlink" title="Tcp半开连接"></a>Tcp半开连接</h3><p><a href="https://blog.csdn.net/larry_zeng1/article/details/78437050" target="_blank" rel="noopener">https://blog.csdn.net/larry_zeng1/article/details/78437050</a></p>
+<p>引用:<br>    <a href="https://segmentfault.com/a/1190000017411330" target="_blank" rel="noopener">断开TCP连接</a><br>    <a href="https://cloud.tencent.com/developer/news/24414" target="_blank" rel="noopener">TCP 异常关闭研究分析</a></p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux内核</title>
+    <url>/2020/08/09/linux%E5%86%85%E6%A0%B8/</url>
+    <content><![CDATA[<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理　"></a>内存管理　</h2><h4 id="物理内存管理"><a href="#物理内存管理" class="headerlink" title="物理内存管理　"></a>物理内存管理　</h4><h3 id="页"><a href="#页" class="headerlink" title="页"></a>页</h3><h3 id="区域"><a href="#区域" class="headerlink" title="区域　"></a>区域　</h3><h3 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配　"></a>内存分配　</h3><h3 id="Slab-Slub-Slob"><a href="#Slab-Slub-Slob" class="headerlink" title="Slab, Slub, Slob"></a>Slab, Slub, Slob</h3><h3 id="高端内存"><a href="#高端内存" class="headerlink" title="高端内存　"></a>高端内存　</h3><h3 id="Per-CPU"><a href="#Per-CPU" class="headerlink" title="Per-CPU"></a>Per-CPU</h3><h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存　"></a>虚拟内存　</h3>]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux内核</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>interview</title>
     <url>/2020/08/03/interview/</url>
     <content><![CDATA[<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列　"></a>消息队列　</h2><h3 id="为什么使用消息队列"><a href="#为什么使用消息队列" class="headerlink" title="为什么使用消息队列　"></a>为什么使用消息队列　</h3><ol>
@@ -14,9 +62,164 @@
 <li>削峰<br>削峰前:<br><img src="/images/interview_2020080405.png" alt="interview_2020080405">  </li>
 </ol>
 <p>削峰后:<br><img src="/images/interview_2020080406.png" alt="interview_2020080406">  </p>
-]]></content>
+<h3 id="消息队列优缺点"><a href="#消息队列优缺点" class="headerlink" title="消息队列优缺点　　"></a>消息队列优缺点　　</h3><p><img src="/images/interview_2020080407.png" alt="interview_2020080407">  </p>
+<h3 id="kafka-activemq-rabbitmq-rocketmq都有哪些优缺点"><a href="#kafka-activemq-rabbitmq-rocketmq都有哪些优缺点" class="headerlink" title="kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　"></a>kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　</h3><table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">单机吞吐量</td>
+<td>万级，吞吐量比RocketMQ和Kafka要低了一个数量级</td>
+<td>万级，吞吐量比RocketMQ和Kafka要低了一个数量级</td>
+<td>10万级，RocketMQ也是可以支撑高吞吐的一种MQ</td>
+<td>10万级别，这是kafka最大的优点，就是吞吐量高。 一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td align="left">topic数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic可以达到几百，几千个的级别，吞吐量会有较小幅度的下降 这是RocketMQ的一大优势，在同等机器下，可以支撑大量的topic</td>
+<td>topic从几十个到几百个的时候，吞吐量会大幅度下降 所以在同等机器下，kafka尽量保证topic数量不要过多。如果要支撑大规模topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td align="left">时效性</td>
+<td>ms级</td>
+<td>微秒级，这是rabbitmq的一大特点，延迟是最低的</td>
+<td>ms级</td>
+<td>延迟在ms级以内</td>
+</tr>
+<tr>
+<td align="left">可用性</td>
+<td>高，基于主从架构实现高可用性</td>
+<td>高，基于主从架构实现高可用性</td>
+<td>非常高，分布式架构</td>
+<td>非常高，kafka是分布式的，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td align="left">消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td></td>
+<td>经过参数优化配置，可以做到0丢失</td>
+<td>经过参数优化配置，消息可以做到0丢失</td>
+</tr>
+<tr>
+<td align="left">功能支持</td>
+<td>MQ领域的功能极其完备</td>
+<td>基于erlang开发，所以并发能力很强，性能极其好，延时很低</td>
+<td>MQ功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的MQ功能，在大数据领域的实时计算以及日志采集被大规模使用，是事实上的标准</td>
+</tr>
+<tr>
+<td align="left">优劣势总结</td>
+<td>非常成熟，功能强大，在业内大量的公司以及项目中都有应用 偶尔会有较低概率丢失消息 而且现在社区以及国内应用都越来越少，官方社区现在对ActiveMQ 5.x维护越来越少，几个月才发布一个版本 而且确实主要是基于解耦和异步来用的，较少在大规模吞吐的场景中使用</td>
+<td>erlang语言开发，性能极其好，延时很低； 吞吐量到万级，MQ功能比较完备 而且开源提供的管理界面非常棒，用起来很好用 社区相对比较活跃，几乎每个月都发布几个版本分 在国内一些互联网公司近几年用rabbitmq也比较多一些 但是问题也是显而易见的，RabbitMQ确实吞吐量会低一些，这是因为他做的实现机制比较重。 而且erlang开发，国内有几个公司有实力做erlang源码级别的研究和定制？如果说你没这个实力的话，确实偶尔会有一些问题，你很难去看懂源码，你公司对这个东西的掌控很弱，基本职能依赖于开源社区的快速维护和修复bug。 而且rabbitmq集群动态扩展会很麻烦，不过这个我觉得还好。其实主要是erlang语言本身带来的问题。很难读源码，很难定制和掌控。</td>
+<td>接口简单易用，而且毕竟在阿里大规模应用过，有阿里品牌保障 日处理消息上百亿之多，可以做到大规模吞吐，性能也非常好，分布式扩展也很方便，社区维护还可以，可靠性和可用性都是ok的，还可以支撑大规模的topic数量，支持复杂MQ业务场景 而且一个很大的优势在于，阿里出品都是java系的，我们可以自己阅读源码，定制自己公司的MQ，可以掌控 社区活跃度相对较为一般，不过也还可以，文档相对来说简单一些，然后接口这块不是按照标准JMS规范走的有些系统要迁移需要修改大量代码 还有就是阿里出台的技术，你得做好这个技术万一被抛弃，社区黄掉的风险，那如果你们公司有技术实力我觉得用RocketMQ挺好的</td>
+<td>kafka的特点其实很明显，就是仅仅提供较少的核心功能，但是提供超高的吞吐量，ms级的延迟，极高的可用性以及可靠性，而且分布式可以任意扩展 同时kafka最好是支撑较少的topic数量即可，保证其超高吞吐量 而且kafka唯一的一点劣势是有可能消息重复消费，那么对数据准确性会造成极其轻微的影响，在大数据领域中以及日志采集中，这点轻微影响可以忽略 这个特性天然适合大数据实时计算以及日志收集</td>
+</tr>
+</tbody></table>
+<p>消息队列技术选型　<br>中小型公司　RabbitMQ<br>大型公司，基础架构研发实力较强　RocketMQ<br>大数据领域的实时计算、日志采集等场景　Kafka  </p>
+<h3 id="消息队列如何保证高可用"><a href="#消息队列如何保证高可用" class="headerlink" title="消息队列如何保证高可用　"></a>消息队列如何保证高可用　</h3><ul>
+<li>RabbitMQ的高可用性　　<br>　rabbitmq有三种模式：单机模式，普通集群模式，镜像集群模式　</li>
+</ul>
+<ol>
+<li>单机模式　<br>生产没人用单机模式　</li>
+</ol>
+<ol start="2">
+<li><p>普通集群模式　<br><img src="/images/interview_2020080501.png" alt="interview_2020080501">  </p>
+</li>
+<li><p>镜像集群模式<br><img src="/images/interview_2020080502.png" alt="interview_2020080502"><br>如何开启:在管理控制界面新增策略，要求数据同步到所有节点的，也可以要求就同步到指定数量的节点　　</p>
+</li>
+</ol>
+<ul>
+<li>Kafka的高可用　<br><img src="/images/interview_2020080503.png" alt="interview_2020080503">  </li>
+</ul>
+<h3 id="从消息队列消费到重复数据怎么办"><a href="#从消息队列消费到重复数据怎么办" class="headerlink" title="从消息队列消费到重复数据怎么办　"></a>从消息队列消费到重复数据怎么办　</h3><p>消息队列都可能提供重复数据，这个要自己保证　<br><img src="/images/interview_2020080504.png" alt="interview_2020080504">  </p>
+<p>如何保证数据幂等性　<br><img src="/images/interview_2020080505.png" alt="interview_2020080505"><br>幂等性: 重复多次请求保证数据状态不出错(例如数据重复,数据改变)<br>方案</p>
+<ol>
+<li>根据主键查，如果数存在则不插入 </li>
+<li>写redis,　天然幂等　</li>
+<li>生产者发送每条数据时，加一个全局唯一的id，类似订单id，消费者拿到id后先根据id查询(比如查redis)<br>,如果没有数据，则将id写入redis,　否则不处理　</li>
+</ol>
+<h3 id="发送消息队列的数据丢了怎么办"><a href="#发送消息队列的数据丢了怎么办" class="headerlink" title="发送消息队列的数据丢了怎么办　"></a>发送消息队列的数据丢了怎么办　</h3><h4 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h4><ul>
+<li>生产者弄丢数据　<br>生产者发送数据时可能由于网络问题,　在消息队列收到之前弄丢了，有两种方法解决</li>
+</ul>
+<ol>
+<li><p>rabbitmq事务功能　<br>开启事务(channel.txSelect), 发送消息如果没有被rabbitmq收到，生产者会收到异常,　此时回滚事务(channel.txRollback), 重发, 如果接收到提交事务(channel.txCommit)<br>缺点: 降低吞吐量, 耗性能　</p>
+</li>
+<li><p>confirm 模式　<br>生产者设置confirm后, 每次发消息会分配一个唯一id, 如果写入rabbitmq会传回一个ack消息，如果rabbitmq没有处理，会回调生产者注册的nack接口，然后重试.　生产者可以在内存里维护每个消息id状态, 超过时间没收到消息回调，可以重发 </p>
+</li>
+</ol>
+<p>事务同步，阻塞<br>confirm 异步，非阻塞　</p>
+<ul>
+<li>rabbitmq弄丢数据　<br>开启持久化, 极小概率下rabbitmq没持久化完自己挂了导致少量数据丢失　</li>
+</ul>
+<p>设置持久化方法</p>
+<ol>
+<li>创建queue时持久化，这样能保证持久化元数据，但是不能持久化数据本身</li>
+<li>发送消息时设置deliveryMode=2,此时会将消息持久化到磁盘.<br>必须同时设置这两个持久化,　rabbitmq挂了重启后会从磁盘上恢复queue里面的数据　</li>
+</ol>
+<p>持久化配合confirm<br>只有消息被持久化到磁盘后才ack</p>
+<p>缺点:<br>开启持久化也可能有数据丢失现象, 当消息写到rabbitmq后没来得及持久化, 此时rabbitmq挂了导致数据丢失　</p>
+<ul>
+<li>消费者丢失数据　　<br>收到数据还没消费进程挂了, 数据丢失, 此时使用rabbitmq的ack机制<br>首先关闭rabbitmq自动ack, 自己处理完消息再主动ack</li>
+</ul>
+<p>rabbitmq 丢数据情况　<br>    <img src="https://i.loli.net/2020/08/11/3kZ2WGNTSzxuy7v.png"/></p>
+<h4 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h4><p>kafka 某个broker宕机, 然后重新选举partiton的leader时, 刚好数据没有同步，此时leader挂了,然后选举某了follorer成leader, 造成一部分数据丢失　<br>为保证数据不丢要设置４个参数:</p>
+<ol>
+<li>给topic设置replication.factor&gt;1, 每个partition至少２个副本</li>
+<li>min.insync.replicas&gt;1, 一个leader至少感知一个follower还和自己保持联系</li>
+<li>producer端acks=all, 每条数据必须写入所有replica后才能认为写成功　</li>
+<li>producer端设置retries=Max, 一旦写入失败，无限重试　　</li>
+</ol>
+<p>生产者不会丢数据<br>如果按照上述的思路设置了ack=all，一定不会丢，要求是，leader接收到消息，所有的follower都同步到了消息之后，才认为本次写成功了。如果条件不满足，生产者会不断的重试无限次</p>
+<p>kfka 丢数据情况<br><img src="https://i.loli.net/2020/08/11/BnyzJCSPtmVbTFM.png"/></p>
+<h3 id="如何保证消息的顺序"><a href="#如何保证消息的顺序" class="headerlink" title="如何保证消息的顺序　"></a>如何保证消息的顺序　</h3><h4 id="顺序错乱的场景"><a href="#顺序错乱的场景" class="headerlink" title="顺序错乱的场景　"></a>顺序错乱的场景　</h4><ol>
+<li><p>rabbitmq<br>多个消费者从一个queue里面读数据</p>
+<img src="https://i.loli.net/2020/08/11/nUSD8KyliE7IZMN.png"/>
+</li>
+<li><p>kafka<br>－个topic,　一个partition, －个consumer,内存多线程数据乱掉</p>
+<img src="https://i.loli.net/2020/08/11/lU9fbJqWs2YcCLo.png"/>
+
+
+</li>
+</ol>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决　"></a>解决　</h4><ol>
+<li><p>rabbitmq<br>拆分多个queue，每个queue一个consumer，或者一个队列对应一个consumer, 内部用内存队列做排队, 分发给底层不同的worker来处理</p>
+<img src="https://i.loli.net/2020/08/11/ZvkeipAzFfbnj8R.png"/>
+</li>
+<li><p>kafka<br>一个topic，一个partition，一个consumer，内部单线程消费，写N个内存queue，N个线程分别消费一个内存queue即可</p>
+<img src="https://i.loli.net/2020/08/11/rRAukDibUgj5tqc.png"/>
+
+</li>
+</ol>
+<h3 id="消息积压怎么办"><a href="#消息积压怎么办" class="headerlink" title="消息积压怎么办"></a>消息积压怎么办</h3><ul>
+<li>问题的实质是消费端出了问题，解决思路如下:</li>
+</ul>
+<ol>
+<li>先修复consumer的问题，确保其恢复消费速度，然后将现有cnosumer都停掉</li>
+<li>新建一个topic，partition是原来的10倍，临时建立好原先10倍或者20倍的queue数量</li>
+<li>然后写一个临时的分发数据的consumer程序，这个程序部署上去消费积压的数据，消费之后不做耗时的处理，直接均匀轮询写入临时建立好的10倍数量的queue</li>
+<li>临时征用10倍的机器来部署consumer，每一批consumer消费一个临时queue的数据</li>
+<li>这种做法相当于是临时将queue资源和consumer资源扩大10倍，以正常的10倍速度来消费数据</li>
+<li>等快速消费完积压数据之后，得恢复原先部署架构，重新用原先的consumer机器来消费消息</li>
+</ol>
+<ul>
+<li><p>如果使用的是rabbitmq,而且设置了过期时间(TTL)，消息在queue中积压超过一定时间被清理掉了<br>批量重导, 将积压的数据丢掉, 等高峰期过后, 将丢掉的数据找回重新导入mq里</p>
+</li>
+<li><p>如果使用方法１后积压消息很长时间还是没处理, 导致mq快写满　<br>　只能接消费一个丢弃一个, 快速消费数据, 再执行方案2<br>　<img src="https://i.loli.net/2020/08/12/ubWdyjXxhLA4i2P.png"/>
+　</p>
+<h3 id="如何设计消息队列"><a href="#如何设计消息队列" class="headerlink" title="如何设计消息队列　"></a>如何设计消息队列　</h3><p>　1. mq支持伸缩性, 能快速扩容, 就可以增加吞吐量和容量, 可以参考kafka设计理念做成分布式系统, broker-&gt;topic-&gt;partition, 每个partition放一个机器, 存一部分数据, 如果现在资源不够, 给topic增加partition, 然后后做数据迁移, 增加机器　<br>　2. 要考虑持久化, 顺序写磁盘,　这样没有磁盘随机读写的寻址开销, 性能就提高了(kafka思路)<br>　3. 可用性, 要保证高可用, 参考kafka怎样保证高可用<br>　4. 数据0丢失</p>
+</li>
+</ul>
+<h2 id="分布式缓存"><a href="#分布式缓存" class="headerlink" title="分布式缓存　"></a>分布式缓存　</h2><h3 id="项目中如何使用缓存"><a href="#项目中如何使用缓存" class="headerlink" title="项目中如何使用缓存　"></a>项目中如何使用缓存　</h3>]]></content>
       <tags>
-        <tag>面试　</tag>
+        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
@@ -54,7 +257,12 @@
 <ol start="6">
 <li>RPC模式</li>
 </ol>
-<h3 id="后台功能开发"><a href="#后台功能开发" class="headerlink" title="后台功能开发　　"></a>后台功能开发　　</h3>]]></content>
+<h3 id="后台功能开发"><a href="#后台功能开发" class="headerlink" title="后台功能开发　　"></a>后台功能开发　　</h3><ul>
+<li>商品模型设计开发　　</li>
+<li>商品增删改查功能开发</li>
+<li>后台商品管理页面　</li>
+</ul>
+]]></content>
       <categories>
         <category>project</category>
       </categories>
@@ -156,6 +364,125 @@
 <li><p>各种表连接的区别　<br><img src="/images/mysql_20200714_p1.png" alt="p20200714_1"><br>交叉连接（cross join）：没有用where子句的交叉连接将产生笛卡尔积，第一个表的行数乘以第二个表的行数等于笛卡尔积<br>和结果集的大小</p>
 </li>
 </ul>
+<h6 id="内连接"><a href="#内连接" class="headerlink" title="内连接　"></a>内连接　</h6><img src="https://i.loli.net/2020/08/18/xW1zZPBD2gAykva.png"/>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">inner</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B <span class="keyword">while</span> A.stu_no = B.stu_no;</span><br></pre></td></tr></table></figure>
+
+<h6 id="左连接"><a href="#左连接" class="headerlink" title="左连接　"></a>左连接　</h6><img src="https://i.loli.net/2020/08/18/BtTodxEVWwKn4Gi.png"/>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">left</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br></pre></td></tr></table></figure>
+
+<h6 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h6><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B</span><br></pre></td></tr></table></figure>
+
+<h5 id="自连接"><a href="#自连接" class="headerlink" title="自连接　"></a>自连接　</h5><p>一种特殊的表连接，它是指相互连接的表在物理上同为一张表，但是逻辑上是多张表。自<br>连接通常用于表中的数据有层次结构，如区域表、菜单表、商品分类表等　</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#自连接语法</span></span><br><span class="line"><span class="keyword">SELECT</span> A.column, B.column</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">table</span> A, <span class="keyword">table</span> B</span><br><span class="line"><span class="keyword">WHERE</span> A.column = B.column;</span><br></pre></td></tr></table></figure>
+<img src="https://i.loli.net/2020/08/19/NHFdTWZBmAqSYU2.png"/>  
+
+
+<h5 id="子查询"><a href="#子查询" class="headerlink" title="子查询　"></a>子查询　</h5><p>又成为内部查询和嵌套查询　<br><img src="https://i.loli.net/2020/08/19/zJZjmYDhnICQ5fq.png"/>　<br>select 学号 姓名 地址 from 学生表 where 学号 in (select 学号 from 成绩表 where 科目=计算机)</p>
+<ul>
+<li><p>子查询in</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">IN</span>(</span><br><span class="line"> <span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span>]</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<img src="https://i.loli.net/2020/08/19/VITdOj3hgZGqNpX.png"/>   
+</li>
+<li><p>子查询exists</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name1</span><br><span class="line"><span class="keyword">FROM</span> table_name1</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table_name2 <span class="keyword">WHERE</span> condition);</span><br></pre></td></tr></table></figure>
+<img src="https://i.loli.net/2020/08/19/gLpx9WRwhtc5Hay.png"/>   
+
+
+</li>
+</ul>
+<h4 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理　　"></a>用户管理　　</h4><h5 id="mysql权限体系"><a href="#mysql权限体系" class="headerlink" title="mysql权限体系　"></a>mysql权限体系　</h5><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全局层级</td>
+<td>适用于一个给定服务器中的所有数据库。这些权限存储在mysql.user表中。 GRANT ALL ON <em>.</em>和REVOKE ALL ON <em>.</em>只授予和撤销全局权限</td>
+</tr>
+<tr>
+<td>数据库层级</td>
+<td>适用于一个给定数据库中的所有目标。这些权限存储在mysql.db和mysql.host表中。 GRANT ALL ON db_name.<em>和REVOKE ALL ON db_name.</em>只授予和撤销数据库权限</td>
+</tr>
+<tr>
+<td>表层级</td>
+<td>适用于一个给定表中的所有列。这些权限存储在mysql.talbes_priv表中。 GRANT ALL ON db_name.tbl_name和REVOKE ALL ON db_name.tbl_name只授予和撤销表权限</td>
+</tr>
+<tr>
+<td>列层级</td>
+<td>适用于一个给定表中的单一列。这些权限存储在mysql.columns_priv表中。当使用REVOKE时，您必须指 定与被授权列相同的列</td>
+</tr>
+<tr>
+<td>子程序层级</td>
+<td>CREATE ROUTINE, ALTER ROUTINE, EXECUTE和GRANT权限适用于已存储的子程序。这些权限可以被 授予为全局层级和数据库层级。而且，除了CREATE ROUTINE外，这些权限可以被授予为子程序层级， 并存储在mysql.procs_priv表中</td>
+</tr>
+</tbody></table>
+<p>MySQL的权限信息主要存储在以下几张表中，当用户连接数据库时，MySQL会根据这些表对用户<br>进行权限验证</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user</td>
+<td>用户权限表，记录账号、密码及全局性权限信息</td>
+</tr>
+<tr>
+<td>db</td>
+<td>记录数据库相关权限</td>
+</tr>
+<tr>
+<td>table_priv</td>
+<td>用户对某个表拥有的权限</td>
+</tr>
+<tr>
+<td>column_priv</td>
+<td>用户对某表的某个列所拥有的权限</td>
+</tr>
+<tr>
+<td>procs_priv</td>
+<td>用户对存储过程及存储函数的操作权限</td>
+</tr>
+</tbody></table>
+<p>在MySQL中，使用CREATE USER来创建用户，用户创建后没有任何权限<br><strong>MySQL的用户账号由两部分组成：用户名和主机名，即用户名@主机名，主机名可以是IP或机器名称, 主机名为%表示允许任何地址的主机远程登录MySQL数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#创建用户</span><br><span class="line">CREATE USER &#39;用户名&#39; [@&#39;主机名&#39;] [IDENTIFIED BY &#39;密码&#39;];</span><br><span class="line">#删除用户</span><br><span class="line">DROP USER &#39;用户名&#39; [@&#39;主机名&#39;];</span><br><span class="line">#修改密码</span><br><span class="line">ALTER USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED BY &#39;新密码&#39;;</span><br></pre></td></tr></table></figure>
+
+<h5 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理　"></a>权限管理　</h5><p>在MySQL数据库中，使用grant命令授权、revoke命令撤销授权</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#授权</span><br><span class="line">grant all privileges on databaseName.tableName to &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#撤销授权</span><br><span class="line">revoke all privileges on databaseName.tableName from &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#查看权限</span><br><span class="line">show grants for &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br></pre></td></tr></table></figure>
+
+<h6 id="权限列表"><a href="#权限列表" class="headerlink" title="权限列表　"></a>权限列表　</h6><p>使用grant和revoke进行授权、撤销授权时，需要指定具体是哪些权限，这些权限大体可以分为3类，数据类、结构类和管理类</p>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>结构</th>
+<th align="left">管理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SELECT INSERT UPDATE DELETE FILE</td>
+<td>CREATE ALTER INDEX DROP CREATE TEMPORARY TABLES SHOW VIEW CREATE ROUTINE ALTER ROUTINE EXECUTE CREATE VIEW EVENT TRIGGER</td>
+<td align="left">USAGE GRANT SUPER PROCESS RELOAD SHUTDOWN SHOW DATABASES LOCK TABLES REFERENCES REPUCATION CUENT REPUCATION SLAVE CREATE USER</td>
+</tr>
+</tbody></table>
+<h6 id="禁止root远程登录"><a href="#禁止root远程登录" class="headerlink" title="禁止root远程登录"></a>禁止root远程登录</h6><ol>
+<li>root是MySQL数据库的超级管理员，几乎拥有所有权限，一旦泄露后果非常严重；</li>
+<li>root是MySQL数据库的默认用户，所有人都知道，如果不禁止远程登录，可以针对root用户暴    力破解密码<img src="https://i.loli.net/2020/08/19/7C6q2On1VrbZwaM.png"/>  
+
+
+</li>
+</ol>
+<h6 id="忘记root密码解决"><a href="#忘记root密码解决" class="headerlink" title="忘记root密码解决"></a>忘记root密码解决</h6><img src="https://i.loli.net/2020/08/19/oaiRTSve8bZQpF2.png"/>  
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭权限验证</span><br><span class="line">mysqld --defaults-file&#x3D;&quot;.&#x2F;my.cnf&quot; --console --skip-granttables --shared-memory</span><br><span class="line">#参数--defaults-file的值为配置文件my.cnf的完整路径</span><br></pre></td></tr></table></figure>
+MySQL关闭权限验证后，直接通过 mysql 命令即可连接到数据库，并可正常执行各类操作 
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#修改root用户的密码</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure>
+
+
+
+
 <ul>
 <li><p>sql导出数据库  </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">＃只导整个库结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃导出整个库结构和数据:</span><br><span class="line">    mysqldump -uroot -p1234 sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃只导出表结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 concern &gt; concern.sql</span><br></pre></td></tr></table></figure></li>
@@ -760,8 +1087,8 @@ https://blog.csdn.net/farmwang/article/details/73195799                         
         <category>中间件</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
         <tag>面试</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -813,7 +1140,162 @@ https://blog.csdn.net/farmwang/article/details/73195799                         
 
 </li>
 </ul>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志　　"></a>慢查询日志　　</h3><h4 id="mysql的日志类型"><a href="#mysql的日志类型" class="headerlink" title="mysql的日志类型　"></a>mysql的日志类型　</h4><table>
+<thead>
+<tr>
+<th>日志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重做日志（redo log）</td>
+<td>重做日志是一种物理格式的日志，记录的是物理数据页面的修改的信息，其redo log是顺序 写入redo log file的物理文件中去的。</td>
+</tr>
+<tr>
+<td>回滚日志（undo log）</td>
+<td>回滚日志是一种逻辑格式的日志，在执行undo的时候，仅仅是将数据从逻辑上恢复至事务 之前的状态，而不是从物理页面上操作实现的，这一点是不同于redo log的。</td>
+</tr>
+<tr>
+<td>二进制日志（binlog）</td>
+<td>二进制日志是一种逻辑格式的日志，以二进制文件的形式记录了数据库中的操作，但不记录 查询语句。</td>
+</tr>
+<tr>
+<td>错误日志（errorlog）</td>
+<td>错误日志记录着mysqld启动和停止，以及服务器在运行过程中发生的错误的相关信息。</td>
+</tr>
+<tr>
+<td>慢查询日志（slow query log）</td>
+<td>慢查询日志记录执行时间过长和没有使用索引的查询语句</td>
+</tr>
+<tr>
+<td>一般查询日志（general log）</td>
+<td>记录了服务器接收到的每一个查询或是命令，无论这些查询或是命令是否正确甚至是否包含 语法错误，general log都会将其记录下来</td>
+</tr>
+<tr>
+<td>中继日志（relay log）</td>
+<td>中继日志类似二进制；可用于复制架构中，使从服务器和主服务器的数据保持一致</td>
+</tr>
+</tbody></table>
+<h4 id="慢查询日志属性"><a href="#慢查询日志属性" class="headerlink" title="慢查询日志属性　　"></a>慢查询日志属性　　</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>slow_query_log</td>
+<td>是否开启慢查询日志，1表示开启，0表示关闭。</td>
+</tr>
+<tr>
+<td>slow_query_log_file</td>
+<td>慢查询日志存储路径，可选。 注意：MySQL 5.6之前的版本，参数名为 log-slow-queries</td>
+</tr>
+<tr>
+<td>long_query_time</td>
+<td>阈值，当SQL语句的响应时间超过该阈值就会被记录到日志中。</td>
+</tr>
+<tr>
+<td>log_queries_not_using_indexes</td>
+<td>未使用索引的查询也被记录到慢查询日志中，可选。</td>
+</tr>
+<tr>
+<td>log_output</td>
+<td>日志存储方式，默认为FILE。 log_output=‘FILE’表示将日志存入文件 log_output=‘TABLE’表示将日志存入数据库 log_output=‘FILE,TABLE’表示同时将日志存入文件和数据库</td>
+</tr>
+</tbody></table>
+<h4 id="开启慢查询日志"><a href="#开启慢查询日志" class="headerlink" title="开启慢查询日志　"></a>开启慢查询日志　</h4><p>慢查询日志可以通过命令临时设置，也可以修改配置文件永久设置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#查看是否开启慢查询日志</span><br><span class="line">show variables like &#39;slow%&#39;;</span><br><span class="line">#临时开启慢查询日志</span><br><span class="line">set slow_query_log&#x3D;&#39;ON&#39;;</span><br><span class="line">set long_query_time&#x3D;1;</span><br><span class="line">#慢查询日志文件所在位置</span><br><span class="line">show variables like &#39;%datadir%&#39;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询分析器"><a href="#查询分析器" class="headerlink" title="查询分析器"></a>查询分析器</h3><p>explain命令可以查看SQL语句的执行计划。当explain与SQL语句一起使用时，MySQL将显示来自<br>优化器的有关语句执行计划的信息。也就是说，MySQL解释了它将如何处理语句，包括有关如何联<br>接表以及以何种顺序联接表的信息</p>
+<h4 id="explain功能"><a href="#explain功能" class="headerlink" title="explain功能　"></a>explain功能　</h4><p>分析出表的读取顺序<br>数据读取操作的操作类型<br>哪些索引可以使用<br>哪些索引被实际使用<br>表之间的引用<br>每张表有多少行被优化器查询</p>
+<h4 id="explain-使用"><a href="#explain-使用" class="headerlink" title="explain 使用　"></a>explain 使用　</h4><img src="https://i.loli.net/2020/08/20/QBWxtJcN8Lq2iDg.png"/>   
+
+<h4 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析　"></a>结果分析　</h4><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>执行select子句或操作表的顺序</td>
+</tr>
+<tr>
+<td>select_type</td>
+<td>查询的类型，如SIMPLE、PRIMARY、SUBQUERY、DERIVED、UNION等</td>
+</tr>
+<tr>
+<td>table</td>
+<td>当前行使用的表名</td>
+</tr>
+<tr>
+<td>partitions</td>
+<td>匹配的分区</td>
+</tr>
+<tr>
+<td>type</td>
+<td>连接类型，如system、const、eq_ref、ref、range、index、all等</td>
+</tr>
+<tr>
+<td>possible_keys</td>
+<td>可能使用的索引</td>
+</tr>
+<tr>
+<td>key</td>
+<td>实际使用的索引，NULL表示未使用索引</td>
+</tr>
+<tr>
+<td>key_len</td>
+<td>查询中使用的索引长度</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>列与索引的比较</td>
+</tr>
+<tr>
+<td>rows</td>
+<td>扫描的行数</td>
+</tr>
+<tr>
+<td>filtered</td>
+<td>选取的行数占扫描的行数的百分比，理想的结果是100</td>
+</tr>
+<tr>
+<td>extra</td>
+<td>其他额外信息</td>
+</tr>
+</tbody></table>
+<h3 id="索引种类"><a href="#索引种类" class="headerlink" title="索引种类"></a>索引种类</h3><table>
+<thead>
+<tr>
+<th>索引种类</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通索引</td>
+<td>最基本的索引，没有任何限制，仅加速查询</td>
+</tr>
+<tr>
+<td>唯一索引</td>
+<td>索引列的值必须唯一，但允许有空值</td>
+</tr>
+<tr>
+<td>主键索引</td>
+<td>一种特殊的唯一索引，不允许有空值 一般是在建表的同时自动创建主键索引</td>
+</tr>
+<tr>
+<td>复合索引</td>
+<td>两个或多个列上的索引被称作复合索引</td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>对文本内容进行分词索引</td>
+</tr>
+</tbody></table>
+<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><ul>
 <li><p>创建普通索引<br>CREATE INDEX indexName ON tableName(columnName(length))</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> name_idx <span class="keyword">on</span> base(<span class="keyword">name</span>);</span><br></pre></td></tr></table></figure>
 <p>CREATE UNIQUE INDEX indexName ON tableName(columnName(length))   </p>
@@ -1094,7 +1576,8 @@ join<br>阻塞等待线程结束</li>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">   <span class="comment">//TO_STRING首先会将x全部展开(如果x也是一个宏的话)，然后再传给TO_STRING1转换为字符串，现在你可以这样</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> TO_STRING( x ) TO_STRING1( x )</span></span><br><span class="line">   <span class="meta">#<span class="meta-keyword">define</span> TO_STRING1( x ) #x</span></span><br><span class="line">```  </span><br><span class="line">如果一个像函数的宏在使用时没有出现括号，那么预处理器只是将这个宏作为一般的符号处理(那就是不处理)</span><br><span class="line"></span><br><span class="line">#<span class="meta"># do...while(false)实现类似goto功能　　</span></span><br><span class="line">```cpp</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( A==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;　　<span class="comment">//跳出循环　</span></span><br><span class="line">        <span class="keyword">if</span>( B==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span>( C==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">if</span>( D==<span class="literal">false</span> )</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">//实现功能代码</span></span><br><span class="line">    &#125;<span class="keyword">while</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误处理代码</span></span><br></pre></td></tr></table></figure>
 <h2 id="void"><a href="#void" class="headerlink" title="void *"></a>void *</h2><h3 id="delete-void"><a href="#delete-void" class="headerlink" title="delete void*"></a>delete void*</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;使用delete　void* 仅仅释放内存而不执行析构，如果析构函数里释放内存则会存在内存泄露　</span><br><span class="line">&#x2F;&#x2F;解决　</span><br><span class="line">&#x2F;&#x2F;使用shared_ptr</span><br><span class="line">class A&#123;</span><br><span class="line">public:</span><br><span class="line">    A()&#123;</span><br><span class="line">       std::cout &lt;&lt; &quot;A()&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    ~A()&#123;</span><br><span class="line">       std::cout &lt;&lt; &quot;~A()&quot; &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void func(std::shared_ptr&lt;void&gt; var)&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    func(std::shared_ptr&lt;A&gt;(new A));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><a href="https://www.cnblogs.com/imjustice/p/how_shared_ptr_void_works.html" target="_blank" rel="noopener">std::shared_ptr<void>的工作原理</a></p>
-<h2 id="模板实现写在源文件里链接时会找不到定义"><a href="#模板实现写在源文件里链接时会找不到定义" class="headerlink" title="模板实现写在源文件里链接时会找不到定义　"></a>模板实现写在源文件里链接时会找不到定义　</h2>]]></content>
+<h2 id="模板实现写在源文件里链接时会找不到定义"><a href="#模板实现写在源文件里链接时会找不到定义" class="headerlink" title="模板实现写在源文件里链接时会找不到定义　"></a>模板实现写在源文件里链接时会找不到定义　</h2><h2 id="判断类中是否存在指定的方法-变量"><a href="#判断类中是否存在指定的方法-变量" class="headerlink" title="判断类中是否存在指定的方法, 变量"></a>判断类中是否存在指定的方法, 变量</h2><p><a href="https://cloud.tencent.com/developer/article/1433752" target="_blank" rel="noopener">C++11模板:如何判断类中是否有指定名称的成员变量</a><br><a href="https://blog.csdn.net/qq_31175231/article/details/77479692" target="_blank" rel="noopener">C++11 SFINEA规则_判断类是否存在某个成员函数</a><br><a href="https://blog.csdn.net/netyeaxi/article/details/83479646" target="_blank" rel="noopener">C++：如何判断类中是否存在特定的成员函数</a>     </p>
+]]></content>
       <categories>
         <category>c++</category>
       </categories>
