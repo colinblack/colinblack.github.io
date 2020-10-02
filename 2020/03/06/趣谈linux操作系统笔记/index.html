@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="核心原理篇  综述   操作系统内核体系结构图    linux 命令图谱    系统调用图谱     系统初始化  X86架构   计算机工作模式图    CPU组成 运算单元: 加法、位移 控制单元: CPU内部缓存和寄存器组 数据单元: 取指令， 根据指令取数据， 计算结果后存放数据   X86架构    程序执行过程图    总线 地址总线: 位数决定寻址的范围 数据总线: 位数决定一次">
+<meta name="description" content="核心原理篇 综述  操作系统内核体系结构图  linux 命令图谱  系统调用图谱   系统初始化 X86架构  计算机工作模式图  CPU组成 运算单元: 加法、位移 控制单元: CPU内部缓存和寄存器组 数据单元: 取指令， 根据指令取数据， 计算结果后存放数据 X86架构  程序执行过程图  总线 地址总线: 位数决定寻址的范围 数据总线: 位数决定一次能拿多少数据 8086 结构图:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="趣谈linux操作系统笔记">
 <meta property="og:url" content="http://yoursite.com/2020/03/06/%E8%B6%A3%E8%B0%88linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="核心原理篇  综述   操作系统内核体系结构图    linux 命令图谱    系统调用图谱     系统初始化  X86架构   计算机工作模式图    CPU组成 运算单元: 加法、位移 控制单元: CPU内部缓存和寄存器组 数据单元: 取指令， 根据指令取数据， 计算结果后存放数据   X86架构    程序执行过程图    总线 地址总线: 位数决定寻址的范围 数据总线: 位数决定一次">
+<meta property="og:description" content="核心原理篇 综述  操作系统内核体系结构图  linux 命令图谱  系统调用图谱   系统初始化 X86架构  计算机工作模式图  CPU组成 运算单元: 加法、位移 控制单元: CPU内部缓存和寄存器组 数据单元: 取指令， 根据指令取数据， 计算结果后存放数据 X86架构  程序执行过程图  总线 地址总线: 位数决定寻址的范围 数据总线: 位数决定一次能拿多少数据 8086 结构图:">
 <meta property="og:image" content="http://yoursite.com/images/linuxkernel_20200306.jpeg">
 <meta property="og:image" content="http://yoursite.com/images/linuxkernel_20200306_1.jpeg">
 <meta property="og:image" content="http://yoursite.com/images/linuxkernel_20200306_2.jpeg">
@@ -181,7 +181,7 @@
 
 
   <title> 趣谈linux操作系统笔记 | Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -272,7 +272,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -574,53 +574,32 @@ $(function() {
       
 
       
-        <h2 id="核心原理篇"><a class="markdownIt-Anchor" href="#核心原理篇"></a> 核心原理篇</h2>
-<h3 id="综述"><a class="markdownIt-Anchor" href="#综述"></a> 综述</h3>
+        <h2 id="核心原理篇">核心原理篇</h2>
+<h3 id="综述">综述</h3>
 <ul>
-<li>
-<p>操作系统内核体系结构图<br />
-<img src="/images/linuxkernel_20200306.jpeg" alt="p1" /></p>
-</li>
-<li>
-<p>linux 命令图谱<br />
-<img src="/images/linuxkernel_20200306_1.jpeg" alt="p2" /></p>
-</li>
-<li>
-<p>系统调用图谱<br />
-<img src="/images/linuxkernel_20200306_2.jpeg" alt="p3" /></p>
-</li>
+<li><p>操作系统内核体系结构图<br />
+<img src="/images/linuxkernel_20200306.jpeg" alt="p1" /></p></li>
+<li><p>linux 命令图谱 <img src="/images/linuxkernel_20200306_1.jpeg" alt="p2" /></p></li>
+<li><p>系统调用图谱 <img src="/images/linuxkernel_20200306_2.jpeg" alt="p3" /></p></li>
 </ul>
-<h3 id="系统初始化"><a class="markdownIt-Anchor" href="#系统初始化"></a> 系统初始化</h3>
-<h4 id="x86架构"><a class="markdownIt-Anchor" href="#x86架构"></a> X86架构</h4>
+<h3 id="系统初始化">系统初始化</h3>
+<h4 id="x86架构">X86架构</h4>
 <ul>
-<li>
-<p>计算机工作模式图<br />
-<img src="/images/linuxkernel_20200307_1.jpeg" alt="p4" /></p>
-</li>
-<li>
-<p>CPU组成<br />
+<li><p>计算机工作模式图<br />
+<img src="/images/linuxkernel_20200307_1.jpeg" alt="p4" /></p></li>
+<li><p>CPU组成<br />
 运算单元: 加法、位移<br />
 控制单元: CPU内部缓存和寄存器组<br />
-数据单元: 取指令， 根据指令取数据， 计算结果后存放数据</p>
-</li>
-<li>
-<p>X86架构<br />
-<img src="/images/linuxkernel_20200307_2.jpeg" alt="p5" /></p>
-</li>
-<li>
-<p>程序执行过程图<br />
-<img src="/images/linuxkernel_20200308_1.jpeg" alt="p6" /></p>
-</li>
-<li>
-<p>总线<br />
+数据单元: 取指令， 根据指令取数据， 计算结果后存放数据</p></li>
+<li><p>X86架构<br />
+<img src="/images/linuxkernel_20200307_2.jpeg" alt="p5" /></p></li>
+<li><p>程序执行过程图<br />
+<img src="/images/linuxkernel_20200308_1.jpeg" alt="p6" /></p></li>
+<li><p>总线<br />
 地址总线: 位数决定寻址的范围<br />
-数据总线: 位数决定一次能拿多少数据</p>
-</li>
-<li>
-<p>8086<br />
-结构图:<br />
-<img src="/images/linuxkernel_20200308_3.jpeg" alt="p7" /></p>
-</li>
+数据总线: 位数决定一次能拿多少数据</p></li>
+<li><p>8086 结构图:<br />
+<img src="/images/linuxkernel_20200308_3.jpeg" alt="p7" /></p></li>
 </ul>
 <p>寄存器:<br />
 8个16位通用寄存器，用于计算过程中暂存数据， AX、BX、CX、DX、SP、BP、SI、DI, 其中 AX、BX、CX、DX 可以分成两个 8 位的寄存器来使用，分别是 AH、AL、BH、BL、CH、CL、DH、DL<br />
@@ -630,15 +609,13 @@ $(function() {
 CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 通用寄存器中存放数据段的偏移地址<br />
 8086的地址总线位20位，寻址方式：起始地址*16+偏移量， 每个段的最大寻址64k</p>
 <ul>
-<li>80386<br />
-寄存器:<br />
+<li>80386 寄存器:<br />
 8个32位通用寄存器， 低16位保留了16位和八位的使用方式， 高16位没有分的原因是不兼容之前的架构(8080和8086最大寻址分别是2<sup>16和2</sup>20, 通用寄存器保存地址的偏移量,高16位地址已经大于2^16)<br />
 32位指令寄存器EIP<br />
 4个16位段寄存器<br />
 <img src="/images/linuxkernel_20200308_4.jpeg" alt="p8" /></li>
 </ul>
-<p>保护模式：<br />
-段的起始地址存放在内存的某个地方，这个地方是一个表格，表格里面一项项是段描述符， 这里面才是段的起始地址， 段寄存器里面存放的是表格中的哪一项，即选择子。 CPU从段寄存器中找到表格中的选择子， 然后简介找到段起始地址， 为了更快速的拿到段起始地址， 段寄存器会从内存中拿到 CPU 的描述符高速缓存器中<br />
+<p>保护模式： 段的起始地址存放在内存的某个地方，这个地方是一个表格，表格里面一项项是段描述符， 这里面才是段的起始地址， 段寄存器里面存放的是表格中的哪一项，即选择子。 CPU从段寄存器中找到表格中的选择子， 然后简介找到段起始地址， 为了更快速的拿到段起始地址， 段寄存器会从内存中拿到 CPU 的描述符高速缓存器中<br />
 <img src="/images/linuxkernel_20200308_5.jpeg" alt="p9" /></p>
 
       
@@ -861,7 +838,7 @@ CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心原理篇"><span class="nav-number">1.</span> <span class="nav-text"> 核心原理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#综述"><span class="nav-number">1.1.</span> <span class="nav-text"> 综述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统初始化"><span class="nav-number">1.2.</span> <span class="nav-text"> 系统初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#x86架构"><span class="nav-number">1.2.1.</span> <span class="nav-text"> X86架构</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心原理篇"><span class="nav-number">1.</span> <span class="nav-text">核心原理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#综述"><span class="nav-number">1.1.</span> <span class="nav-text">综述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统初始化"><span class="nav-number">1.2.</span> <span class="nav-text">系统初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#x86架构"><span class="nav-number">1.2.1.</span> <span class="nav-text">X86架构</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -1164,6 +1141,8 @@ CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 
 
 
   
+  
+
 
   
 
@@ -1298,7 +1277,24 @@ CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -167,7 +167,7 @@
 
 
   <title> Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -258,7 +258,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -505,7 +505,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  185
+                  106
                 </span>
               
 
@@ -545,14 +545,14 @@ $(function() {
       
         
           
-           动态规划
- 5.最长回文子串
-状态转移方程:
-子串长度大于２:
-P(i,j)=P(i+1,j−1)∧(Si==Sj)P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
-P(i,j)=P(i+1,j−1)∧(Si==Sj)
-否则:
-{P(i,i)=trueP(i,i+1)=(Si=
+          动态规划
+5.最长回文子串
+状态转移方程: 子串长度大于２: \[
+P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
+\] 否则: \[
+\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
+\]
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -687,7 +687,7 @@ P(i,j)=P(i+1,j−1)∧(Si==Sj)
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  253
+                  259
                 </span>
               
 
@@ -727,11 +727,7 @@ P(i,j)=P(i+1,j−1)∧(Si==Sj)
       
         
           
-          ##　Tcp中的异常处理　
-当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息:
-
-connect一个不存在的端口，客户端会收到一条RST，报错Connection refused
-程序崩溃或异常退出，
+          ##　Tcp中的异常处理　 当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息: 1. connect一个不存在的端口，客户端会收到一条RST，报错Connection refused 2. 程序崩溃或
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -928,15 +924,15 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
       
         
           
-           内存管理
- 物理内存管理
- 页
- 区域
- 内存分配
- Slab, Slub, Slob
- 高端内存
- Per-CPU
- 虚拟内存
+          内存管理　
+物理内存管理　
+页
+区域　
+内存分配　
+Slab, Slub, Slob
+高端内存　
+Per-CPU
+虚拟内存　
 
           
           <!--noindex-->
@@ -1072,7 +1068,7 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2.9k
+                  3k
                 </span>
               
 
@@ -1112,20 +1108,15 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
       
         
           
-           消息队列
- 为什么使用消息队列
+          消息队列　
+为什么使用消息队列　
 
-
-解耦
-解耦前:
+解耦 解耦前:
 
 解耦后:
 
-
-
 异步
 同步:
-
 
 
 异步:
@@ -1137,16 +1128,20 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
 
 削峰后:
 
- 消息队列优缺点
+消息队列优缺点　　
 
- kafka, activemq, rabbitmq, rocketmq都有哪些优缺点
+interview_2020080407
+
+kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　
 
 
 
-特性
-ActiveMQ
-RabbitMQ
-Rock
+
+
+
+
+
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1303,7 +1298,7 @@ Rock
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  410
+                  411
                 </span>
               
 
@@ -1343,23 +1338,22 @@ Rock
       
         
           
-           需求原型设计
+          需求原型设计
 主要设计页面(墨刀原型设计工具)
 
 前台用户登录页面，商品展示页面，抢购结果页面
 后台订单管理页面
 
- 系统架构设计
+系统架构设计
 
 前端页面需要承载大流量
 在大并发状态下要解决超卖问题
-后端接口需要满足横向扩展
+后端接口需要满足横向扩展 
 
-
- RabbitMQ
+RabbitMQ
 
 定义和特征
-RabbitMQ是面向消息的中间件，用于组件之
+RabbitMQ是面向消息的中间件，用于组件之间的解
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1556,8 +1550,7 @@ RabbitMQ是面向消息的中间件，用于组件之
       
         
           
-          如果对象数组中没有默认构造函数，要像下面这样初始化:
-1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt;
+          如果对象数组中没有默认构造函数，要像下面这样初始化: 1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt;
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1754,10 +1747,10 @@ RabbitMQ是面向消息的中间件，用于组件之
       
         
           
-           基本操作
+          基本操作
 12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名
- 创建表
-123456789101112131415#语法  CREA
+创建表
+123456789101112131415#语法  CREATE
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1914,7 +1907,7 @@ RabbitMQ是面向消息的中间件，用于组件之
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  283
+                  267
                 </span>
               
 
@@ -1955,21 +1948,16 @@ RabbitMQ是面向消息的中间件，用于组件之
         
           
           
-
 makefile中赋值号
-=  直接赋值
+= 直接赋值
 := 把之前的值替换掉
 ?= 如果变量中没值则赋值，有值则不赋值
 += 在变量未追加
-
-
 makefile中的shell
 作用域
 目标项冒号后另起一行才是shell代码
-$(shell  这里是shell代码)
-
-
-123456789101112defi
+$(shell 这里是shell代码)
+123456789101112define get_
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2166,8 +2154,8 @@ $(shell  这里是shell代码)
       
         
           
-           语法
-1234567891011121314#! /bin/bash                                                                                                                   
+          语法
+1234567891011121314#! /bin/bash                                                                                                                    
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2364,20 +2352,16 @@ $(shell  这里是shell代码)
       
         
           
-            
- 项目构建
-
+          
+项目构建
 
 个人
-
-
 
 公司
 
 
-
- 工具
-12345678go fmt -w *.go   //格式化代码 go fmt github.com/hello   go run  src/xx/xx.go  //编译+执行go build -o /bin/test /src/test  //
+工具
+12345678go fmt -w *.go   //格式化代码 go fmt github.com/hello   go run  src/xx/xx.go  //编译+执行go build -o /bin/test /src/test  //编译生成二进制文
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2835,6 +2819,28 @@ $(shell  这里是shell代码)
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
@@ -2969,7 +2975,24 @@ $(shell  这里是shell代码)
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="makefile中赋值号 &#x3D;  直接赋值 :&#x3D; 把之前的值替换掉 ?&#x3D; 如果变量中没值则赋值，有值则不赋值 +&#x3D; 在变量未追加   makefile中的shell 作用域 目标项冒号后另起一行才是shell代码 $(shell  这里是shell代码)   123456789101112define get_trunk_path      trunk_path&#x3D;&#96;pwd&#96;; \     for">
+<meta name="description" content="makefile中赋值号 &#x3D; 直接赋值 :&#x3D; 把之前的值替换掉 ?&#x3D; 如果变量中没值则赋值，有值则不赋值 +&#x3D; 在变量未追加 makefile中的shell 作用域 目标项冒号后另起一行才是shell代码 $(shell 这里是shell代码) 123456789101112define get_trunk_path      trunk_path&#x3D;&#96;pwd&#96;; \     for dir in">
 <meta property="og:type" content="article">
 <meta property="og:title" content="makefile">
 <meta property="og:url" content="http://yoursite.com/2020/07/04/makefile/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="makefile中赋值号 &#x3D;  直接赋值 :&#x3D; 把之前的值替换掉 ?&#x3D; 如果变量中没值则赋值，有值则不赋值 +&#x3D; 在变量未追加   makefile中的shell 作用域 目标项冒号后另起一行才是shell代码 $(shell  这里是shell代码)   123456789101112define get_trunk_path      trunk_path&#x3D;&#96;pwd&#96;; \     for">
+<meta property="og:description" content="makefile中赋值号 &#x3D; 直接赋值 :&#x3D; 把之前的值替换掉 ?&#x3D; 如果变量中没值则赋值，有值则不赋值 +&#x3D; 在变量未追加 makefile中的shell 作用域 目标项冒号后另起一行才是shell代码 $(shell 这里是shell代码) 123456789101112define get_trunk_path      trunk_path&#x3D;&#96;pwd&#96;; \     for dir in">
 <meta property="article:published_time" content="2020-07-04T13:40:24.000Z">
 <meta property="article:modified_time" content="2020-07-04T14:01:00.182Z">
 <meta property="article:author" content="Colinblack">
@@ -171,7 +171,7 @@
 
 
   <title> makefile | Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -262,7 +262,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -526,7 +526,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  283
+                  267
                 </span>
               
 
@@ -565,29 +565,23 @@ $(function() {
 
       
         <ul>
-<li>
-<p>makefile中赋值号<br />
-=  直接赋值<br />
+<li><p>makefile中赋值号<br />
+= 直接赋值<br />
 := 把之前的值替换掉<br />
 ?= 如果变量中没值则赋值，有值则不赋值<br />
-+= 在变量未追加</p>
-</li>
-<li>
-<p>makefile中的shell<br />
++= 在变量未追加</p></li>
+<li><p>makefile中的shell<br />
 作用域<br />
 目标项冒号后另起一行才是shell代码<br />
-$(shell  这里是shell代码)</p>
-</li>
+$(shell 这里是shell代码)<br />
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">define</span> get_trunk_path  </span><br><span class="line">    trunk_path=`pwd`; \ </span><br><span class="line">    for dir in <span class="variable">$(dirs)</span>; do \ </span><br><span class="line">      if [[ $$&#123;trunk_path&#125; = *$$dir* ]]; then \ </span><br><span class="line">        trunk_path=`echo $$&#123;trunk_path&#125; | sed <span class="string">"s/\/$$dir.*//"</span>`; \</span><br><span class="line">        break; \    </span><br><span class="line">      fi \    </span><br><span class="line">    done; \</span><br><span class="line">    echo $$&#123;trunk_path&#125;</span><br><span class="line"><span class="keyword">endef</span>  </span><br><span class="line"></span><br><span class="line">PATH_PLATFORM_PRJ := <span class="variable">$(<span class="built_in">shell</span> $(<span class="built_in">call</span> get_trunk_path)</span>)</span><br></pre></td></tr></table></figure> makefile中的shell，每一行是一个进程，不同行之间变量值不能传递。所以，Makefile中的shell不管多长也要写在一行，每行后面加; 如上例</p></li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">define</span> get_trunk_path  </span><br><span class="line">    trunk_path=`pwd`; \ </span><br><span class="line">    for dir in <span class="variable">$(dirs)</span>; do \ </span><br><span class="line">      if [[ $$&#123;trunk_path&#125; = *$$dir* ]]; then \ </span><br><span class="line">        trunk_path=`echo $$&#123;trunk_path&#125; | sed <span class="string">"s/\/$$dir.*//"</span>`; \</span><br><span class="line">        break; \    </span><br><span class="line">      fi \    </span><br><span class="line">    done; \</span><br><span class="line">    echo $$&#123;trunk_path&#125;</span><br><span class="line"><span class="keyword">endef</span>  </span><br><span class="line"></span><br><span class="line">PATH_PLATFORM_PRJ := <span class="variable">$(<span class="built_in">shell</span> $(<span class="built_in">call</span> get_trunk_path)</span>)</span><br></pre></td></tr></table></figure>
-<p>makefile中的shell，每一行是一个进程，不同行之间变量值不能传递。所以，Makefile中的shell不管多长也要写在一行，每行后面加;\ 如上例</p>
-<p>makefile定义的变量使用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><mi>v</mi><mi>a</mi><mi>r</mi></mrow><mo separator="true">,</mo><mi>s</mi><mi>h</mi><mi>e</mi><mi>l</mi><mi>l</mi><mi mathvariant="normal">定</mi><mi mathvariant="normal">义</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">使</mi><mi mathvariant="normal">用</mi></mrow><annotation encoding="application/x-tex">{var}, shell定义的变量使用</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord cjk_fallback">定</span><span class="mord cjk_fallback">义</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">使</span><span class="mord cjk_fallback">用</span></span></span></span>${var}</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//运行方式，直接make</span><br><span class="line">PATH=<span class="string">"data"</span></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">   echo &#123;PATH&#125;</span><br><span class="line">   PATH=<span class="string">"555"</span>;\</span><br><span class="line">   echo $&#123;PATH&#125;;\ //data</span><br><span class="line">   echo $$&#123;PATH&#125; //555</span><br></pre></td></tr></table></figure>
-<p>makefile中赋值可以这样写var = 123, shell中不能留空格var=123</p>
+<p>makefile定义的变量使用<span class="math inline">\({var}, shell定义的变量使用\)</span>${var}<br />
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//运行方式，直接make</span><br><span class="line">PATH=<span class="string">"data"</span></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">   echo &#123;PATH&#125;</span><br><span class="line">   PATH=<span class="string">"555"</span>;\</span><br><span class="line">   echo $&#123;PATH&#125;;\ //data</span><br><span class="line">   echo $$&#123;PATH&#125; //555</span><br></pre></td></tr></table></figure> makefile中赋值可以这样写var = 123, shell中不能留空格var=123</p>
 <ul>
-<li>makefile中的模式规则</li>
+<li>makefile中的模式规则<br />
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">%:%.cpp  #冒号左边表示所有的target, 右边表示依赖的cpp文件           </span></span><br><span class="line">  g++ <span class="variable">$&lt;</span> -o <span class="variable">$@</span>   <span class="comment">#"$&lt;"表示了所有依赖目标的挨个值, "$@"表示所有的目标的挨个值</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">%:%.cpp  #冒号左边表示所有的target, 右边表示依赖的cpp文件           </span></span><br><span class="line">  g++ <span class="variable">$&lt;</span> -o <span class="variable">$@</span>   <span class="comment">#"$&lt;"表示了所有依赖目标的挨个值, "$@"表示所有的目标的挨个值</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1087,6 +1081,8 @@ $(shell  这里是shell代码)</p>
 
 
   
+  
+
 
   
 
@@ -1221,7 +1217,24 @@ $(shell  这里是shell代码)</p>
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

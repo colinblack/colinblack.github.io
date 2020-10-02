@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -110,14 +110,14 @@
 
 
 
-<meta name="description" content="动态规划  5.最长回文子串 状态转移方程: 子串长度大于２: P(i,j)&#x3D;P(i+1,j−1)∧(Si&#x3D;&#x3D;Sj)P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  P(i,j)&#x3D;P(i+1,j−1)∧(Si&#x3D;&#x3D;Sj) 否则: {P(i,i)&#x3D;trueP(i,i+1)&#x3D;(Si&#x3D;&#x3D;Si+1)\begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (">
+<meta name="description" content="动态规划 5.最长回文子串 状态转移方程: 子串长度大于２: \[ P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  \] 否则: \[ \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases} \] 遍历方式:  斜着遍历 从上至下遍历  91.解码方法 状态转移方程: \[ f(i)&#x3D;\begin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode题解">
 <meta property="og:url" content="http://yoursite.com/2020/08/27/leetcode%E9%A2%98%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="动态规划  5.最长回文子串 状态转移方程: 子串长度大于２: P(i,j)&#x3D;P(i+1,j−1)∧(Si&#x3D;&#x3D;Sj)P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  P(i,j)&#x3D;P(i+1,j−1)∧(Si&#x3D;&#x3D;Sj) 否则: {P(i,i)&#x3D;trueP(i,i+1)&#x3D;(Si&#x3D;&#x3D;Si+1)\begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (">
+<meta property="og:description" content="动态规划 5.最长回文子串 状态转移方程: 子串长度大于２: \[ P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  \] 否则: \[ \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases} \] 遍历方式:  斜着遍历 从上至下遍历  91.解码方法 状态转移方程: \[ f(i)&#x3D;\begin">
 <meta property="article:published_time" content="2020-08-26T23:33:46.000Z">
-<meta property="article:modified_time" content="2020-09-02T12:25:48.435Z">
+<meta property="article:modified_time" content="2020-09-02T14:23:09.454Z">
 <meta property="article:author" content="Colinblack">
 <meta property="article:tag" content="面试">
 <meta name="twitter:card" content="summary">
@@ -172,7 +172,7 @@
 
 
   <title> leetcode题解 | Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -263,7 +263,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -505,7 +505,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  185
+                  106
                 </span>
               
 
@@ -543,24 +543,22 @@ $(function() {
       
 
       
-        <h3 id="动态规划"><a class="markdownIt-Anchor" href="#动态规划"></a> 动态规划</h3>
-<h4 id="5最长回文子串"><a class="markdownIt-Anchor" href="#5最长回文子串"></a> 5.最长回文子串</h4>
-<p>状态转移方程:<br />
-子串长度大于２:</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>j</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>∧</mo><mo stretchy="false">(</mo><mi>S</mi><mi>i</mi><mo>=</mo><mo>=</mo><mi>S</mi><mi>j</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∧</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span></span></span></span></span></p>
-<p>否则:</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo fence="true">{</mo><mtable rowspacing="0.3599999999999999em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi>S</mi><mi>i</mi><mo>=</mo><mo>=</mo><mi>S</mi><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr></mtable></mrow><annotation encoding="application/x-tex">\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.0000299999999998em;vertical-align:-1.25003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+        <h3 id="动态规划">动态规划</h3>
+<h4 id="最长回文子串">5.最长回文子串</h4>
+<p>状态转移方程: 子串长度大于２: <span class="math display">\[
+P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
+\]</span> 否则: <span class="math display">\[
+\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
+\]</span></p>
 <p>遍历方式:</p>
-<ol>
+<ol type="1">
 <li>斜着遍历</li>
 <li>从上至下遍历</li>
 </ol>
-<h4 id="91解码方法"><a class="markdownIt-Anchor" href="#91解码方法"></a> 91.解码方法</h4>
-<p>状态转移方程:</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.3599999999999999em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>1</mn><mo separator="true">,</mo><mspace width="1em"/><mi>i</mi><mo>=</mo><mn>0</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mi>f</mi><mo stretchy="false">(</mo><mi>i</mi><mo>−</mo><mn>2</mn><mo stretchy="false">)</mo><mo stretchy="false">{</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>=</mo><mn>1</mn><mi>o</mi><mi>r</mi><mi>i</mi><mo>−</mo><mn>1</mn><mo>=</mo><mn>2</mn><mi>a</mi><mi>n</mi><mi>d</mi><mi>i</mi><mo>&lt;</mo><mn>7</mn><mo stretchy="false">}</mo><mo separator="true">,</mo><mspace width="1em"/><mi>i</mi><mo>&gt;</mo><mn>0</mn></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i &lt; 7\},\quad i&gt;0 \end{cases}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0000299999999998em;vertical-align:-1.25003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">0</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mopen">{</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">1</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">2</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">7</span><span class="mclose">}</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<h4 id="解码方法">91.解码方法</h4>
+<p>状态转移方程: <span class="math display">\[
+f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i &lt; 7\},\quad i&gt;0 \end{cases}
+\]</span></p>
 
       
     </div>
@@ -784,7 +782,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">1.</span> <span class="nav-text"> 动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5最长回文子串"><span class="nav-number">1.1.</span> <span class="nav-text"> 5.最长回文子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#91解码方法"><span class="nav-number">1.2.</span> <span class="nav-text"> 91.解码方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">1.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最长回文子串"><span class="nav-number">1.1.</span> <span class="nav-text">5.最长回文子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解码方法"><span class="nav-number">1.2.</span> <span class="nav-text">91.解码方法</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1087,6 +1085,28 @@ $(function() {
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
@@ -1221,7 +1241,24 @@ $(function() {
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

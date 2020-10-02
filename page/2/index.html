@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -167,7 +167,7 @@
 
 
   <title> Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -258,7 +258,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -567,9 +567,9 @@ $(function() {
       
         
           
-            
- 内核C中结构体初始化
-1234567891011121314151617181920struct A&#123;  int a;  int b;&#125;;# define __percpu       __attribute__((noderef, address_space(3)))s
+          
+内核C中结构体初始化
+1234567891011121314151617181920struct A&#123;  int a;  int b;&#125;;# define __percpu       __attribute__((noderef, address_space(3)))stru
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -766,7 +766,7 @@ $(function() {
       
         
           
-           
+          
 
 non-blocking 和 IO multiplexing 一起使用
 
@@ -967,10 +967,10 @@ non-blocking 和 IO multiplexing 一起使用
       
         
           
-            
- exec函数簇和system区别
+          
+exec函数簇和system区别
 exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行
- 守护进程
+守护进程
 守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径
 
           
@@ -1170,13 +1170,11 @@ exec是新进程复制原来的进程， pid不变， exec后的代码不会被�
         
           
           
- 函数模板
+函数模板
 定义模板是不会生成代码，只有当实例化时才会生成
- 类型模板参数
-1234template&lt;class T&gt;T add(T a, T b)&#123;    return a + b;&#125;
- 非类型模板参数
-非类型是指不是泛型， 即基本类型
-即显示使用&lt;&gt;
+### 类型模板参数 1234template&lt;class T&gt;T add(T a, T b)&#123;    return a + b;&#125;
+非类型模板参数
+非类型是指不是泛型， 即基本类型 即显示使用&lt;&gt
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1374,11 +1372,10 @@ exec是新进程复制原来的进程， pid不变， exec后的代码不会被�
         
           
           
- 简介
+简介
 PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。
- 安装
-wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz
-ta
+安装
+wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1575,37 +1572,28 @@ ta
       
         
           
-           核心原理篇
- 综述
-
+          核心原理篇
+综述
 
 操作系统内核体系结构图
 
+linux 命令图谱 
+系统调用图谱 
 
-
-linux 命令图谱
-
-
-
-系统调用图谱
-
-
-
- 系统初始化
- X86架构
-
+系统初始化
+X86架构
 
 计算机工作模式图
-
-
 
 CPU组成
 运算单元: 加法、位移
 控制单元: CPU内部缓存和寄存器组
 数据单元: 取指令， 根据指令取数据， 计算结果后存放数据
+X86架构
+
+程序执行过程图
 
 
-X
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1803,16 +1791,19 @@ X
         
           
           
- 基础
- MySQL 执行一条查询语句的内部执行过程
+基础
+MySQL 执行一条查询语句的内部执行过程
 
 答案：
 链接器=》分析器=》优化器=》执行器=》存储引擎
 
 
+
 客户端先通过连接器连接到 MySQL 服务器
+
 连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器
-分析器会对查
+
+分析器会对
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2009,11 +2000,10 @@ X
       
         
           
-           数据类型
+          数据类型
 
 数值
-
-123456789类型      所占字节       说明tinyint    1            小整数值，如状态smallint   2            大整数值mediumint  3            大整数值int        4         
+123456789类型      所占字节       说明tinyint    1            小整数值，如状态smallint   2            大整数值mediumint  3            大整数值int        4           
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2211,12 +2201,8 @@ X
         
           
           
- c++11中创建线程
-创建线程的几种方式
-
-使用全局函数或类静态函数
-
-1234void threadFunc()&#123;    std::cout &lt;&lt; "subThread" &lt;&lt; std::endl;&#125;std::thread t1(threadFunc
+c++11中创建线程
+创建线程的几种方式 * 使用全局函数或类静态函数 1234void threadFunc()&#123;    std::cout &lt;&lt; "subThread" &lt;&lt; std::endl;&#125;std::thread t1(threadFunc)
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2413,9 +2399,9 @@ X
       
         
           
-            
- 第二章 Linux内核体系结构
- Linux内核模式
+          
+第二章 Linux内核体系结构
+Linux内核模式
 操作系统体系结构模式主要分为：
 整体式单内核(宏内核)
 层次式微内核
@@ -2424,8 +2410,8 @@ X
 执行系统调用的服务层
 支持系统调用的底层函数
 
- Linux内核系统体系结构
-Linux内核主要由5个模块构成：进程调度模块，内
+Linux内核系统体系结构
+Linux内核主要由5个模块构成：进程调度模块，内存管理模块
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2883,6 +2869,28 @@ Linux内核主要由5个模块构成：进程调度模块，内
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
@@ -3017,7 +3025,24 @@ Linux内核主要由5个模块构成：进程调度模块，内
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

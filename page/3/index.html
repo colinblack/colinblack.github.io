@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -167,7 +167,7 @@
 
 
   <title> Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -258,7 +258,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -566,7 +566,7 @@ $(function() {
 
       
         
-          <h2 id="tcp和udp的区别"><a class="markdownIt-Anchor" href="#tcp和udp的区别"></a> TCP和UDP的区别</h2>
+          <h2 id="tcp和udp的区别">TCP和UDP的区别</h2>
 <p>tcp连接是永久的只要没断开<br />
 tcp连接是指tcp协议栈维护的状态<br />
 tcp 流式协议，数据是有序的。面向连接可靠，慢，开销大，容易受攻击<br />
@@ -726,7 +726,7 @@ udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.6k
+                  1.7k
                 </span>
               
 
@@ -765,7 +765,7 @@ udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快
 
       
         
-          <h2 id="移动构造函数中如果有拷贝动态内存要注意将指针赋空"><a class="markdownIt-Anchor" href="#移动构造函数中如果有拷贝动态内存要注意将指针赋空"></a> 移动构造函数中如果有拷贝动态内存要注意将指针赋空</h2>
+          <h2 id="移动构造函数中如果有拷贝动态内存要注意将指针赋空">移动构造函数中如果有拷贝动态内存要注意将指针赋空</h2>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    A() : m_ptr(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">0</span>))&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"construct"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">    A(<span class="keyword">const</span> A&amp; a) : m_ptr(a.m_ptr)&#123;<span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"copy construct"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">    A(A&amp;&amp; a) : m_ptr(a.m_ptr)&#123;a.m_ptr = <span class="literal">nullptr</span>; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"move construct"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line">    ~A()&#123;<span class="keyword">delete</span> m_ptr; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"destruct"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;&#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span>* m_ptr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1223,6 +1223,28 @@ udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
@@ -1357,7 +1379,24 @@ udp 数据报协议，数据不保证有序。不需要连接， 不可靠，快
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

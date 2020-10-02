@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="简介 PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。  安装 wget https:&#x2F;&#x2F;nixos.org&#x2F;releases&#x2F;patchelf&#x2F;patchelf-0.10&#x2F;patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 .&#x2F;co">
+<meta name="description" content="简介 PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。 安装 wget https:&#x2F;&#x2F;nixos.org&#x2F;releases&#x2F;patchelf&#x2F;patchelf-0.10&#x2F;patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 .&#x2F;conf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="patchelf">
 <meta property="og:url" content="http://yoursite.com/2020/03/26/%E5%B7%A5%E5%85%B7/patchelf/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="简介 PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。  安装 wget https:&#x2F;&#x2F;nixos.org&#x2F;releases&#x2F;patchelf&#x2F;patchelf-0.10&#x2F;patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 .&#x2F;co">
+<meta property="og:description" content="简介 PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。 安装 wget https:&#x2F;&#x2F;nixos.org&#x2F;releases&#x2F;patchelf&#x2F;patchelf-0.10&#x2F;patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 .&#x2F;conf">
 <meta property="article:published_time" content="2020-03-26T13:09:29.000Z">
 <meta property="article:modified_time" content="2020-03-26T13:25:49.000Z">
 <meta property="article:author" content="Colinblack">
@@ -171,7 +171,7 @@
 
 
   <title> patchelf | Colin's Home </title>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
   	 <!-- custom analytics part create by xiamo -->
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
@@ -262,7 +262,7 @@ $(function() {
 
 
 
-  <script type="text/javascript">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
@@ -565,63 +565,37 @@ $(function() {
 
       
         <a id="more"></a>
-<h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<h2 id="简介">简介</h2>
 <p>PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。</p>
-<h2 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h2>
-<p>wget <a href="https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz" target="_blank" rel="noopener">https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz</a><br />
-tar -zxvf patchelf-0.10.tar.gz<br />
-cd patchelf-0.10<br />
-./configure --prefix=/usr/local<br />
-make &amp;&amp; make install</p>
-<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
-<h3 id="修改动态库的rpath"><a class="markdownIt-Anchor" href="#修改动态库的rpath"></a> 修改动态库的rpath</h3>
+<h2 id="安装">安装</h2>
+<p>wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 ./configure --prefix=/usr/local make &amp;&amp; make install</p>
+<h2 id="使用">使用</h2>
+<h3 id="修改动态库的rpath">修改动态库的rpath</h3>
 <p>rpath全称是run-time search path。Linux下所有elf格式的文件都包含它，特别是可执行文件。它规定了可执行文件在寻找.so文件时的第一优先位置. linux下在链接共享库的时候可以通过rpath选项来指定运行时共享库加载路径。通过这个选项指定的路径会写到ELF文件dynamic段的RPATH里, 运行时链接器会在此路径下搜索ELF文件所依赖的共享库</p>
 <p>编译代码时如果不指定所依赖动态库的路径很可能会编译报错<br />
-有如下解决方法:</p>
-<ul>
-<li>将所依赖的动态库路径添加到LD_LIBRARY_PATH环境变量中</li>
-<li>链接时直接将搜索路径写到rpath中，如:<br />
-gcc -L. -larith main.c -Wl,-rpath=依赖动态库所在路径 -o main<br />
-readelf -d main | grep PATH   //查看rpath<br />
-如果我们拿到的时已经编译好的可执行文件，就不能像方法2一样指定rpath,<br />
-这时可以使用pathelf, 它可以修改elf文件，如:<br />
-patchelf  --set-rpath 依赖动态库路径 main 或<br />
-patchelf  --set-rpath ‘$ORIGIN/lib’ main //ORIGIN会在运行时解析成程序所在路径</li>
-<li>ldd main //查看可执行程序依赖动态库</li>
-</ul>
-<p>–set-rpath 实际上是修改runpath, 关于rpath和runpath的区别，前者不会覆盖LD_LIBARAY_PATH, 后者会推荐使用后者</p>
-<p>–force-rpath pathelf的默认动作是修改runpath, 如果要修改rpath就要加上该字段</p>
+有如下解决方法: * 将所依赖的动态库路径添加到LD_LIBRARY_PATH环境变量中 * 链接时直接将搜索路径写到rpath中，如: gcc -L. -larith main.c -Wl,-rpath=依赖动态库所在路径 -o main readelf -d main | grep PATH //查看rpath 如果我们拿到的时已经编译好的可执行文件，就不能像方法2一样指定rpath, 这时可以使用pathelf, 它可以修改elf文件，如: patchelf --set-rpath 依赖动态库路径 main 或 patchelf --set-rpath '$ORIGIN/lib' main //ORIGIN会在运行时解析成程序所在路径 * ldd main //查看可执行程序依赖动态库</p>
+<p>--set-rpath 实际上是修改runpath, 关于rpath和runpath的区别，前者不会覆盖LD_LIBARAY_PATH, 后者会推荐使用后者</p>
+<p>--force-rpath pathelf的默认动作是修改runpath, 如果要修改rpath就要加上该字段</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patchelf [--force-rpath] --set-rpath &quot;&lt;desired-rpath&gt;&quot; &lt;path-to-elf&gt;</span><br></pre></td></tr></table></figure>
 <p><desired-path> 是用逗号分隔的目录列表，例如： /my/libs:/my/other/libs<br />
-如果指定–force-rpath，则设置RPATH，否则设置RUNPATH</p>
-<h3 id="修改动态库的名称"><a class="markdownIt-Anchor" href="#修改动态库的名称"></a> 修改动态库的名称</h3>
-<p>如果有这样的场景: 某一个库依赖了一个第三库库的版本1，另外一个库依赖了同样的这个第三库的版本2，两个库的名字是一样的，程序运行时两个动态库都要加载，但是加载的时候由于第三库版本不一致导致程序运行过程中崩溃。这种情况下就可以通关patchelf修改其中一个的依赖库的名字，从而达到同时加载不同版本的动态库的效果，解决运行中的崩溃问题。<br />
-相关命令:<br />
-patchelf --print-needed <a href="http://test.so" target="_blank" rel="noopener">test.so</a> //查看依赖动态库，<a href="http://xn--test-um7fr362a.xn--soa-ye0er53z.so" target="_blank" rel="noopener">假设test.so依赖a.so</a><br />
-patchelf --replace-needed <a href="http://a.so" target="_blank" rel="noopener">a.so</a> <a href="http://b.so" target="_blank" rel="noopener">b.so</a> <a href="http://test.so" target="_blank" rel="noopener">test.so</a> <a href="//xn--a-4i2b.xn--sob-qt5fn3l.so" target="_blank" rel="noopener">//将a.so改成b.so</a></p>
-<h3 id="删除rpath中未使用的路径"><a class="markdownIt-Anchor" href="#删除rpath中未使用的路径"></a> 删除rpath中未使用的路径</h3>
+如果指定--force-rpath，则设置RPATH，否则设置RUNPATH</p>
+<h3 id="修改动态库的名称">修改动态库的名称</h3>
+<p>如果有这样的场景: 某一个库依赖了一个第三库库的版本1，另外一个库依赖了同样的这个第三库的版本2，两个库的名字是一样的，程序运行时两个动态库都要加载，但是加载的时候由于第三库版本不一致导致程序运行过程中崩溃。这种情况下就可以通关patchelf修改其中一个的依赖库的名字，从而达到同时加载不同版本的动态库的效果，解决运行中的崩溃问题。 相关命令: patchelf --print-needed test.so //查看依赖动态库，假设test.so依赖a.so patchelf --replace-needed a.so b.so test.so //将a.so改成b.so</p>
+<h3 id="删除rpath中未使用的路径">删除rpath中未使用的路径</h3>
 <pre><code>patchelf --shrink-rpath 可执行文件
-patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   
-</code></pre>
-<h3 id="修改动态链接器dynamic-linker"><a class="markdownIt-Anchor" href="#修改动态链接器dynamic-linker"></a> 修改动态链接器(dynamic linker)</h3>
-<p>在实际运行程序时，经常会遇到一个问题，电脑上安装的glibc版本不符合要求，由于glibc是最底层的库，不可能重新编译glibc，这样会导致系统崩溃。两种方法修改：<br />
-有代码的情况下，gcc main.c -o main - -Wl --dynamic-linker 动态链接库路径<br />
-二进制文件情况下，patchelf --set-interpreter 动态链接库路径 可执行文件</p>
-<h2 id="兼容性"><a class="markdownIt-Anchor" href="#兼容性"></a> 兼容性</h2>
-<p>PatchELF已在i386-linux， x86_64-linux和powerpc-linux上进行了测试。它能在所有32位或64位，大端或小端   Linux平台上运行。稍作修改，它也可以在其他ELF平台上运行</p>
-<p>关于动态库的搜索：<br />
-<a href="https://blog.csdn.net/FoxBryant/article/details/53389804" target="_blank" rel="noopener">https://blog.csdn.net/FoxBryant/article/details/53389804</a><br />
-<a href="https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox" target="_blank" rel="noopener">https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox</a><br />
-<a href="https://en.wikipedia.org/wiki/Rpath" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Rpath</a></p>
+patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   </code></pre>
+<h3 id="修改动态链接器dynamic-linker">修改动态链接器(dynamic linker)</h3>
+<p>在实际运行程序时，经常会遇到一个问题，电脑上安装的glibc版本不符合要求，由于glibc是最底层的库，不可能重新编译glibc，这样会导致系统崩溃。两种方法修改： 有代码的情况下，gcc main.c -o main - -Wl --dynamic-linker 动态链接库路径 二进制文件情况下，patchelf --set-interpreter 动态链接库路径 可执行文件</p>
+<h2 id="兼容性">兼容性</h2>
+<p>PatchELF已在i386-linux， x86_64-linux和powerpc-linux上进行了测试。它能在所有32位或64位，大端或小端 Linux平台上运行。稍作修改，它也可以在其他ELF平台上运行</p>
+<p>关于动态库的搜索： https://blog.csdn.net/FoxBryant/article/details/53389804 https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox https://en.wikipedia.org/wiki/Rpath</p>
 <pre><code>                                                                                                                         https://nixos.org/patchelf.html
                                                                                                                           https://www.dazhuanlan.com/2019/09/24/5d89371175726/
                                                                                                                          https://blog.csdn.net/force_eagle/article/details/48263365
                                                                                                                          https://www.jianshu.com/p/505a32ccdc91
                                                                                                                          http://shibing.github.io/2016/08/20/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%B8%8Erpath/
-                                                                                                                         https://blog.csdn.net/farmwang/article/details/73195799                                                                                                                     https://cqlin1995.github.io/2018/06/26/%E8%BF%90%E8%A1%8C%E4%B8%8D%E5%90%8Cglibc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%87%E4%BB%B6/
-</code></pre>
-<p>ORIGIN<br />
-<a href="https://medium.com/@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98" target="_blank" rel="noopener">https://medium.com/@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98</a></p>
+                                                                                                                         https://blog.csdn.net/farmwang/article/details/73195799                                                                                                                     https://cqlin1995.github.io/2018/06/26/%E8%BF%90%E8%A1%8C%E4%B8%8D%E5%90%8Cglibc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%87%E4%BB%B6/</code></pre>
+<p>ORIGIN https://medium.com/<span class="citation" data-cites="nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98">@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98</span></p>
 
       
     </div>
@@ -843,7 +817,7 @@ patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text"> 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text"> 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态库的rpath"><span class="nav-number">3.1.</span> <span class="nav-text"> 修改动态库的rpath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态库的名称"><span class="nav-number">3.2.</span> <span class="nav-text"> 修改动态库的名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除rpath中未使用的路径"><span class="nav-number">3.3.</span> <span class="nav-text"> 删除rpath中未使用的路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态链接器dynamic-linker"><span class="nav-number">3.4.</span> <span class="nav-text"> 修改动态链接器(dynamic linker)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#兼容性"><span class="nav-number">4.</span> <span class="nav-text"> 兼容性</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态库的rpath"><span class="nav-number">3.1.</span> <span class="nav-text">修改动态库的rpath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态库的名称"><span class="nav-number">3.2.</span> <span class="nav-text">修改动态库的名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除rpath中未使用的路径"><span class="nav-number">3.3.</span> <span class="nav-text">删除rpath中未使用的路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改动态链接器dynamic-linker"><span class="nav-number">3.4.</span> <span class="nav-text">修改动态链接器(dynamic linker)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#兼容性"><span class="nav-number">4.</span> <span class="nav-text">兼容性</span></a></li></ol></div>
             
 
           </div>
@@ -1146,6 +1120,8 @@ patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH
 
 
   
+  
+
 
   
 
@@ -1280,7 +1256,24 @@ patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH
 
 <!-- 文件位置：~/themes/next/layout/_layout.swig -->
 
-<script type="text/javascript" src="/js/dynamic_bg.js"></script>
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>
