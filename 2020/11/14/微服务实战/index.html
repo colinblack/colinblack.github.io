@@ -110,15 +110,15 @@
 
 
 
-<meta name="description" content="PHP电商单体应用准备　 基于 Laravel 开源项目 Laracom 快速构建在线商城系统 1. 环境准备　 开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git 2. 安装Homestead  安装vagrant 直接去官网下载: https:&#x2F;&#x2F;www.vagrantup.com&#x2F;downloads 将 Homestead Vagrant 盒子 l">
+<meta name="description" content="微服务实战 PHP电商单体应用准备　 基于 Laravel 开源项目 Laracom 快速构建在线商城系统 1. 环境准备　 开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git 2. 安装Homestead  安装vagrant 直接去官网下载: https:&#x2F;&#x2F;www.vagrantup.com&#x2F;downloads 将 Homestead Vagran">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务实战">
 <meta property="og:url" content="http://yoursite.com/2020/11/14/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="PHP电商单体应用准备　 基于 Laravel 开源项目 Laracom 快速构建在线商城系统 1. 环境准备　 开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git 2. 安装Homestead  安装vagrant 直接去官网下载: https:&#x2F;&#x2F;www.vagrantup.com&#x2F;downloads 将 Homestead Vagrant 盒子 l">
+<meta property="og:description" content="微服务实战 PHP电商单体应用准备　 基于 Laravel 开源项目 Laracom 快速构建在线商城系统 1. 环境准备　 开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git 2. 安装Homestead  安装vagrant 直接去官网下载: https:&#x2F;&#x2F;www.vagrantup.com&#x2F;downloads 将 Homestead Vagran">
 <meta property="og:image" content="https://i.loli.net/2020/10/25/Bh8J2wVa6ZErOy7.png">
 <meta property="article:published_time" content="2020-11-14T10:43:00.000Z">
-<meta property="article:modified_time" content="2020-11-14T10:47:53.613Z">
+<meta property="article:modified_time" content="2020-11-14T14:40:23.619Z">
 <meta property="article:author" content="Colinblack">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2020/10/25/Bh8J2wVa6ZErOy7.png">
@@ -528,7 +528,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  514
+                  518
                 </span>
               
 
@@ -567,6 +567,7 @@ $(function() {
 
       
         <a id="more"></a>
+<p>微服务实战</p>
 <h3 id="php电商单体应用准备">PHP电商单体应用准备　</h3>
 <h4 id="基于-laravel-开源项目-laracom-快速构建在线商城系统">基于 Laravel 开源项目 Laracom 快速构建在线商城系统</h4>
 <h5 id="环境准备">1. 环境准备　</h5>
@@ -583,18 +584,18 @@ $(function() {
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install  virtualbox</span><br></pre></td></tr></table></figure>
 <h5 id="安装laracom">安装Laracom</h5>
 <ol type="1">
-<li>安装Composer <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line">mv composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure></li>
-<li>创建Laracom <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer create-project jsdecena/laracom --prefer-dist  --ignore  -platform-reqs</span><br></pre></td></tr></table></figure></li>
-<li>进入Laracom根目录，修改环境配置文件.env <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意是laracom根目录</span></span><br><span class="line">cd ~/laracom</span><br><span class="line"></span><br><span class="line">＃.env文件中修改如下</span><br><span class="line">   APP_URL=http://laracom.test</span><br><span class="line"></span><br><span class="line">   DB_CONNECTION=mysql</span><br><span class="line">   DB_HOST=127.0.0.1</span><br><span class="line">   DB_PORT=3306</span><br><span class="line">   DB_DATABASE=laracom</span><br><span class="line">   DB_USERNAME=homestead</span><br><span class="line">   DB_PASSWORD=secret</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>４. 安装前端依赖并编译前端资源 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure> 5. 配置Homestead 　参考2.5中的配置</p>
-<ol start="6" type="1">
+<li><p>安装Composer <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line">mv composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure></p></li>
+<li><p>创建Laracom <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer create-project jsdecena/laracom --prefer-dist  --ignore  -platform-reqs</span><br></pre></td></tr></table></figure></p></li>
+<li><p>进入Laracom根目录，修改环境配置文件.env <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">注意是laracom根目录</span></span><br><span class="line">cd ~/laracom</span><br><span class="line"></span><br><span class="line">＃.env文件中修改如下</span><br><span class="line">   APP_URL=http://laracom.test</span><br><span class="line"></span><br><span class="line">   DB_CONNECTION=mysql</span><br><span class="line">   DB_HOST=127.0.0.1</span><br><span class="line">   DB_PORT=3306</span><br><span class="line">   DB_DATABASE=laracom</span><br><span class="line">   DB_USERNAME=homestead</span><br><span class="line">   DB_PASSWORD=secret</span><br></pre></td></tr></table></figure></p></li>
+<li><p>安装前端依赖并编译前端资源 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure></p></li>
+<li><p>配置Homestead 　参考2.5中的配置</p></li>
 <li><p>重启虚拟机 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant reload --provision</span><br></pre></td></tr></table></figure></p></li>
 <li><p>登录虚拟机, 进入项目根目录运行数据库迁移和填充命令 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh</span><br><span class="line">   cd /home/vagrant/laracom</span><br><span class="line">   composer install</span><br><span class="line">   php artisan migrate --seed</span><br></pre></td></tr></table></figure> 　执行数据库迁移时如果.env中配置的数据库没有创建(上面的配置数据库为laracom)要自行创建 　<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> laracom</span><br></pre></td></tr></table></figure></p></li>
 <li><p>生成文件上传目录软链接 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php artisan storage:link</span><br></pre></td></tr></table></figure></p></li>
 <li><p>访问构建的网页 　　在浏览器中通过 http://laracom.test 访问</p></li>
 </ol>
-<p>参考: <a href="https://xueyuanjun.com/post/19915.html" target="_blank" rel="noopener">重量级开发环境：Homestead</a><br />
+<p>参考:<br />
+<a href="https://xueyuanjun.com/post/19915.html" target="_blank" rel="noopener">重量级开发环境：Homestead</a><br />
 <a href="https://xueyuanjun.com/post/20000" target="_blank" rel="noopener">基于 Laravel 开源项目 Laracom 快速构建在线商城系统</a></p>
 
       
