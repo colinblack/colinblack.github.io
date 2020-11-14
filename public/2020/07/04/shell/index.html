@@ -1,0 +1,1334 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Colinblack" />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Colin's Home" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=" />
+
+
+
+
+
+
+<meta name="description" content="语法 1234567891011121314#! &#x2F;bin&#x2F;bash                                                                                                                                                   if [ $# -lt 1 ];the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell">
+<meta property="og:url" content="http://yoursite.com/2020/07/04/shell/index.html">
+<meta property="og:site_name" content="Colin&#39;s Home">
+<meta property="og:description" content="语法 1234567891011121314#! &#x2F;bin&#x2F;bash                                                                                                                                                   if [ $# -lt 1 ];the">
+<meta property="article:published_time" content="2020-07-04T11:10:37.000Z">
+<meta property="article:modified_time" content="2020-07-04T13:34:07.357Z">
+<meta property="article:author" content="Colinblack">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/04/shell/"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> shell | Colin's Home </title>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("kJ2sJuSJeByLioULSXrJ5CSq-9Nh9j0Va", "uBWeNxCbFEWsOVDTmAInrDq3");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?340874ba9357cbe81570aa4ac1185941";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Colin's Home</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/04/shell/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Colinblack">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/logo.jpeg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Colin's Home">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Colin's Home" src="/images/avatar.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                shell
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-04T19:10:37+08:00">
+                2020-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/2020/07/04/shell/" class="leancloud_visitors" data-flag-title="shell">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+		  
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="语法">语法</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash                                                                    </span></span><br><span class="line">                                                                               </span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -lt 1 ];<span class="keyword">then</span>                                                            </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"arg count must &gt; 1"</span>                                                    </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Uage bash -x example_1.sh [args...]"</span>                                  </span><br><span class="line">   <span class="built_in">exit</span>                                                                        </span><br><span class="line"><span class="keyword">fi</span>                                                                              </span><br><span class="line">                                                                               </span><br><span class="line">arg=<span class="variable">$1</span>                                                                          </span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$arg</span> -gt 10 ];<span class="keyword">then</span>                                                          </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"<span class="variable">$arg</span> &gt; 10"</span>                                                            </span><br><span class="line"><span class="keyword">else</span>                                                                            </span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"<span class="variable">$arg</span> &lt;= 10"</span>                                                            </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>if [[...]] 表示模式匹配<br />
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [[ <span class="variable">$trunk_path</span> = *<span class="variable">$dir</span>* ]]; <span class="keyword">then</span>                     </span><br><span class="line">    trunk_path=`<span class="built_in">echo</span> $<span class="variable">$&#123;trunk_path&#125;</span> | sed <span class="string">"s/\/$<span class="variable">$dir</span>.*//"</span>`  </span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p></li>
+<li><p>数组，函数传参数，for循环 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -lt 1 ]; <span class="keyword">then</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"args must &gt; 1"</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"Usage bash +x example_2.sh [args...]"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">args=<span class="variable">$@</span></span><br><span class="line"><span class="keyword">for</span> arg <span class="keyword">in</span> <span class="variable">$args</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$arg</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">func1</span></span>()&#123;</span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$1</span> <span class="comment">#$1是该函数的第一个参数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func1 <span class="string">"hello everybody"</span> <span class="comment">#函数传参</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#第二种写法</span></span><br><span class="line"><span class="function"><span class="title">func2</span></span>()&#123;</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"bash shell function defination"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func2 <span class="comment">#调用</span></span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line">array=(<span class="string">"hello"</span>  <span class="string">"gg"</span> 1 <span class="string">"shit"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"first element is <span class="variable">$&#123;array[0]&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"second element is <span class="variable">$&#123;array[1]&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"third element is <span class="variable">$&#123;array[2]&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"fourth element is <span class="variable">$&#123;array[3]&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"all element are <span class="variable">$&#123;array[@]&#125;</span>"</span> <span class="comment">#所有的元素</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"size of array is <span class="variable">$&#123;#array[@]&#125;</span>"</span> <span class="comment">#数组的元素个数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> arg <span class="keyword">in</span> <span class="variable">$&#123;array[@]&#125;</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$arg</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>While循环以及其它几种循环、case、表达式expr<br />
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -lt 1 ]; <span class="keyword">then</span></span><br><span class="line">       <span class="built_in">echo</span> <span class="string">"args must &gt; 1"</span></span><br><span class="line">           <span class="built_in">echo</span> <span class="string">"Usage bash +x example_2.sh [args...]"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">   <span class="string">"install"</span>)</span><br><span class="line">       <span class="built_in">echo</span> <span class="string">"operation is install"</span></span><br><span class="line">   ;;</span><br><span class="line">   </span><br><span class="line">   <span class="string">"uninstall"</span>)</span><br><span class="line">       <span class="built_in">echo</span> <span class="string">"operation is uninstall"</span></span><br><span class="line">   ;;</span><br><span class="line">   *)</span><br><span class="line">       <span class="built_in">echo</span> <span class="string">"operation is not support"</span></span><br><span class="line">   ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ((i=0; i&lt;10; i++))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="keyword">if</span> ((i==1));<span class="keyword">then</span></span><br><span class="line">       <span class="built_in">continue</span></span><br><span class="line">   <span class="keyword">fi</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">'seq 5'</span>; <span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"loop <span class="variable">$i</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p></li>
+<li><p>脚本之间的引用<br />
+/lib/lsb/init-functions<br />
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">first.sh</span><br><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">fun</span></span>()&#123;</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"execute first script"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">file=first</span><br><span class="line"></span><br><span class="line">second.sh</span><br><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">. first.sh  <span class="comment">##引用脚本</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$file</span></span><br></pre></td></tr></table></figure></p></li>
+<li><p>错误处理<br />
+$?<br />
+set -o errexit //遇到报错不会往下执行<br />
+command &gt; file 2&gt;&amp;1 //将stdout和stderr合并后重定向到文件</p></li>
+<li><p>字典 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -o errexit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#方式1</span></span><br><span class="line"><span class="function"><span class="title">hput</span></span>()&#123;</span><br><span class="line">   <span class="built_in">eval</span> <span class="string">"hkey_<span class="variable">$1</span>"</span>=<span class="string">"<span class="variable">$2</span>"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">hget</span></span>()&#123;</span><br><span class="line">   <span class="built_in">eval</span> <span class="built_in">echo</span> <span class="string">'$&#123;'</span><span class="string">"hkey_<span class="variable">$1</span>"</span><span class="string">'&#125;'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hput k1 value1</span><br><span class="line">hget k1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#方式2</span></span><br><span class="line"><span class="built_in">declare</span> -A dic</span><br><span class="line">dic=([key1]=<span class="string">"value1"</span> [key2]=<span class="string">"value2"</span> [key3]=<span class="string">"value3"</span>)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;dic["key1"]&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;!dic[@]&#125;</span> <span class="comment">#打印所有的key</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;dic[@]&#125;</span> <span class="comment">#打印所有的值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> <span class="variable">$&#123;!dic[@]&#125;</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">   <span class="built_in">echo</span> <span class="variable">$key</span>: <span class="variable">$&#123;dic[$key]&#125;</span><span class="string">""</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<h3 id="调试">调试</h3>
+<ul>
+<li>trap<br />
+shell脚本执行时产生三个伪信号，可使用trap捕获 ，并输出调试信息<br />
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">信号名              产生原因</span><br><span class="line">EXIT               从一个函数中退出或整个脚本执行完毕</span><br><span class="line">ERR                从一条命令返回非零状态时（代表命令执行不成功） </span><br><span class="line">DEBUG              脚本中每一条命令执行之前</span><br></pre></td></tr></table></figure></li>
+<li>tee　　</li>
+<li>调试钩子　</li>
+<li>shell参数<br />
+man sh 查看<br />
+-n 只读取， 不执行， 例如 sh -n *.sh 好像只能检查语法是否有问题<br />
+-x 进入跟踪方式，打印执行的每一条指令<br />
+输出的默认值<span class="math inline">\(PS4是&quot;+&quot;，可以设置环境变量export PS4=&#39;+{\)</span>LINENO:${FUNCNAME[0]}}'; echo $PS4</li>
+</ul>
+<h3 id="命令">命令　 　</h3>
+<h4 id="ls">ls</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls file | xargs rm  //查看文件并删除</span><br><span class="line">ls -l  *.cpp *.c *.h | awk <span class="string">'&#123;sum+=$5&#125; END &#123;print sum&#125;'</span> // 统计文件大小总和</span><br><span class="line">ls -lt //按时间排列，时间又近及远</span><br></pre></td></tr></table></figure>
+<h4 id="cp">cp</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp s1/conf/ActivityTime.json ./s[2-3]/conf/ -r  //递归拷贝文件</span><br></pre></td></tr></table></figure>
+<h4 id="ps">ps</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -aux --sort=lstart    //进程按时间排序</span><br></pre></td></tr></table></figure>
+<h4 id="pstree">pstree</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pstree -p | wcl -c  //查看系统线程数</span><br></pre></td></tr></table></figure>
+<h4 id="bash">bash</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep Cgi | grep cgi | grep sg17|awk <span class="string">'&#123;printf("kill -9 %s\n", $2);&#125;'</span> | bash</span><br></pre></td></tr></table></figure>
+<h4 id="ping">ping</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping //是否可达</span><br><span class="line">ping -l src -c <span class="built_in">times</span> dst //多ip情况下指定ip，<span class="built_in">times</span>表示次数</span><br></pre></td></tr></table></figure>
+<h4 id="telnet">telnet</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet //端口是否开放</span><br></pre></td></tr></table></figure>
+<h4 id="bg">bg</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">bg</span>  //将任务放置后台</span><br></pre></td></tr></table></figure>
+<h4 id="fg">fg</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">fg</span> //将任务放置前台</span><br></pre></td></tr></table></figure>
+<h4 id="jobs">jobs</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">jobs</span> -l  //列出任务pid</span><br></pre></td></tr></table></figure>
+<h4 id="history">history</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">history</span> | grep rm //查看删除文件历史</span><br><span class="line">/root/.bash_history //root用户所有历史记录（不同终端）</span><br></pre></td></tr></table></figure>
+<h4 id="getconf">getconf</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getconf WORD_BIT //获取cpu字长</span><br></pre></td></tr></table></figure>
+<h4 id="ldd">ldd</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd //查看动态库依赖</span><br></pre></td></tr></table></figure>
+<h4 id="whereis-which-locate">whereis which locate</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看软件安装路径</span><br></pre></td></tr></table></figure>
+<h4 id="date">date</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">date -d <span class="string">"00:00:00 2018-06-01"</span> +%s //通过日期显示时戳</span><br><span class="line">date -d @1501570226  //通过时间戳显示日期</span><br></pre></td></tr></table></figure>
+<h4 id="netstat">netstat</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tunlp | grep 8061 查看端口被哪个进程占用</span><br></pre></td></tr></table></figure>
+<h4 id="gcc">gcc</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-I: 第一个寻找头文件目录</span><br><span class="line">-L: 第一个寻找库文件目录</span><br><span class="line">-l: 寻找动态库或静态库</span><br><span class="line">-c: 只编译，不连接</span><br></pre></td></tr></table></figure>
+<h4 id="objdump">objdump</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -s -d xx.o   //反汇编</span><br></pre></td></tr></table></figure>
+<h4 id="find">find</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">"*.cpp"</span> | xargs grep -w <span class="string">"CLog"</span>                  <span class="comment">#全词匹配查找</span></span><br><span class="line">find -name file                                              <span class="comment">#查找文件名</span></span><br><span class="line">find -iname file                                             <span class="comment">#忽略大小写</span></span><br><span class="line">find  -maxdepth file                                         <span class="comment">#最大递归深度</span></span><br><span class="line">find  -mindepth file                                         <span class="comment">#对消递归深度</span></span><br><span class="line">find  -not  file                                             <span class="comment">#相反匹配</span></span><br><span class="line">find  . -empty                                               <span class="comment">#查找空文件</span></span><br><span class="line">find  -name file -<span class="built_in">exec</span> cmd &#123;&#125; \;                             <span class="comment">#在找到的文件上执行命令</span></span><br><span class="line">find . -<span class="built_in">type</span> f                                               <span class="comment">#查找文件</span></span><br><span class="line">find ~ -size +100M/-100M                                     <span class="comment">#查找满足尺寸文件</span></span><br><span class="line">find / -<span class="built_in">type</span> f -name *.zip -size +100M -<span class="built_in">exec</span> rm -i &#123;&#125; \;     <span class="comment">#查找删除</span></span><br></pre></td></tr></table></figure>
+<h4 id="grep">grep</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">grep -v <span class="string">"match"</span> file                               <span class="comment">#出除含有匹配字符串之外的所有行</span></span><br><span class="line">grep  <span class="string">"match"</span> file --color=auto                    <span class="comment">#匹配字符串标颜色</span></span><br><span class="line">grep -E <span class="string">"[1-9]+"</span> file; egrep <span class="string">"[1-9]+"</span> file         <span class="comment">#正则匹配</span></span><br><span class="line">grep -o <span class="string">"match"</span> file                               <span class="comment">#只输出匹配的部分</span></span><br><span class="line">grep -c <span class="string">"match"</span> file                               <span class="comment">#输出匹配到的行数</span></span><br><span class="line">grep -b <span class="string">"match"</span> file                               <span class="comment">#匹配字符的偏移量</span></span><br><span class="line">grep -n <span class="string">"match"</span> file                               <span class="comment">#输出匹配到字符的行数</span></span><br><span class="line">grep -l <span class="string">"match"</span> file                               <span class="comment">#列出匹配到字符的文件名</span></span><br><span class="line">grep -r <span class="string">"match"</span> file                               <span class="comment">#递归搜索匹配项</span></span><br><span class="line">grep -i <span class="string">"MATCH"</span> file                               <span class="comment">#忽略大小写</span></span><br><span class="line">grep -w <span class="string">"match"</span> file                               <span class="comment">#全词匹配</span></span><br><span class="line">grep -e <span class="string">"match1"</span> -e <span class="string">"match2"</span> file                  <span class="comment">#多重匹配项</span></span><br><span class="line">grep <span class="string">"match"</span> --include *.&#123;php,html&#125;                <span class="comment">#只在目录中所有的.php和.html文件中递归搜索字符"main()"</span></span><br><span class="line">grep <span class="string">"main()"</span> . -r --exclude <span class="string">"README"</span>              <span class="comment">#在搜索结果中排除所有README文件</span></span><br><span class="line">grep 170501686 coins_20180417.log | grep <span class="string">'change pay log'</span> |grep <span class="string">',cash=-'</span> |awk -F <span class="string">'[=,]'</span> <span class="string">'&#123;a+=$12&#125; END&#123;print a&#125;'</span></span><br><span class="line">grep -E <span class="string">'act=new|act=add'</span> equipment_20180705.log | grep <span class="string">'code=get_world_battle_Kill_rewards'</span> <span class="comment">#找出包含 get_world_battle_Kill_rewards 的行，其中act=new 或act=add</span></span><br><span class="line">grep get_default_error_string /* -rFn --binary-files=without-match  <span class="comment">#只递归匹配文本文件，不匹配二进制文件中的内容</span></span><br></pre></td></tr></table></figure>
+<h4 id="awk">awk</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'&#123;print $1, $4&#125;'</span> netstat.txt                                                   <span class="comment">#打印1,4列</span></span><br><span class="line">awk <span class="string">'&#123;printf "%-8s %-8s %-8s %-18s %-22s %-15s\n",$1,$2,$3,$4,$5,$6&#125;'</span>  netstat.txt <span class="comment">#格式化输出</span></span><br><span class="line">awk <span class="string">'$3==0 &amp;&amp; $6=="LISTEN"'</span> netstat.txt                                            <span class="comment">#第三列的值为0 &amp;&amp; 第6列的值为LISTEN</span></span><br><span class="line">awk <span class="string">'$3 &gt; 0 &#123;print $0&#125;'</span> netstat.txt                                                <span class="comment">#第三列不为0的所有项</span></span><br><span class="line">awk <span class="string">'$3==0 &amp;&amp; $6=="LISTEN" || NR==1 '</span> netstat.txt                                  <span class="comment">#包括第一行</span></span><br><span class="line">awk <span class="string">'$3==0 &amp;&amp; $6=="LISTEN" || NR==1 &#123;printf "%-20s %-20s %s\n",$4,$5,$6&#125;'</span> netstat.txt   <span class="comment">#加上格式化输出</span></span><br><span class="line">awk <span class="string">'BEGIN&#123;FS=":"&#125;&#123;print $1, $2, $5&#125;'</span> /etc/passwd 或 awk -F: <span class="string">'&#123;print $1, $2, $5&#125;'</span> /etc/passwd  <span class="comment">#指定分隔符</span></span><br><span class="line">awk -F<span class="string">'[::]'</span> <span class="string">'&#123;print $1, $2, $5&#125;'</span> /etc/passwd                                 <span class="comment">#指定多个分割符</span></span><br><span class="line">awk <span class="string">'$6 ~ /FIN/ || NR==1 &#123;print NR,$4,$5,$6&#125;'</span> OFS=<span class="string">"\t"</span> netstat.txt       <span class="comment">#匹配FIN状态</span></span><br><span class="line">awk <span class="string">'NR!=1&#123;print &gt; $6&#125;'</span> netstat.txt                                                <span class="comment">#拆分文件</span></span><br><span class="line">awk <span class="string">'&#123;for(i=1;i&lt;=NF;i++)printf "%-22s", $i "  ";printf"\n"&#125;'</span> netstat.txt    <span class="comment">#打印出除开第一行的所有行   </span></span><br><span class="line">grep appid <span class="variable">$file</span> | awk -F <span class="string">"="</span> <span class="string">'&#123;print $3&#125;'</span> | sed <span class="string">'s/["/&gt;]//g'</span> | sed <span class="string">'s/ //g'</span> <span class="comment">#过滤掉"/&gt;和空格</span></span><br></pre></td></tr></table></figure>
+<h4 id="sed">sed</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">"s/my/cp/g"</span> pet.txt                                          <span class="comment">#将文件中所有的my替换成cp</span></span><br><span class="line">sed -i <span class="string">"s/^/#/g"</span> pet.txt                                            <span class="comment">#在每行最前面加#</span></span><br><span class="line">sed -i <span class="string">"s/$/---/g"</span> pet.txt                                          <span class="comment">#在每行最有面加---</span></span><br><span class="line">sed -i <span class="string">'s/&lt;[^&gt;]*&gt;//g'</span> html.txt                                      <span class="comment">#去掉某html中的tags</span></span><br><span class="line">sed -i <span class="string">"3s/my/your/g"</span> pets.txt                                      <span class="comment">#替换第3行以后的my</span></span><br><span class="line">sed -i <span class="string">"3,6s/my/your/g"</span> pets.txt                                    <span class="comment">#只替换3到6行的my</span></span><br><span class="line">sed -i <span class="string">'s/s/S/1'</span> my.txt                                             <span class="comment">#只替换每一行的第一个s</span></span><br><span class="line">sed -i -e <span class="string">'1,3s/my/your/g'</span> -e <span class="string">'3,$s/This/That/g'</span> my.txt             <span class="comment">#1到3行换成your, 3行以后换成That </span></span><br><span class="line">sed -i s/1527696000/1528560000/g ./s*/conf/ActivityTime.json</span><br></pre></td></tr></table></figure>
+<h4 id="lsof">lsof</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsof  -p PID  | wc -l  <span class="comment">#查看进程打开的文件数量</span></span><br><span class="line">lsof  -p PID  |awk <span class="string">'&#123;print $2&#125;'</span>|sort | uniq -c | awk <span class="string">'&#123;sum += $1&#125; END&#123;print sum&#125;'</span> <span class="comment">#查看进程打开的文件数量</span></span><br><span class="line">lsof -i :port  <span class="comment">#查看某个端口的连接情况</span></span><br><span class="line">watch <span class="string">"losf -p PID | wc -l"</span>  <span class="comment">#查看进程打开文件数量的变化情况</span></span><br></pre></td></tr></table></figure>
+<h4 id="ip">ip</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr  //查看ip地址（可显示mac地址和网卡名称）</span><br></pre></td></tr></table></figure>
+<h4 id="通配符">通配符</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"?"</span>  匹配单个字符串</span><br><span class="line"><span class="string">"*"</span>  匹配字符串序列</span><br></pre></td></tr></table></figure>
+<h4 id="正则">正则　　</h4>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    ERE BRE</span><br><span class="line">    <span class="string">"."</span>  任意单个字符</span><br><span class="line">    <span class="string">"*"</span>  匹配任一字符的任意长度</span><br><span class="line">    <span class="string">"^"</span> 以xx开始字符</span><br><span class="line">    <span class="string">"$"</span> 以xx结尾字符</span><br><span class="line">    <span class="string">"[]"</span> 字符集合</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 实战　  </span></span><br><span class="line">终端遍历目录导入数据库  </span><br><span class="line">终端中执行　　</span><br><span class="line">```sh</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(ls sg17_s*); <span class="keyword">do</span> $(mysql -u root -p $(basename <span class="variable">$i</span> .sql) &lt; <span class="variable">$i</span>);<span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>将所有db.conf 中的密码替换　　　 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ./ -name db.conf | xargs sed -i <span class="string">'s/password\ =\ 1234/password\ =\ Ujg5-bc@0520/g'</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-link">
+        </li>
+
+        <li class="post-copyright-date">
+        </li>  
+
+        <li class="post-copyright-license">
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/04/go/" rel="next" title="go">
+                <i class="fa fa-chevron-left"></i> go
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/04/makefile/" rel="prev" title="makefile">
+                makefile <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.jpeg"
+               alt="Colinblack" />
+          <p class="site-author-name" itemprop="name">Colinblack</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/colinblack" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/chen-peng-34-19/" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-battery-3"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/" title="cnblogs" target="_blank">cnblogs</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试"><span class="nav-number">2.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令"><span class="nav-number">3.</span> <span class="nav-text">命令　 　</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ls"><span class="nav-number">3.1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp"><span class="nav-number">3.2.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ps"><span class="nav-number">3.3.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pstree"><span class="nav-number">3.4.</span> <span class="nav-text">pstree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bash"><span class="nav-number">3.5.</span> <span class="nav-text">bash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ping"><span class="nav-number">3.6.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#telnet"><span class="nav-number">3.7.</span> <span class="nav-text">telnet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bg"><span class="nav-number">3.8.</span> <span class="nav-text">bg</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fg"><span class="nav-number">3.9.</span> <span class="nav-text">fg</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jobs"><span class="nav-number">3.10.</span> <span class="nav-text">jobs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#history"><span class="nav-number">3.11.</span> <span class="nav-text">history</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getconf"><span class="nav-number">3.12.</span> <span class="nav-text">getconf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ldd"><span class="nav-number">3.13.</span> <span class="nav-text">ldd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#whereis-which-locate"><span class="nav-number">3.14.</span> <span class="nav-text">whereis which locate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#date"><span class="nav-number">3.15.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netstat"><span class="nav-number">3.16.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gcc"><span class="nav-number">3.17.</span> <span class="nav-text">gcc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objdump"><span class="nav-number">3.18.</span> <span class="nav-text">objdump</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find"><span class="nav-number">3.19.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#grep"><span class="nav-number">3.20.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#awk"><span class="nav-number">3.21.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sed"><span class="nav-number">3.22.</span> <span class="nav-text">sed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lsof"><span class="nav-number">3.23.</span> <span class="nav-text">lsof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ip"><span class="nav-number">3.24.</span> <span class="nav-text">ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通配符"><span class="nav-number">3.25.</span> <span class="nav-text">通配符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正则"><span class="nav-number">3.26.</span> <span class="nav-text">正则　　</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Colinblack</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external nofollow noopener">
+    NexT.Mist
+  </a>| Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+</div>
+
+
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  <!--添加线状动态背景-->
+  <div class="bg_content">
+  <canvas id="canvas"></canvas>
+</div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kJ2sJuSJeByLioULSXrJ5CSq-9Nh9j0Va", "uBWeNxCbFEWsOVDTmAInrDq3");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+<!-- 文件位置：~/themes/next/layout/_layout.swig -->
+
+<script type="text/javascript" src="/js/dynamic_bg.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>
