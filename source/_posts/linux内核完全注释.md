@@ -16,15 +16,15 @@ categories:
 调用服务的主程序层  
 执行系统调用的服务层  
 支持系统调用的底层函数  
-![p1](/images/66dc1980-6148-4883-aa5b-695b3a9e0817.png)  
+![p1](https://i.loli.net/2020/11/15/6Pl4EXJVho9FMTN.png)  
 
 ### Linux内核系统体系结构  
 Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块  
 模块间的依赖关系:  
-![p2](/images/fc77df7e-b967-4408-934b-ba46535033e2.png)  
+![p2](https://i.loli.net/2020/11/15/bVdfR42cqmD5pCe.png)  
 
 Linux 0.11架构图:  
-![p3](/images/00367ae6-72cc-4b02-9f9e-4ecefac7afce.png)  
+![p3](https://i.loli.net/2020/11/15/oDLirR6PepFW94z.png)  
 
 
 ### Linux进程控制  
@@ -42,7 +42,7 @@ Linux 0.11架构图:
 暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态  
 僵死状态：进程已停止运行，但父进程还没有询问其状态  
 进程状态及转换关系：  
-![p4](/images/70009bcf-eeea-4c5d-a784-fa561271b33e.png)  
+![p4](https://i.loli.net/2020/11/15/ImOjX5zcegqHrWy.png)  
 进程调度发生的情况:  
 进程时间片用完  
 进程自动放弃CPU使用权    
@@ -70,7 +70,7 @@ move_to_user_mod()：
 #### 进程调度  
 被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略  
 schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如   果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：  
-![p5](/images/a0bcedee-f079-4dd0-9643-99de53b48236.png)  
+![p5](https://i.loli.net/2020/11/15/2G6qtLsyOWzCYdI.png)  
  如果此时没有其他进程运行，系统就会选择0号进程  
 
 #### 进程切换  
@@ -78,7 +78,7 @@ switch_to():
 如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中  
 
 任务切换操作示意图:  
-![p6](/images/e0273d2a-56b1-4bea-acc9-bacf3d03238a.png)  
+![p6](https://i.loli.net/2020/11/15/rLQUxbc7ntiTAHs.png)  
 
 
 #### 进程终止  
@@ -95,13 +95,12 @@ switch_to():
 
 ### Linux内核对内存的使用方法
 Linux 0.11内核物理内存分布：
-![p6](/images/p1_20200224112830.png)  
+![p6](https://i.loli.net/2020/11/15/ds7uKzQkUq8lySg.png)  
 
 Intel CPU两种内存管理系统：内存分段，分页
 三种地址
 进程的逻辑地址: 程序产生与段相关的偏移地址
-CPU的线性地址: 逻辑地址 + 基地址
-实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号
+CPU的线性地址: 逻辑地址 + 基地址实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号
 如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址
 
 分页机制应用：建立一个大而连续的内存空间映像

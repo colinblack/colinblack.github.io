@@ -10,10 +10,10 @@ categories:
 <!-- more -->  
 ## 项目构建
 * 个人  
-![p1](/images/go_20200706_p1.png)
+![p1](https://i.loli.net/2020/11/15/HlRFVzUdw6fktoP.png)
 
 * 公司  
-![p2](/images/go_20200706_p2.png)
+![p2](https://i.loli.net/2020/11/15/ki6RYF3eVdyDba4.png)
 
 
 ## 工具
@@ -73,7 +73,7 @@ categories:
 全局变量 -> init -> main
 
 * 有import的情况 
-![go_20200723_1](/images/go_20200723_p1.jpg)
+![go_20200723_1](https://i.loli.net/2020/11/15/rgVwolRAEvfmWDs.png)
 
 
 ```go
@@ -83,7 +83,7 @@ import(
 ```
 
 嵌套包的初始化顺序， 最里层包先初始化     
-![p3](/images/go_20200408_1.png)  
+![p3](https://i.loli.net/2020/11/15/hEuc1PAwD2G7CNk.png)  
 
 ## 数据类型  
 
@@ -141,7 +141,7 @@ const(
     f  = iota //5
     g         //6
 )
-```  
+```
 ### 变量  
 ```go  
 //第一种写法
@@ -160,7 +160,7 @@ Var(
     d = 8  
     e = "hello world"  
 )  
-```  
+```
 ### 值类型和引用类型  
 值类型： 基本数据类型int, float, bool, string以及数组和struct，内存在栈中分配  
 引用类型： 指针, slice, map, chan, interface等， 内存在对上分配，GC回收  
@@ -231,7 +231,7 @@ int 和 int32是不同类型， 不能直接运算
     strings.Join(s1 []string, sep string) //用sep把s1中的所有元素链接起来  
     strconv.Itoa(i int) //把一个整数i转成字符串  
     strconv.Atoi(str string)(int, error) //把一个字符串转成整数  
-```  
+```
 * 字符串底层是byte数组, 可以和[]byte类型互相转换   
 ```go
 //修改字符串  
@@ -280,7 +280,7 @@ int 和 int32是不同类型， 不能直接运算
     fmt.Println(now.Format(“02/1/2006 15:04”))  
     fmt.Println(now.Format(“2006/1/02 15:04”))  
     fmt.Println(now.Format(“2006/1/02”))  
-```  
+```
 * 定时器  
 ```go
 	ticker := time.Tick(1*time.Second)
@@ -343,7 +343,7 @@ int 和 int32是不同类型， 不能直接运算
         for i, v := range str {  
             fmt.Printf(“index[%d] val[%c] len[%d]\n”, i, v, len([]byte(v)))  
         }  
-```  
+```
 
 ## 函数
 ```go
@@ -411,7 +411,7 @@ defer语句中的变量，在defer声明时就决定了
 	    i= 1000
 	    fmt.Printf("i=%d\n", i)
     }
-```  
+```
 
 ### 内置函数  
 ```go  
@@ -427,12 +427,12 @@ defer语句中的变量，在defer声明时就决定了
     //*b[0] = 100 error, 需要用make初始化 
     (*b) = make([]int, 5, 100)
 
-```  
+```
 
 
 
 * new和make的区别  
-![p4](/images/go_20200408_2.png)  
+![p4](https://i.loli.net/2020/11/15/7j1iwuRYGMeVDLX.png)  
 
 
 ### 匿名函数  
@@ -553,7 +553,7 @@ var age1 = [5]int{1,2,3,4,5}
 var age2 = [...]int{1,2,3,4,5,6}  
 age3 := [5]int{1,2,3} //1 2 3 0 0  
 var str = [5]string{3:”hello world”, 4:”tom”} //指定索引赋值  
-```  
+```
 
 * 遍历  
 ```go
@@ -654,8 +654,8 @@ var str = [5]string{3:”hello world”, 4:”tom”} //指定索引赋值
     var slice []type = make([]type, len)  
     slice  := make([]type, len)  
     slice  := make([]type, len, cap)  //如果使用[]访问超过len的空间，需要使用append插入元素, 否则会panic    
-```  
-![p6](/images/go_20200408_4.png) 
+```
+![p6](https://i.loli.net/2020/11/15/BuZSoXcG6U9grfH.png) 
 
 ```go
     //将切片追加到另一个切片末尾  
@@ -710,7 +710,7 @@ cap可以求出slice最大的容量，0 <= len(slice) <= cap(array)，其中arra
 
 
 ### 切片的内存布局    
-![p5](/images/go_20200408_3.png)  
+![p5](https://i.loli.net/2020/11/15/fLe7xZGiP9TruED.png)  
 
 
 ### string与slice  
@@ -721,7 +721,7 @@ s1 := str[0:5]
 fmt.Println(s1)  
 s2 := str[5:]  
 fmt.Println(s2)  
-```  
+```
 
 ### 切片示例
 [生成密码](https://github.com/colinblack/go_devel/blob/master/tools/passwd/passwd.go)
@@ -763,7 +763,7 @@ a := make(map[string]string, 10)
             items[i] = make(map[int][int])  
     }  
 
-```  
+```
 
 
 
@@ -816,7 +816,7 @@ c. 读写锁, var mu sync.RWMutex
 
     S := new (student)  
     S := model.NewStudent(“tony”, 20)  
-```  
+```
 
 * 指向结构体的指针 
 ```go
@@ -985,7 +985,7 @@ type Student struct{
     Name string  
     Next *Student  
 }  
-```  
+```
 
 
 ## 继承   
@@ -1054,7 +1054,7 @@ var t int
 var x interface{}  
 x = t  
 y, ok = x.(int)   //转成int，带检查  
-```  
+```
 
 ## 反射  
 ```go  
@@ -1065,8 +1065,8 @@ reflect.ValueOf，获取变量的值，返回reflect.Value类型
 reflect.Value.Kind，获取变量的类别，返回一个常量  
 reflect.Value.Interface()，转换成interface{}类型  
 reflect.Value.Kind()方法返回的常量  
-```  
-![p7](/images/go_20200408_5.png)  
+```
+![p7](https://i.loli.net/2020/11/15/EhDFwGHMW5iKxO3.png)  
 
 ## IO  
 ```go  
@@ -1090,14 +1090,14 @@ x——> 001
 
 命令行参数  
 os.Args是一个string的切片，用来存储所有的命令行参数  
-```  
+```
 ## 序列化  
 ### Json  
 ```go  
 导入包：import “encoding/json”  
 序列化: json.Marshal(data interface{})  
 反序列化: json.UnMarshal(data []byte,  v  interface{})  
-```  
+```
 
 ## goroutine  
 不同goroutine之间如何通信  

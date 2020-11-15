@@ -20,7 +20,7 @@ tags:
 
 * 详解：  
 查询、更新等语句都会走下面这个图(mysql逻辑架构图)     
-![p1](/images/mysql_p1_20200304092002.png)     
+![p1](https://i.loli.net/2020/11/15/Pl9BhwNpSVEWzAk.png)     
 大体上MySQL=Server层+存储引擎层  
 Server层实现的功能：内置函数(日期、时间、数学、加密函数)和跨存储引擎功能(存储过程、触发器、视图)  
 存储引擎层功能：数据存储和提取，架构模式为插件式，最常用的存储引擎InnoDB(5.5.5后默认引擎)、MyISAM、Memory    

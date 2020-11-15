@@ -96,7 +96,7 @@ tags: mysql
     --eg:
     update contacts set sex=2;
     update contacts set sex=2, phone='55555555555' where id=3;
-```  
+```
 注意事项：
 可以同时更新一个或多个字段  
 可以通过where子句来指定更新的范围，如果不带where，则更新数据表中的所有记录  
@@ -282,7 +282,7 @@ MySQL默认的分隔符为逗号
 外连接　左外连接　left join, 右外连接 right join, 全外连接 full join
 
 * 各种表连接的区别　
-![p20200714_1](/images/mysql_20200714_p1.png)
+![p20200714_1](https://i.loli.net/2020/11/15/FcB6hIZyu9iNspG.png)
 交叉连接（cross join）：没有用where子句的交叉连接将产生笛卡尔积，第一个表的行数乘以第二个表的行数等于笛卡尔积
 和结果集的大小
 

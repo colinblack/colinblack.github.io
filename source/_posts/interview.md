@@ -8,27 +8,27 @@ tags: 面试
 ### 为什么使用消息队列　
 1. 解耦
 解耦前:  
-![interview_2020080401](/images/interview_2020080401.png)  
+![interview_2020080401](https://i.loli.net/2020/11/15/L2mjEoezUJ87sGy.png)  
 解耦后:  
-![interview_2020080402](/images/interview_2020080402.png)  
+![interview_2020080402](https://i.loli.net/2020/11/15/S1gNdUCF8ZEbM5X.png)  
 
 2. 异步  
 同步:  
-![interview_2020080403](/images/interview_2020080403.png)  
+![interview_2020080403](https://i.loli.net/2020/11/15/9Z3ipqUPI1R4AaQ.png)  
 
 异步:  
-![interview_2020080404](/images/interview_2020080404.png)  
-  
+![interview_2020080404](https://i.loli.net/2020/11/15/toDG9L1z3yEOu5B.png)  
+
 
 3. 削峰    
 削峰前:   
-![interview_2020080405](/images/interview_2020080405.png)  
-  
+![interview_2020080405](https://i.loli.net/2020/11/15/Fc8ISDesT2o3dGV.png)  
+
 削峰后:  
-![interview_2020080406](/images/interview_2020080406.png)  
+![interview_2020080406](https://i.loli.net/2020/11/15/ENX4bsKlcG7DhwC.png)  
 
 ### 消息队列优缺点　　
-![interview_2020080407](/images/interview_2020080407.png)  
+![interview_2020080407](https://i.loli.net/2020/11/15/BbnIu4KMaYrSeZv.png)  
 
 
 
@@ -57,23 +57,24 @@ tags: 面试
 
 
 2. 普通集群模式　
-![interview_2020080501](/images/interview_2020080501.png)  
+![interview_2020080501](https://i.loli.net/2020/11/15/cSLZMTBUCwDOa5h.png)  
 
 3. 镜像集群模式
-![interview_2020080502](/images/interview_2020080502.png)  
+![interview_2020080502](https://i.loli.net/2020/11/15/EemrsOtKDALGnBa.png)  
 如何开启:在管理控制界面新增策略，要求数据同步到所有节点的，也可以要求就同步到指定数量的节点　　
 
 * Kafka的高可用　
-![interview_2020080503](/images/interview_2020080503.png)  
+![interview_2020080503](https://i.loli.net/2020/11/15/SNdLHPMDcuKUnsb.png)  
 
 ### 从消息队列消费到重复数据怎么办　
 消息队列都可能提供重复数据，这个要自己保证　
-![interview_2020080504](/images/interview_2020080504.png)  
+![interview_2020080504](https://i.loli.net/2020/11/15/xcyIa1hnmzsDbSP.png)  
 
 如何保证数据幂等性　  
-![interview_2020080505](/images/interview_2020080505.png)     
+![interview_2020080505](https://i.loli.net/2020/11/15/4179saGnEh8qHXZ.png)     
 幂等性: 重复多次请求保证数据状态不出错(例如数据重复,数据改变) 
 方案
+
 1. 根据主键查，如果数存在则不插入 
 2. 写redis,　天然幂等　
 3. 生产者发送每条数据时，加一个全局唯一的id，类似订单id，消费者拿到id后先根据id查询(比如查redis)
@@ -168,7 +169,7 @@ kfka 丢数据情况
 * 如果使用方法１后积压消息很长时间还是没处理, 导致mq快写满　
 　只能接消费一个丢弃一个, 快速消费数据, 再执行方案2  
 　<img src="https://i.loli.net/2020/08/12/ubWdyjXxhLA4i2P.png"/>
-　
+
 ### 如何设计消息队列　
 　1. mq支持伸缩性, 能快速扩容, 就可以增加吞吐量和容量, 可以参考kafka设计理念做成分布式系统, broker->topic->partition, 每个partition放一个机器, 存一部分数据, 如果现在资源不够, 给topic增加partition, 然后后做数据迁移, 增加机器　
 　2. 要考虑持久化, 顺序写磁盘,　这样没有磁盘随机读写的寻址开销, 性能就提高了(kafka思路)

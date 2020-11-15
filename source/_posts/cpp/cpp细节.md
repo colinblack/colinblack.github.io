@@ -133,7 +133,7 @@ fd_set 是个结构体, 里面有一个整型数组， c++中则会调用拷贝�
 
 ## STL 中的类型
 SIZE_TYPE：不同平台下长度不一样， 64位下是8字节，unsigned log
-![size_type](/images/f1a84799-5f3b-41a6-a52d-d75a92fdea4d.png)
+![size_type](https://i.loli.net/2020/11/15/3WpHxq7iSewgc5r.png)
 
 这里返回值不能用unsigned去接， 否则找不到会返回-1, 实际find找不到只会返回sting::npos, 显然是类型溢出
 
@@ -226,7 +226,7 @@ prescan
    #define PARAM( x ) x
    #define ADDPARAM( x ) INT_##x
    PARAM( ADDPARAM( 1 ) );
-```   
+```
 
 例外情况是，如果PARAM宏里对宏参数使用了#或##，那么宏参数不会被展开
 ```cpp
@@ -241,7 +241,7 @@ prescan
    //TO_STRING首先会将x全部展开(如果x也是一个宏的话)，然后再传给TO_STRING1转换为字符串，现在你可以这样
    #define TO_STRING( x ) TO_STRING1( x )
    #define TO_STRING1( x ) #x
-```  
+```
 如果一个像函数的宏在使用时没有出现括号，那么预处理器只是将这个宏作为一般的符号处理(那就是不处理)
 
 ## do...while(false)实现类似goto功能　　
@@ -298,7 +298,7 @@ int main(){
 
 ##　判断返回对象为空　
 [C++定义一个函数，返回值为一个对象，如何想办法返回一个逻辑上的空值](https://www.zhihu.com/question/51158804)
- 
+
 
 
 
