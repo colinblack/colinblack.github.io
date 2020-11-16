@@ -116,18 +116,18 @@
 <meta property="og:url" content="http://yoursite.com/2020/07/29/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
 <meta property="og:description" content="需求原型设计 主要设计页面(墨刀原型设计工具)  前台用户登录页面，商品展示页面，抢购结果页面 后台订单管理页面  系统架构设计  前端页面需要承载大流量 在大并发状态下要解决超卖问题 后端接口需要满足横向扩展   RabbitMQ  定义和特征 RabbitMQ是面向消息的中间件，用于组件之间的解耦，主要体现在消息的发送者和消费者之间无强依赖关系 RabbitMQ特点，高可用, 扩展性, 多语言">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020073001.png">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020073002.png">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020073101.png">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020080201.png">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020080202.png">
-<meta property="og:image" content="http://yoursite.com/images/project_seckill_2020080203.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/FtBYQHPuaxyLzUC.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/sBLOTY5aGIrV2iN.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/rAZk5BtOSqgluYQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/5ob4Hif3r9KtDml.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png">
 <meta property="article:published_time" content="2020-07-29T11:49:21.000Z">
-<meta property="article:modified_time" content="2020-11-15T02:49:03.673Z">
+<meta property="article:modified_time" content="2020-11-15T07:41:38.207Z">
 <meta property="article:author" content="Colinblack">
 <meta property="article:tag" content="go">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/project_seckill_2020073001.png">
+<meta name="twitter:image" content="https://i.loli.net/2020/11/15/FtBYQHPuaxyLzUC.png">
 
 
 
@@ -582,7 +582,7 @@ $(function() {
 <ul>
 <li>前端页面需要承载大流量</li>
 <li>在大并发状态下要解决超卖问题</li>
-<li>后端接口需要满足横向扩展 <img src="/images/project_seckill_2020073001.png" alt="project_seckill" /></li>
+<li>后端接口需要满足横向扩展 <img src="https://i.loli.net/2020/11/15/FtBYQHPuaxyLzUC.png" alt="project_seckill" /></li>
 </ul>
 <h3 id="rabbitmq">RabbitMQ</h3>
 <ul>
@@ -592,12 +592,12 @@ RabbitMQ特点，高可用, 扩展性, 多语言客户端，管理界面等 主�
 <li>管理命令介绍　 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rabbtmq-plugins list  &#x2F;&#x2F;查看插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management  &#x2F;&#x2F;安装管理界面</span><br><span class="line">rabbitmq-plugins disable rabbitmq_management &#x2F;&#x2F;卸载管理界面　</span><br><span class="line">rabbitmqctl list_users  &#x2F;&#x2F;列出已创建的用户</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置用户和密码</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置角色</span><br></pre></td></tr></table></figure></li>
 <li>核心概念 VirtualHost Connection Exchange Channel Queue Binding</li>
 </ul>
-<p>*常用工作模式　 1. Simple模式　 <img src="/images/project_seckill_2020073002.png" alt="project_seckill02" /></p>
+<p>*常用工作模式　 1. Simple模式　 <img src="https://i.loli.net/2020/11/15/sBLOTY5aGIrV2iN.png" alt="project_seckill02" /></p>
 <ol start="2" type="1">
-<li><p>Work, 工作模式 　一个消息只能被一个消费者获取　 <img src="/images/project_seckill_2020073101.png" alt="project_seckill_2020073101" /></p></li>
-<li><p>Publish/Subscribe 订阅模式 消息被路由投递给多个队列，一个消息被多个消费者获取 <img src="/images/project_seckill_2020080201.png" alt="project_seckill_2020080201" /></p></li>
-<li><p>Routing, 路由模式　 一个消息被多个消费者获取，并且消息的目标队列可被生产者指定 <img src="/images/project_seckill_2020080202.png" alt="project_seckill_2020080202" /></p></li>
-<li><p>Topic模式 用BindingKey 以通配符， (#：一个或多个词，*：一个词)的方式指定 <img src="/images/project_seckill_2020080203.png" alt="project_seckill_2020080203" /></p></li>
+<li><p>Work, 工作模式 　一个消息只能被一个消费者获取　 <img src="https://i.loli.net/2020/11/15/rAZk5BtOSqgluYQ.png" alt="project_seckill_2020073101" /></p></li>
+<li><p>Publish/Subscribe 订阅模式 消息被路由投递给多个队列，一个消息被多个消费者获取 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080201" /></p></li>
+<li><p>Routing, 路由模式　 一个消息被多个消费者获取，并且消息的目标队列可被生产者指定 <img src="https://i.loli.net/2020/11/15/5ob4Hif3r9KtDml.png" alt="project_seckill_2020080202" /></p></li>
+<li><p>Topic模式 用BindingKey 以通配符， (#：一个或多个词，*：一个词)的方式指定 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080203" /></p></li>
 <li><p>RPC模式</p></li>
 </ol>
 <h3 id="后台功能开发">后台功能开发　　</h3>
@@ -739,7 +739,7 @@ RabbitMQ特点，高可用, 扩展性, 多语言客户端，管理界面等 主�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
