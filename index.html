@@ -568,7 +568,10 @@ $(function() {
         
           
           
-7. 内存管理7.1 从硬件角度看内存管理7.1.2  分段机制解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘
+7. 内存管理
+7.1 从硬件角度看内存管理
+7.1.2 分段机制
+解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -725,7 +728,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  516
+                  518
                 </span>
               
 
@@ -767,14 +770,13 @@ $(function() {
           
           
 微服务实战
-PHP电商单体应用准备　基于 Laravel 开源项目 Laracom 快速构建在线商城系统1. 环境准备　开始之前，需要确保本地具备以下软件:
-
-PHP 7.1+
-Composer
-Git
-
+PHP电商单体应用准备　
+基于 Laravel 开源项目 Laracom 快速构建在线商城系统
+1. 环境准备　
+开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git
 2. 安装Homestead
-安装vagrant直接去官网下载:https://www.va
+
+安装vagrant 直接去官网下载: http
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -909,7 +911,7 @@ Git
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  104
+                  106
                 </span>
               
 
@@ -949,14 +951,14 @@ Git
       
         
           
-          动态规划5.最长回文子串状态转移方程:子串长度大于２:
+          动态规划
+5.最长回文子串
+状态转移方程: 子串长度大于２: \[
+P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
+\] 否则: \[
+\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
+\]
 
-P(i,j) = P(i+1, j-1) ∧ (Si == Sj)否则:
-
-\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}遍历方式:
-
-斜着遍历
-从上至下
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1091,7 +1093,7 @@ P(i,j) = P(i+1, j-1) ∧ (Si == Sj)否则:
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  252
+                  259
                 </span>
               
 
@@ -1131,10 +1133,7 @@ P(i,j) = P(i+1, j-1) ∧ (Si == Sj)否则:
       
         
           
-          　Tcp中的异常处理　当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息:
-
-connect一个不存在的端口，客户端会收到一条RST，报错Connection refused
-程序崩溃或异常退出，会向对
+          ##　Tcp中的异常处理　 当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息: 1. connect一个不存在的端口，客户端会收到一条RST，报错Connection refused 2. 程序崩溃或
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1331,7 +1330,16 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
       
         
           
-          内存管理　物理内存管理　页区域　内存分配　Slab, Slub, Slob高端内存　Per-CPU虚拟内存　
+          内存管理　
+物理内存管理　
+页
+区域　
+内存分配　
+Slab, Slub, Slob
+高端内存　
+Per-CPU
+虚拟内存　
+
           
           <!--noindex-->
           <div class="post-button text-center">
@@ -1466,7 +1474,7 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2.9k
+                  3k
                 </span>
               
 
@@ -1506,26 +1514,40 @@ connect一个不存在的端口，客户端会收到一条RST，报错Connection
       
         
           
-          消息队列　为什么使用消息队列　
-解耦解耦前:解耦后:  
+          消息队列　
+为什么使用消息队列　
 
-异步同步:  
+解耦 解耦前:
+
+解耦后:
+
+异步
+同步:
 
 
-异步:  
+异步:
 
-削峰削峰前:  
 
-削峰后:  
-消息队列优缺点　　  
+削峰
+削峰前:
+
+
+削峰后:
+
+消息队列优缺点　　
+
+interview_2020080407
+
 kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　
 
 
 
-特性
-ActiveMQ
-RabbitMQ
-Rocke
+
+
+
+
+
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1682,7 +1704,7 @@ Rocke
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  404
+                  411
                 </span>
               
 
@@ -1722,18 +1744,22 @@ Rocke
       
         
           
-          需求原型设计主要设计页面(墨刀原型设计工具)
+          需求原型设计
+主要设计页面(墨刀原型设计工具)
 
-前台用户登录页面，商品展示页面，抢购结果页面 
-后台订单管理页面 
+前台用户登录页面，商品展示页面，抢购结果页面
+后台订单管理页面
 
 系统架构设计
+
 前端页面需要承载大流量
 在大并发状态下要解决超卖问题
-后端接口需要满足横向扩展
+后端接口需要满足横向扩展 
 
 RabbitMQ
-定义和特征RabbitMQ是面向消息的中间件，用于组件之间的解耦，主
+
+定义和特征
+RabbitMQ是面向消息的中间件，用于组件之间的解
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1890,7 +1916,7 @@ RabbitMQ
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  843
+                  846
                 </span>
               
 
@@ -1930,7 +1956,7 @@ RabbitMQ
       
         
           
-          如果对象数组中没有默认构造函数，要像下面这样初始化:1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt; 
+          如果对象数组中没有默认构造函数，要像下面这样初始化: 1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt;
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2103,7 +2129,7 @@ RabbitMQ
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  13
+                  14
                 </span>
               
             </div>
@@ -2127,8 +2153,10 @@ RabbitMQ
       
         
           
-          基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名
-创建表123456789101112131415#语法  CREATE [
+          基本操作
+12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名
+创建表
+123456789101112131415#语法  CREATE
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2285,7 +2313,7 @@ RabbitMQ
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  265
+                  267
                 </span>
               
 
@@ -2326,10 +2354,16 @@ RabbitMQ
         
           
           
-makefile中赋值号=  直接赋值:= 把之前的值替换掉?= 如果变量中没值则赋值，有值则不赋值+= 在变量未追加   
-
-makefile中的shell作用域目标项冒号后另起一行才是shell代码$(shell  这里是shell代码)    
-123456789101112define g
+makefile中赋值号
+= 直接赋值
+:= 把之前的值替换掉
+?= 如果变量中没值则赋值，有值则不赋值
++= 在变量未追加
+makefile中的shell
+作用域
+目标项冒号后另起一行才是shell代码
+$(shell 这里是shell代码)
+123456789101112define get_
           ...
           <!--noindex-->
           <div class="post-button text-center">

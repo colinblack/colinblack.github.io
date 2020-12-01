@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="基础MySQL 执行一条查询语句的内部执行过程 答案：链接器&#x3D;》分析器&#x3D;》优化器&#x3D;》执行器&#x3D;》存储引擎     客户端先通过连接器连接到 MySQL 服务器    连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器      分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户">
+<meta name="description" content="基础 MySQL 执行一条查询语句的内部执行过程  答案： 链接器&#x3D;》分析器&#x3D;》优化器&#x3D;》执行器&#x3D;》存储引擎    客户端先通过连接器连接到 MySQL 服务器  连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器  分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户端错误信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql面试">
 <meta property="og:url" content="http://yoursite.com/2020/03/03/mysql_interview/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="基础MySQL 执行一条查询语句的内部执行过程 答案：链接器&#x3D;》分析器&#x3D;》优化器&#x3D;》执行器&#x3D;》存储引擎     客户端先通过连接器连接到 MySQL 服务器    连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器      分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户">
+<meta property="og:description" content="基础 MySQL 执行一条查询语句的内部执行过程  答案： 链接器&#x3D;》分析器&#x3D;》优化器&#x3D;》执行器&#x3D;》存储引擎    客户端先通过连接器连接到 MySQL 服务器  连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器  分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户端错误信">
 <meta property="og:image" content="https://i.loli.net/2020/11/15/Pl9BhwNpSVEWzAk.png">
 <meta property="article:published_time" content="2020-03-03T12:17:16.000Z">
 <meta property="article:modified_time" content="2020-11-15T07:38:09.605Z">
@@ -569,38 +569,73 @@ $(function() {
 
       
         <a id="more"></a>
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="MySQL-执行一条查询语句的内部执行过程"><a href="#MySQL-执行一条查询语句的内部执行过程" class="headerlink" title="MySQL 执行一条查询语句的内部执行过程"></a>MySQL 执行一条查询语句的内部执行过程</h3><ul>
-<li>答案：<br>链接器=》分析器=》优化器=》执行器=》存储引擎    <ol>
-<li>客户端先通过连接器连接到 MySQL 服务器   </li>
-<li>连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器     </li>
-<li>分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户端错误信息，如果语法正确则进入优化器  </li>
-<li>优化器是对查询语句进行优化处理，例如一个表里面有多个索引，优化器会判别哪个索引性能更好  </li>
-<li>优化器执行完就进入执行器，执行器就开始执行语句进行查询比对了，直到查询到满足条件的所有数据，然后进行返回   </li>
-</ol>
+<h2 id="基础">基础</h2>
+<h3 id="mysql-执行一条查询语句的内部执行过程">MySQL 执行一条查询语句的内部执行过程</h3>
+<ul>
+<li>答案：<br />
+链接器=》分析器=》优化器=》执行器=》存储引擎<br />
 </li>
 </ul>
-<ul>
-<li>详解：<br>查询、更新等语句都会走下面这个图(mysql逻辑架构图)<br><img src="https://i.loli.net/2020/11/15/Pl9BhwNpSVEWzAk.png" alt="p1"><br>大体上MySQL=Server层+存储引擎层<br>Server层实现的功能：内置函数(日期、时间、数学、加密函数)和跨存储引擎功能(存储过程、触发器、视图)<br>存储引擎层功能：数据存储和提取，架构模式为插件式，最常用的存储引擎InnoDB(5.5.5后默认引擎)、MyISAM、Memory<br>连接器：<br>负责与客户端建立连接，获取权限，维持和管理连接<br>建立连接<br>mysql  -h$ip  -P$port  -u$user -p<br>获取权限<br>如果用户密码不对， 则报错”Access denied for user”， 然后退出<br>如果用户密码认证通过，连接器会到权限表里查出你拥有的权限 (即使管理员修改了你的权限也只能下次重新连接是生效)<br>管理连接<br>查询连接状态<br>show processlist<br>其中Command 为Sleep的表示空闲连接， 如果空闲时间超过wait_timeout则自动断开<br>查询缓存：<br>以key-value的形式存在内存中，key是查询命令，value是结果<br>缓存利大于弊，查询缓存失效非常频繁，只要对一个表更新，这个表上所有查询缓存都会被清空 , 更新频繁的数据库不适应缓存<br>使用场景：  业务是一张静态表，长时间不更新，例如配置信息<br>设置sql语句默认不查询<br>set session query_cache_type=DEMAND  #当前会话<br>Mysql8.0后没有查询缓存功能<br>分析器<br>优化器：<br>表里有多个索引是，决定用哪个索引，或一个语句有多表关联(join)时，决定各个表连接顺序<br>执行器：<br>先判断有没有查询权限，没有则返回错误 ， 如果有则使用引擎提供的接口      </li>
-</ul>
-<p>二、 MySQL执行一条更新语句内部的执行过程    </p>
-<ul>
-<li>答案:<br>与查询语句的流程一样：链接器=》分析器=》优化器=》执行器=》存储引擎<br>执行器和存储引擎(innodb)的细节不同：   </li>
-</ul>
-<ol>
-<li>执行器先找引擎取指定主键的数据（B-,b+树）, 如果数据在内存上直接返回给执行器，否则从磁盘读入内存在返回   </li>
-<li>执行器根据更新语句对数据进行操作后调用引擎接口写入  </li>
-<li>引擎将这行数据更新到内存，并将更新操作记录到redo log, 此时redo log处于prepare状态，通知执行器可以提交事务。  </li>
-<li>执行器生成这个操作的binlog, 并将binlog写入磁盘</li>
-<li>执行器调用引擎提交事务接口，引擎讲redo log改为commit状态，更新完成      </li>
+<ol type="1">
+<li>客户端先通过连接器连接到 MySQL 服务器<br />
+</li>
+<li>连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器<br />
+</li>
+<li>分析器会对查询语句进行语法分析和词法分析，判断 SQL 语法是否正确，如果查询语法错误会直接返回给客户端错误信息，如果语法正确则进入优化器<br />
+</li>
+<li>优化器是对查询语句进行优化处理，例如一个表里面有多个索引，优化器会判别哪个索引性能更好<br />
+</li>
+<li>优化器执行完就进入执行器，执行器就开始执行语句进行查询比对了，直到查询到满足条件的所有数据，然后进行返回</li>
 </ol>
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="主键索引和非主键索引有什么区别（innodb引擎下）"><a href="#主键索引和非主键索引有什么区别（innodb引擎下）" class="headerlink" title="主键索引和非主键索引有什么区别（innodb引擎下）"></a>主键索引和非主键索引有什么区别（innodb引擎下）</h3><ol>
+<ul>
+<li>详解：<br />
+查询、更新等语句都会走下面这个图(mysql逻辑架构图)<br />
+<img src="https://i.loli.net/2020/11/15/Pl9BhwNpSVEWzAk.png" alt="p1" /><br />
+大体上MySQL=Server层+存储引擎层<br />
+Server层实现的功能：内置函数(日期、时间、数学、加密函数)和跨存储引擎功能(存储过程、触发器、视图)<br />
+存储引擎层功能：数据存储和提取，架构模式为插件式，最常用的存储引擎InnoDB(5.5.5后默认引擎)、MyISAM、Memory<br />
+连接器： 负责与客户端建立连接，获取权限，维持和管理连接<br />
+建立连接<br />
+mysql -h<span class="math inline">\(ip -P\)</span>port -u$user -p<br />
+获取权限<br />
+如果用户密码不对， 则报错&quot;Access denied for user&quot;， 然后退出<br />
+如果用户密码认证通过，连接器会到权限表里查出你拥有的权限 (即使管理员修改了你的权限也只能下次重新连接是生效)<br />
+管理连接<br />
+查询连接状态<br />
+show processlist 其中Command 为Sleep的表示空闲连接， 如果空闲时间超过wait_timeout则自动断开<br />
+查询缓存：<br />
+以key-value的形式存在内存中，key是查询命令，value是结果<br />
+缓存利大于弊，查询缓存失效非常频繁，只要对一个表更新，这个表上所有查询缓存都会被清空 , 更新频繁的数据库不适应缓存<br />
+使用场景： 业务是一张静态表，长时间不更新，例如配置信息<br />
+设置sql语句默认不查询<br />
+set session query_cache_type=DEMAND #当前会话<br />
+Mysql8.0后没有查询缓存功能<br />
+分析器<br />
+优化器：<br />
+表里有多个索引是，决定用哪个索引，或一个语句有多表关联(join)时，决定各个表连接顺序<br />
+执行器：<br />
+先判断有没有查询权限，没有则返回错误 ， 如果有则使用引擎提供的接口</li>
+</ul>
+<p>二、 MySQL执行一条更新语句内部的执行过程<br />
+* 答案: 与查询语句的流程一样：链接器=》分析器=》优化器=》执行器=》存储引擎<br />
+执行器和存储引擎(innodb)的细节不同：<br />
+1. 执行器先找引擎取指定主键的数据（B-,b+树）, 如果数据在内存上直接返回给执行器，否则从磁盘读入内存在返回<br />
+2. 执行器根据更新语句对数据进行操作后调用引擎接口写入<br />
+3. 引擎将这行数据更新到内存，并将更新操作记录到redo log, 此时redo log处于prepare状态，通知执行器可以提交事务。<br />
+4. 执行器生成这个操作的binlog, 并将binlog写入磁盘 5. 执行器调用引擎提交事务接口，引擎讲redo log改为commit状态，更新完成</p>
+<h2 id="索引">索引</h2>
+<h3 id="主键索引和非主键索引有什么区别innodb引擎下">主键索引和非主键索引有什么区别（innodb引擎下）</h3>
+<ol type="1">
 <li>主键索引叶子节点中存储整行数据, 非主键索引存的是主键</li>
-<li>非主键索引可能存在回表查询， 因此IO操作可能多于主键索引, 索引应该避免回表查询   </li>
-<li>创建方式上，如果表中有主键，会自动生成主键索引。表中无主键，将唯一索引+not null 作为主键<br>如果没有， mysql自动创建rowid, 隐式列。 非主键索引要主动创建</li>
-<li>非主键索引会占用额外的磁盘空间，会降低更新效率   </li>
+<li>非主键索引可能存在回表查询， 因此IO操作可能多于主键索引, 索引应该避免回表查询<br />
+</li>
+<li>创建方式上，如果表中有主键，会自动生成主键索引。表中无主键，将唯一索引+not null 作为主键 如果没有， mysql自动创建rowid, 隐式列。 非主键索引要主动创建</li>
+<li>非主键索引会占用额外的磁盘空间，会降低更新效率</li>
 </ol>
-<h3 id="为什么建议使用主键自增索引"><a href="#为什么建议使用主键自增索引" class="headerlink" title="为什么建议使用主键自增索引"></a>为什么建议使用主键自增索引</h3><p>表的存储结构， 表空间有段(索引=索引段+数据段)组成， 区=1M=64页， 1页=16k<br>不使用自增索引插入数据时B+树的结构可能也会跟着调整， 可能产生磁盘碎片降低磁盘利用率</p>
-<h3 id="为什么索引使用整型而不是字符串"><a href="#为什么索引使用整型而不是字符串" class="headerlink" title="为什么索引使用整型而不是字符串"></a>为什么索引使用整型而不是字符串</h3>
+<h3 id="为什么建议使用主键自增索引">为什么建议使用主键自增索引</h3>
+<p>表的存储结构， 表空间有段(索引=索引段+数据段)组成， 区=1M=64页， 1页=16k 不使用自增索引插入数据时B+树的结构可能也会跟着调整， 可能产生磁盘碎片降低磁盘利用率</p>
+<h3 id="为什么索引使用整型而不是字符串">为什么索引使用整型而不是字符串</h3>
+
       
     </div>
 
@@ -829,7 +864,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-执行一条查询语句的内部执行过程"><span class="nav-number">1.1.</span> <span class="nav-text">MySQL 执行一条查询语句的内部执行过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引和非主键索引有什么区别（innodb引擎下）"><span class="nav-number">2.1.</span> <span class="nav-text">主键索引和非主键索引有什么区别（innodb引擎下）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么建议使用主键自增索引"><span class="nav-number">2.2.</span> <span class="nav-text">为什么建议使用主键自增索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么索引使用整型而不是字符串"><span class="nav-number">2.3.</span> <span class="nav-text">为什么索引使用整型而不是字符串</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-执行一条查询语句的内部执行过程"><span class="nav-number">1.1.</span> <span class="nav-text">MySQL 执行一条查询语句的内部执行过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">2.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引和非主键索引有什么区别innodb引擎下"><span class="nav-number">2.1.</span> <span class="nav-text">主键索引和非主键索引有什么区别（innodb引擎下）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么建议使用主键自增索引"><span class="nav-number">2.2.</span> <span class="nav-text">为什么建议使用主键自增索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么索引使用整型而不是字符串"><span class="nav-number">2.3.</span> <span class="nav-text">为什么索引使用整型而不是字符串</span></a></li></ol></li></ol></div>
             
 
           </div>
