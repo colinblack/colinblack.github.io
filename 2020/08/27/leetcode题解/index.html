@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="动态规划 5.最长回文子串 状态转移方程: 子串长度大于２: \[ P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  \] 否则: \[ \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases} \] 遍历方式:  斜着遍历 从上至下遍历  91.解码方法 状态转移方程: \[ f(i)&#x3D;\begin">
+<meta name="description" content="动态规划5.最长回文子串状态转移方程:子串长度大于２:  P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)否则:  \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases}遍历方式:  斜着遍历 从上至下遍历  91.解码方法状态转移方程:  f(i)&#x3D;\begin{cases} 1, \quad i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode题解">
 <meta property="og:url" content="http://yoursite.com/2020/08/27/leetcode%E9%A2%98%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="动态规划 5.最长回文子串 状态转移方程: 子串长度大于２: \[ P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)  \] 否则: \[ \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases} \] 遍历方式:  斜着遍历 从上至下遍历  91.解码方法 状态转移方程: \[ f(i)&#x3D;\begin">
+<meta property="og:description" content="动态规划5.最长回文子串状态转移方程:子串长度大于２:  P(i,j) &#x3D; P(i+1, j-1) ∧ (Si &#x3D;&#x3D; Sj)否则:  \begin{cases} P(i,i) &#x3D; true \\ P(i, i+1) &#x3D; (Si &#x3D;&#x3D; Si+1) \end{cases}遍历方式:  斜着遍历 从上至下遍历  91.解码方法状态转移方程:  f(i)&#x3D;\begin{cases} 1, \quad i">
 <meta property="article:published_time" content="2020-08-26T23:33:46.000Z">
 <meta property="article:modified_time" content="2020-11-15T02:49:03.669Z">
 <meta property="article:author" content="Colinblack">
@@ -505,7 +505,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  106
+                  104
                 </span>
               
 
@@ -543,23 +543,18 @@ $(function() {
       
 
       
-        <h3 id="动态规划">动态规划</h3>
-<h4 id="最长回文子串">5.最长回文子串</h4>
-<p>状态转移方程: 子串长度大于２: <span class="math display">\[
-P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
-\]</span> 否则: <span class="math display">\[
-\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
-\]</span></p>
-<p>遍历方式:</p>
-<ol type="1">
+        <h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><h4 id="5-最长回文子串"><a href="#5-最长回文子串" class="headerlink" title="5.最长回文子串"></a>5.最长回文子串</h4><p>状态转移方程:<br>子串长度大于２:</p>
+<script type="math/tex; mode=display">
+P(i,j) = P(i+1, j-1) ∧ (Si == Sj)</script><p>否则:</p>
+<script type="math/tex; mode=display">
+\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}</script><p>遍历方式:</p>
+<ol>
 <li>斜着遍历</li>
 <li>从上至下遍历</li>
 </ol>
-<h4 id="解码方法">91.解码方法</h4>
-<p>状态转移方程: <span class="math display">\[
-f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i &lt; 7\},\quad i&gt;0 \end{cases}
-\]</span></p>
-
+<h4 id="91-解码方法"><a href="#91-解码方法" class="headerlink" title="91.解码方法"></a>91.解码方法</h4><p>状态转移方程:</p>
+<script type="math/tex; mode=display">
+f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i < 7\},\quad i>0 \end{cases}</script>
       
     </div>
 
@@ -786,7 +781,7 @@ f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i &lt; 7\
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">1.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最长回文子串"><span class="nav-number">1.1.</span> <span class="nav-text">5.最长回文子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解码方法"><span class="nav-number">1.2.</span> <span class="nav-text">91.解码方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">1.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-最长回文子串"><span class="nav-number">1.1.</span> <span class="nav-text">5.最长回文子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#91-解码方法"><span class="nav-number">1.2.</span> <span class="nav-text">91.解码方法</span></a></li></ol></li></ol></div>
             
 
           </div>

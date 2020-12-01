@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="消息队列　 为什么使用消息队列　  解耦 解耦前:  解耦后:  异步 同步:   异步:   削峰 削峰前:   削峰后:  消息队列优缺点　　  interview_2020080407  kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　           特性 ActiveMQ RabbitMQ RocketMQ Kafka     单机吞吐量 万级">
+<meta name="description" content="消息队列　为什么使用消息队列　 解耦解耦前:解耦后:    异步同步:     异步:    削峰削峰前:    削峰后:   消息队列优缺点　　   kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　    特性 ActiveMQ RabbitMQ RocketMQ Kafka     单机吞吐量 万级，吞吐量比RocketMQ和Kafka要低了一个数量级">
 <meta property="og:type" content="article">
 <meta property="og:title" content="interview">
 <meta property="og:url" content="http://yoursite.com/2020/08/03/interview/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="消息队列　 为什么使用消息队列　  解耦 解耦前:  解耦后:  异步 同步:   异步:   削峰 削峰前:   削峰后:  消息队列优缺点　　  interview_2020080407  kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　           特性 ActiveMQ RabbitMQ RocketMQ Kafka     单机吞吐量 万级">
+<meta property="og:description" content="消息队列　为什么使用消息队列　 解耦解耦前:解耦后:    异步同步:     异步:    削峰削峰前:    削峰后:   消息队列优缺点　　   kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　    特性 ActiveMQ RabbitMQ RocketMQ Kafka     单机吞吐量 万级，吞吐量比RocketMQ和Kafka要低了一个数量级">
 <meta property="og:image" content="https://i.loli.net/2020/11/15/L2mjEoezUJ87sGy.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/15/S1gNdUCF8ZEbM5X.png">
 <meta property="og:image" content="https://i.loli.net/2020/11/15/9Z3ipqUPI1R4AaQ.png">
@@ -525,7 +525,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3k
+                  2.9k
                 </span>
               
 
@@ -563,42 +563,23 @@ $(function() {
       
 
       
-        <h2 id="消息队列">消息队列　</h2>
-<h3 id="为什么使用消息队列">为什么使用消息队列　</h3>
-<ol type="1">
-<li><p>解耦 解耦前:<br />
-<img src="https://i.loli.net/2020/11/15/L2mjEoezUJ87sGy.png" alt="interview_2020080401" /><br />
-解耦后:<br />
-<img src="https://i.loli.net/2020/11/15/S1gNdUCF8ZEbM5X.png" alt="interview_2020080402" /></p></li>
-<li><p>异步<br />
-同步:<br />
-<img src="https://i.loli.net/2020/11/15/9Z3ipqUPI1R4AaQ.png" alt="interview_2020080403" /></p></li>
+        <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列　"></a>消息队列　</h2><h3 id="为什么使用消息队列"><a href="#为什么使用消息队列" class="headerlink" title="为什么使用消息队列　"></a>为什么使用消息队列　</h3><ol>
+<li><p>解耦<br>解耦前:<br><img src="https://i.loli.net/2020/11/15/L2mjEoezUJ87sGy.png" alt="interview_2020080401"><br>解耦后:<br><img src="https://i.loli.net/2020/11/15/S1gNdUCF8ZEbM5X.png" alt="interview_2020080402">  </p>
+</li>
+<li><p>异步<br>同步:<br><img src="https://i.loli.net/2020/11/15/9Z3ipqUPI1R4AaQ.png" alt="interview_2020080403">  </p>
+</li>
 </ol>
-<p>异步:<br />
-<img src="https://i.loli.net/2020/11/15/toDG9L1z3yEOu5B.png" alt="interview_2020080404" /></p>
-<ol start="3" type="1">
-<li>削峰<br />
-削峰前:<br />
-<img src="https://i.loli.net/2020/11/15/Fc8ISDesT2o3dGV.png" alt="interview_2020080405" /></li>
+<p>异步:<br><img src="https://i.loli.net/2020/11/15/toDG9L1z3yEOu5B.png" alt="interview_2020080404">  </p>
+<ol>
+<li>削峰<br>削峰前:<br><img src="https://i.loli.net/2020/11/15/Fc8ISDesT2o3dGV.png" alt="interview_2020080405">  </li>
 </ol>
-<p>削峰后:<br />
-<img src="https://i.loli.net/2020/11/15/ENX4bsKlcG7DhwC.png" alt="interview_2020080406" /></p>
-<h3 id="消息队列优缺点">消息队列优缺点　　</h3>
-<figure>
-<img src="https://i.loli.net/2020/11/15/BbnIu4KMaYrSeZv.png" alt="interview_2020080407" /><figcaption>interview_2020080407</figcaption>
-</figure>
-<h3 id="kafka-activemq-rabbitmq-rocketmq都有哪些优缺点">kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　</h3>
+<p>削峰后:<br><img src="https://i.loli.net/2020/11/15/ENX4bsKlcG7DhwC.png" alt="interview_2020080406">  </p>
+<h3 id="消息队列优缺点"><a href="#消息队列优缺点" class="headerlink" title="消息队列优缺点　　"></a>消息队列优缺点　　</h3><p><img src="https://i.loli.net/2020/11/15/BbnIu4KMaYrSeZv.png" alt="interview_2020080407">  </p>
+<h3 id="kafka-activemq-rabbitmq-rocketmq都有哪些优缺点"><a href="#kafka-activemq-rabbitmq-rocketmq都有哪些优缺点" class="headerlink" title="kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　"></a>kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　</h3><div class="table-container">
 <table>
-<colgroup>
-<col style="width: 8%" />
-<col style="width: 22%" />
-<col style="width: 22%" />
-<col style="width: 22%" />
-<col style="width: 22%" />
-</colgroup>
 <thead>
-<tr class="header">
-<th style="text-align: left;">特性</th>
+<tr>
+<th style="text-align:left">特性</th>
 <th>ActiveMQ</th>
 <th>RabbitMQ</th>
 <th>RocketMQ</th>
@@ -606,50 +587,50 @@ $(function() {
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">单机吞吐量</td>
+<tr>
+<td style="text-align:left">单机吞吐量</td>
 <td>万级，吞吐量比RocketMQ和Kafka要低了一个数量级</td>
 <td>万级，吞吐量比RocketMQ和Kafka要低了一个数量级</td>
 <td>10万级，RocketMQ也是可以支撑高吞吐的一种MQ</td>
 <td>10万级别，这是kafka最大的优点，就是吞吐量高。 一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">topic数量对吞吐量的影响</td>
+<tr>
+<td style="text-align:left">topic数量对吞吐量的影响</td>
 <td></td>
 <td></td>
 <td>topic可以达到几百，几千个的级别，吞吐量会有较小幅度的下降 这是RocketMQ的一大优势，在同等机器下，可以支撑大量的topic</td>
 <td>topic从几十个到几百个的时候，吞吐量会大幅度下降 所以在同等机器下，kafka尽量保证topic数量不要过多。如果要支撑大规模topic，需要增加更多的机器资源</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">时效性</td>
+<tr>
+<td style="text-align:left">时效性</td>
 <td>ms级</td>
 <td>微秒级，这是rabbitmq的一大特点，延迟是最低的</td>
 <td>ms级</td>
 <td>延迟在ms级以内</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">可用性</td>
+<tr>
+<td style="text-align:left">可用性</td>
 <td>高，基于主从架构实现高可用性</td>
 <td>高，基于主从架构实现高可用性</td>
 <td>非常高，分布式架构</td>
 <td>非常高，kafka是分布式的，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">消息可靠性</td>
+<tr>
+<td style="text-align:left">消息可靠性</td>
 <td>有较低的概率丢失数据</td>
 <td></td>
 <td>经过参数优化配置，可以做到0丢失</td>
 <td>经过参数优化配置，消息可以做到0丢失</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">功能支持</td>
+<tr>
+<td style="text-align:left">功能支持</td>
 <td>MQ领域的功能极其完备</td>
 <td>基于erlang开发，所以并发能力很强，性能极其好，延时很低</td>
 <td>MQ功能较为完善，还是分布式的，扩展性好</td>
 <td>功能较为简单，主要支持简单的MQ功能，在大数据领域的实时计算以及日志采集被大规模使用，是事实上的标准</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">优劣势总结</td>
+<tr>
+<td style="text-align:left">优劣势总结</td>
 <td>非常成熟，功能强大，在业内大量的公司以及项目中都有应用 偶尔会有较低概率丢失消息 而且现在社区以及国内应用都越来越少，官方社区现在对ActiveMQ 5.x维护越来越少，几个月才发布一个版本 而且确实主要是基于解耦和异步来用的，较少在大规模吞吐的场景中使用</td>
 <td>erlang语言开发，性能极其好，延时很低； 吞吐量到万级，MQ功能比较完备 而且开源提供的管理界面非常棒，用起来很好用 社区相对比较活跃，几乎每个月都发布几个版本分 在国内一些互联网公司近几年用rabbitmq也比较多一些 但是问题也是显而易见的，RabbitMQ确实吞吐量会低一些，这是因为他做的实现机制比较重。 而且erlang开发，国内有几个公司有实力做erlang源码级别的研究和定制？如果说你没这个实力的话，确实偶尔会有一些问题，你很难去看懂源码，你公司对这个东西的掌控很弱，基本职能依赖于开源社区的快速维护和修复bug。 而且rabbitmq集群动态扩展会很麻烦，不过这个我觉得还好。其实主要是erlang语言本身带来的问题。很难读源码，很难定制和掌控。</td>
 <td>接口简单易用，而且毕竟在阿里大规模应用过，有阿里品牌保障 日处理消息上百亿之多，可以做到大规模吞吐，性能也非常好，分布式扩展也很方便，社区维护还可以，可靠性和可用性都是ok的，还可以支撑大规模的topic数量，支持复杂MQ业务场景 而且一个很大的优势在于，阿里出品都是java系的，我们可以自己阅读源码，定制自己公司的MQ，可以掌控 社区活跃度相对较为一般，不过也还可以，文档相对来说简单一些，然后接口这块不是按照标准JMS规范走的有些系统要迁移需要修改大量代码 还有就是阿里出台的技术，你得做好这个技术万一被抛弃，社区黄掉的风险，那如果你们公司有技术实力我觉得用RocketMQ挺好的</td>
@@ -657,73 +638,79 @@ $(function() {
 </tr>
 </tbody>
 </table>
-<p>消息队列技术选型　<br />
-中小型公司　RabbitMQ<br />
-大型公司，基础架构研发实力较强　RocketMQ<br />
-大数据领域的实时计算、日志采集等场景　Kafka</p>
-<h3 id="消息队列如何保证高可用">消息队列如何保证高可用　</h3>
-<ul>
-<li>RabbitMQ的高可用性　　 　rabbitmq有三种模式：单机模式，普通集群模式，镜像集群模式　</li>
+</div>
+<p>消息队列技术选型　<br>中小型公司　RabbitMQ<br>大型公司，基础架构研发实力较强　RocketMQ<br>大数据领域的实时计算、日志采集等场景　Kafka  </p>
+<h3 id="消息队列如何保证高可用"><a href="#消息队列如何保证高可用" class="headerlink" title="消息队列如何保证高可用　"></a>消息队列如何保证高可用　</h3><ul>
+<li>RabbitMQ的高可用性　　<br>　rabbitmq有三种模式：单机模式，普通集群模式，镜像集群模式　</li>
 </ul>
-<ol type="1">
-<li><p>单机模式　 生产没人用单机模式　</p></li>
-<li><p>普通集群模式　 <img src="https://i.loli.net/2020/11/15/cSLZMTBUCwDOa5h.png" alt="interview_2020080501" /></p></li>
-<li><p>镜像集群模式 <img src="https://i.loli.net/2020/11/15/EemrsOtKDALGnBa.png" alt="interview_2020080502" /><br />
-如何开启:在管理控制界面新增策略，要求数据同步到所有节点的，也可以要求就同步到指定数量的节点　　</p></li>
+<ol>
+<li>单机模式　<br>生产没人用单机模式　</li>
+</ol>
+<ol>
+<li><p>普通集群模式　<br><img src="https://i.loli.net/2020/11/15/cSLZMTBUCwDOa5h.png" alt="interview_2020080501">  </p>
+</li>
+<li><p>镜像集群模式<br><img src="https://i.loli.net/2020/11/15/EemrsOtKDALGnBa.png" alt="interview_2020080502"><br>如何开启:在管理控制界面新增策略，要求数据同步到所有节点的，也可以要求就同步到指定数量的节点　　</p>
+</li>
 </ol>
 <ul>
-<li>Kafka的高可用　 <img src="https://i.loli.net/2020/11/15/SNdLHPMDcuKUnsb.png" alt="interview_2020080503" /></li>
+<li>Kafka的高可用　<br><img src="https://i.loli.net/2020/11/15/SNdLHPMDcuKUnsb.png" alt="interview_2020080503">  </li>
 </ul>
-<h3 id="从消息队列消费到重复数据怎么办">从消息队列消费到重复数据怎么办　</h3>
-<p>消息队列都可能提供重复数据，这个要自己保证　 <img src="https://i.loli.net/2020/11/15/xcyIa1hnmzsDbSP.png" alt="interview_2020080504" /></p>
-<p>如何保证数据幂等性　<br />
-<img src="https://i.loli.net/2020/11/15/4179saGnEh8qHXZ.png" alt="interview_2020080505" /><br />
-幂等性: 重复多次请求保证数据状态不出错(例如数据重复,数据改变) 方案</p>
-<ol type="1">
-<li>根据主键查，如果数存在则不插入</li>
+<h3 id="从消息队列消费到重复数据怎么办"><a href="#从消息队列消费到重复数据怎么办" class="headerlink" title="从消息队列消费到重复数据怎么办　"></a>从消息队列消费到重复数据怎么办　</h3><p>消息队列都可能提供重复数据，这个要自己保证　<br><img src="https://i.loli.net/2020/11/15/xcyIa1hnmzsDbSP.png" alt="interview_2020080504">  </p>
+<p>如何保证数据幂等性　<br><img src="https://i.loli.net/2020/11/15/4179saGnEh8qHXZ.png" alt="interview_2020080505"><br>幂等性: 重复多次请求保证数据状态不出错(例如数据重复,数据改变)<br>方案</p>
+<ol>
+<li>根据主键查，如果数存在则不插入 </li>
 <li>写redis,　天然幂等　</li>
-<li>生产者发送每条数据时，加一个全局唯一的id，类似订单id，消费者拿到id后先根据id查询(比如查redis) ,如果没有数据，则将id写入redis,　否则不处理　</li>
+<li>生产者发送每条数据时，加一个全局唯一的id，类似订单id，消费者拿到id后先根据id查询(比如查redis)<br>,如果没有数据，则将id写入redis,　否则不处理　</li>
 </ol>
-<h3 id="发送消息队列的数据丢了怎么办">发送消息队列的数据丢了怎么办　</h3>
-<h4 id="rabbitmq">rabbitmq</h4>
-<ul>
-<li>生产者弄丢数据　 生产者发送数据时可能由于网络问题,　在消息队列收到之前弄丢了，有两种方法解决</li>
+<h3 id="发送消息队列的数据丢了怎么办"><a href="#发送消息队列的数据丢了怎么办" class="headerlink" title="发送消息队列的数据丢了怎么办　"></a>发送消息队列的数据丢了怎么办　</h3><h4 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h4><ul>
+<li>生产者弄丢数据　<br>生产者发送数据时可能由于网络问题,　在消息队列收到之前弄丢了，有两种方法解决</li>
 </ul>
-<ol type="1">
-<li><p>rabbitmq事务功能　 开启事务(channel.txSelect), 发送消息如果没有被rabbitmq收到，生产者会收到异常,　此时回滚事务(channel.txRollback), 重发, 如果接收到提交事务(channel.txCommit) 缺点: 降低吞吐量, 耗性能　</p></li>
-<li><p>confirm 模式　 生产者设置confirm后, 每次发消息会分配一个唯一id, 如果写入rabbitmq会传回一个ack消息，如果rabbitmq没有处理，会回调生产者注册的nack接口，然后重试.　生产者可以在内存里维护每个消息id状态, 超过时间没收到消息回调，可以重发</p></li>
+<ol>
+<li><p>rabbitmq事务功能　<br>开启事务(channel.txSelect), 发送消息如果没有被rabbitmq收到，生产者会收到异常,　此时回滚事务(channel.txRollback), 重发, 如果接收到提交事务(channel.txCommit)<br>缺点: 降低吞吐量, 耗性能　</p>
+</li>
+<li><p>confirm 模式　<br>生产者设置confirm后, 每次发消息会分配一个唯一id, 如果写入rabbitmq会传回一个ack消息，如果rabbitmq没有处理，会回调生产者注册的nack接口，然后重试.　生产者可以在内存里维护每个消息id状态, 超过时间没收到消息回调，可以重发 </p>
+</li>
 </ol>
-<p>事务同步，阻塞 confirm 异步，非阻塞　</p>
+<p>事务同步，阻塞<br>confirm 异步，非阻塞　</p>
 <ul>
-<li>rabbitmq弄丢数据　 开启持久化, 极小概率下rabbitmq没持久化完自己挂了导致少量数据丢失　</li>
+<li>rabbitmq弄丢数据　<br>开启持久化, 极小概率下rabbitmq没持久化完自己挂了导致少量数据丢失　</li>
 </ul>
-<p>设置持久化方法 1. 创建queue时持久化，这样能保证持久化元数据，但是不能持久化数据本身 2. 发送消息时设置deliveryMode=2,此时会将消息持久化到磁盘. 必须同时设置这两个持久化,　rabbitmq挂了重启后会从磁盘上恢复queue里面的数据　</p>
-<p>持久化配合confirm 只有消息被持久化到磁盘后才ack</p>
-<p>缺点: 开启持久化也可能有数据丢失现象, 当消息写到rabbitmq后没来得及持久化, 此时rabbitmq挂了导致数据丢失　</p>
+<p>设置持久化方法</p>
+<ol>
+<li>创建queue时持久化，这样能保证持久化元数据，但是不能持久化数据本身</li>
+<li>发送消息时设置deliveryMode=2,此时会将消息持久化到磁盘.<br>必须同时设置这两个持久化,　rabbitmq挂了重启后会从磁盘上恢复queue里面的数据　</li>
+</ol>
+<p>持久化配合confirm<br>只有消息被持久化到磁盘后才ack</p>
+<p>缺点:<br>开启持久化也可能有数据丢失现象, 当消息写到rabbitmq后没来得及持久化, 此时rabbitmq挂了导致数据丢失　</p>
 <ul>
-<li>消费者丢失数据　　 收到数据还没消费进程挂了, 数据丢失, 此时使用rabbitmq的ack机制 首先关闭rabbitmq自动ack, 自己处理完消息再主动ack</li>
+<li>消费者丢失数据　　<br>收到数据还没消费进程挂了, 数据丢失, 此时使用rabbitmq的ack机制<br>首先关闭rabbitmq自动ack, 自己处理完消息再主动ack</li>
 </ul>
-<p>rabbitmq 丢数据情况　 <img src="https://i.loli.net/2020/08/11/3kZ2WGNTSzxuy7v.png"/></p>
-<h4 id="kafka">kafka</h4>
-<p>kafka 某个broker宕机, 然后重新选举partiton的leader时, 刚好数据没有同步，此时leader挂了,然后选举某了follorer成leader, 造成一部分数据丢失　 为保证数据不丢要设置４个参数: 1. 给topic设置replication.factor&gt;1, 每个partition至少２个副本 2. min.insync.replicas&gt;1, 一个leader至少感知一个follower还和自己保持联系 3. producer端acks=all, 每条数据必须写入所有replica后才能认为写成功　 4. producer端设置retries=Max, 一旦写入失败，无限重试　　</p>
-<p>生产者不会丢数据 如果按照上述的思路设置了ack=all，一定不会丢，要求是，leader接收到消息，所有的follower都同步到了消息之后，才认为本次写成功了。如果条件不满足，生产者会不断的重试无限次</p>
-<p>kfka 丢数据情况 <img src="https://i.loli.net/2020/08/11/BnyzJCSPtmVbTFM.png"/></p>
-<h3 id="如何保证消息的顺序">如何保证消息的顺序　</h3>
-<h4 id="顺序错乱的场景">顺序错乱的场景　</h4>
-<ol type="1">
-<li><p>rabbitmq 多个消费者从一个queue里面读数据 <img src="https://i.loli.net/2020/08/11/nUSD8KyliE7IZMN.png"/></p></li>
-<li><p>kafka －个topic,　一个partition, －个consumer,内存多线程数据乱掉 <img src="https://i.loli.net/2020/08/11/lU9fbJqWs2YcCLo.png"/></p></li>
+<p>rabbitmq 丢数据情况　<br>    <img src="https://i.loli.net/2020/08/11/3kZ2WGNTSzxuy7v.png"/></p>
+<h4 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h4><p>kafka 某个broker宕机, 然后重新选举partiton的leader时, 刚好数据没有同步，此时leader挂了,然后选举某了follorer成leader, 造成一部分数据丢失　<br>为保证数据不丢要设置４个参数:</p>
+<ol>
+<li>给topic设置replication.factor&gt;1, 每个partition至少２个副本</li>
+<li>min.insync.replicas&gt;1, 一个leader至少感知一个follower还和自己保持联系</li>
+<li>producer端acks=all, 每条数据必须写入所有replica后才能认为写成功　</li>
+<li>producer端设置retries=Max, 一旦写入失败，无限重试　　</li>
 </ol>
-<h4 id="解决">解决　</h4>
-<ol type="1">
-<li><p>rabbitmq 拆分多个queue，每个queue一个consumer，或者一个队列对应一个consumer, 内部用内存队列做排队, 分发给底层不同的worker来处理 <img src="https://i.loli.net/2020/08/11/ZvkeipAzFfbnj8R.png"/></p></li>
-<li><p>kafka 一个topic，一个partition，一个consumer，内部单线程消费，写N个内存queue，N个线程分别消费一个内存queue即可 <img src="https://i.loli.net/2020/08/11/rRAukDibUgj5tqc.png"/></p></li>
+<p>生产者不会丢数据<br>如果按照上述的思路设置了ack=all，一定不会丢，要求是，leader接收到消息，所有的follower都同步到了消息之后，才认为本次写成功了。如果条件不满足，生产者会不断的重试无限次</p>
+<p>kfka 丢数据情况<br><img src="https://i.loli.net/2020/08/11/BnyzJCSPtmVbTFM.png"/></p>
+<h3 id="如何保证消息的顺序"><a href="#如何保证消息的顺序" class="headerlink" title="如何保证消息的顺序　"></a>如何保证消息的顺序　</h3><h4 id="顺序错乱的场景"><a href="#顺序错乱的场景" class="headerlink" title="顺序错乱的场景　"></a>顺序错乱的场景　</h4><ol>
+<li><p>rabbitmq<br>多个消费者从一个queue里面读数据<br><img src="https://i.loli.net/2020/08/11/nUSD8KyliE7IZMN.png"/></p>
+</li>
+<li><p>kafka<br>－个topic,　一个partition, －个consumer,内存多线程数据乱掉<br><img src="https://i.loli.net/2020/08/11/lU9fbJqWs2YcCLo.png"/></p>
+</li>
 </ol>
-<h3 id="消息积压怎么办">消息积压怎么办</h3>
-<ul>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决　"></a>解决　</h4><ol>
+<li><p>rabbitmq<br>拆分多个queue，每个queue一个consumer，或者一个队列对应一个consumer, 内部用内存队列做排队, 分发给底层不同的worker来处理<br><img src="https://i.loli.net/2020/08/11/ZvkeipAzFfbnj8R.png"/></p>
+</li>
+<li><p>kafka<br>一个topic，一个partition，一个consumer，内部单线程消费，写N个内存queue，N个线程分别消费一个内存queue即可<br><img src="https://i.loli.net/2020/08/11/rRAukDibUgj5tqc.png"/></p>
+</li>
+</ol>
+<h3 id="消息积压怎么办"><a href="#消息积压怎么办" class="headerlink" title="消息积压怎么办"></a>消息积压怎么办</h3><ul>
 <li>问题的实质是消费端出了问题，解决思路如下:</li>
 </ul>
-<ol type="1">
+<ol>
 <li>先修复consumer的问题，确保其恢复消费速度，然后将现有cnosumer都停掉</li>
 <li>新建一个topic，partition是原来的10倍，临时建立好原先10倍或者20倍的queue数量</li>
 <li>然后写一个临时的分发数据的consumer程序，这个程序部署上去消费积压的数据，消费之后不做耗时的处理，直接均匀轮询写入临时建立好的10倍数量的queue</li>
@@ -732,15 +719,13 @@ $(function() {
 <li>等快速消费完积压数据之后，得恢复原先部署架构，重新用原先的consumer机器来消费消息</li>
 </ol>
 <ul>
-<li><p>如果使用的是rabbitmq,而且设置了过期时间(TTL)，消息在queue中积压超过一定时间被清理掉了 批量重导, 将积压的数据丢掉, 等高峰期过后, 将丢掉的数据找回重新导入mq里</p></li>
-<li><p>如果使用方法１后积压消息很长时间还是没处理, 导致mq快写满　 　只能接消费一个丢弃一个, 快速消费数据, 再执行方案2<br />
-　<img src="https://i.loli.net/2020/08/12/ubWdyjXxhLA4i2P.png"/></p></li>
+<li><p>如果使用的是rabbitmq,而且设置了过期时间(TTL)，消息在queue中积压超过一定时间被清理掉了<br>批量重导, 将积压的数据丢掉, 等高峰期过后, 将丢掉的数据找回重新导入mq里</p>
+</li>
+<li><p>如果使用方法１后积压消息很长时间还是没处理, 导致mq快写满　<br>　只能接消费一个丢弃一个, 快速消费数据, 再执行方案2<br>　<img src="https://i.loli.net/2020/08/12/ubWdyjXxhLA4i2P.png"/></p>
+</li>
 </ul>
-<h3 id="如何设计消息队列">如何设计消息队列　</h3>
-<p>　1. mq支持伸缩性, 能快速扩容, 就可以增加吞吐量和容量, 可以参考kafka设计理念做成分布式系统, broker-&gt;topic-&gt;partition, 每个partition放一个机器, 存一部分数据, 如果现在资源不够, 给topic增加partition, 然后后做数据迁移, 增加机器　 　2. 要考虑持久化, 顺序写磁盘,　这样没有磁盘随机读写的寻址开销, 性能就提高了(kafka思路) 　3. 可用性, 要保证高可用, 参考kafka怎样保证高可用 　4. 数据0丢失</p>
-<h2 id="分布式缓存">分布式缓存　</h2>
-<h3 id="项目中如何使用缓存">项目中如何使用缓存　</h3>
-
+<h3 id="如何设计消息队列"><a href="#如何设计消息队列" class="headerlink" title="如何设计消息队列　"></a>如何设计消息队列　</h3><p>　1. mq支持伸缩性, 能快速扩容, 就可以增加吞吐量和容量, 可以参考kafka设计理念做成分布式系统, broker-&gt;topic-&gt;partition, 每个partition放一个机器, 存一部分数据, 如果现在资源不够, 给topic增加partition, 然后后做数据迁移, 增加机器　<br>　2. 要考虑持久化, 顺序写磁盘,　这样没有磁盘随机读写的寻址开销, 性能就提高了(kafka思路)<br>　3. 可用性, 要保证高可用, 参考kafka怎样保证高可用<br>　4. 数据0丢失</p>
+<h2 id="分布式缓存"><a href="#分布式缓存" class="headerlink" title="分布式缓存　"></a>分布式缓存　</h2><h3 id="项目中如何使用缓存"><a href="#项目中如何使用缓存" class="headerlink" title="项目中如何使用缓存　"></a>项目中如何使用缓存　</h3>
       
     </div>
 
