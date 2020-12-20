@@ -110,14 +110,14 @@
 
 
 
-<meta name="description" content="7. 内存管理 7.1 从硬件角度看内存管理 7.1.2 分段机制 解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘 7.1.3 分页机制">
+<meta name="description" content="7. 内存管理 7.1 从硬件角度看内存管理 7.1.2 分段机制 解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘 7.1.3 分页机制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="奔跑吧Linux内核入门篇笔记">
 <meta property="og:url" content="http://yoursite.com/2020/11/16/%E5%A5%94%E8%B7%91%E5%90%A7Linux%E5%86%85%E6%A0%B8%E5%85%A5%E9%97%A8%E7%AF%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="7. 内存管理 7.1 从硬件角度看内存管理 7.1.2 分段机制 解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘 7.1.3 分页机制">
+<meta property="og:description" content="7. 内存管理 7.1 从硬件角度看内存管理 7.1.2 分段机制 解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘 7.1.3 分页机制">
 <meta property="article:published_time" content="2020-11-16T11:31:08.000Z">
-<meta property="article:modified_time" content="2020-11-16T11:56:48.139Z">
+<meta property="article:modified_time" content="2020-12-06T05:54:28.110Z">
 <meta property="article:author" content="Colinblack">
 <meta property="article:tag" content="Linux内核">
 <meta name="twitter:card" content="summary">
@@ -569,7 +569,7 @@ $(function() {
 <h2 id="内存管理">7. 内存管理</h2>
 <h3 id="从硬件角度看内存管理">7.1 从硬件角度看内存管理</h3>
 <h4 id="分段机制">7.1.2 分段机制</h4>
-<p>解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘</p>
+<p>解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘</p>
 <h4 id="分页机制">7.1.3 分页机制</h4>
 
       

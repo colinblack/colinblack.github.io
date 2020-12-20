@@ -571,7 +571,7 @@ $(function() {
 7. 内存管理
 7.1 从硬件角度看内存管理
 7.1.2 分段机制
-解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟I地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出
+解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2405,8 +2405,10 @@ $(shell 这里是shell代码)
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
   </nav>
+
+
 
 
           
