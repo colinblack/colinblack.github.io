@@ -93,18 +93,103 @@ f(i)=\begin{cases} 1, \quad i = 0\\ f(i-1)+f(i-2)\{i-1=1 or i-1=2  and i &lt; 7\
       </tags>
   </entry>
   <entry>
-    <title>linux内核实战</title>
-    <url>/2020/05/07/linux%E5%86%85%E6%A0%B8%E5%AE%9E%E6%88%98/</url>
+    <title>《Linux内核完全注释》笔记</title>
+    <url>/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</url>
     <content><![CDATA[<a id="more"></a>
-<h3 id="内核c中结构体初始化">内核C中结构体初始化</h3>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span>&#123;</span></span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">  <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> __percpu       __attribute__((noderef, address_space(3)))</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">As</span>&#123;</span> </span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">A</span> <span class="title">gdt</span>[2];</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PER_CPU_DEF_ATTRIBUTES</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFINE_AS \</span></span><br><span class="line">        __percpu PER_CPU_DEF_ATTRIBUTES \</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">As</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">main</span>()&#123;</span></span><br><span class="line">    <span class="comment">//struct As ss =&#123;.gdt=&#123;[0]=&#123;.a= 1, .b = 2&#125;, [1]=&#123;.a=3, .b=4&#125;&#125;&#125;;</span></span><br><span class="line">    DEFINE_AS ss =&#123;.gdt=&#123;[<span class="number">0</span>]=&#123;.a= <span class="number">1</span>, .b = <span class="number">2</span>&#125;, [<span class="number">1</span>]=&#123;.a=<span class="number">3</span>, .b=<span class="number">4</span>&#125;&#125;&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ss.gdt[<span class="number">0</span>].a);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第二章-linux内核体系结构">第二章 Linux内核体系结构</h2>
+<h3 id="linux内核模式">Linux内核模式</h3>
+<p>操作系统体系结构模式主要分为：<br />
+整体式单内核(宏内核)<br />
+层次式微内核</p>
+<p>单核模式内核层次:<br />
+调用服务的主程序层<br />
+执行系统调用的服务层<br />
+支持系统调用的底层函数<br />
+<img src="https://i.loli.net/2020/11/15/6Pl4EXJVho9FMTN.png" alt="p1" /></p>
+<h3 id="linux内核系统体系结构">Linux内核系统体系结构</h3>
+<p>Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块<br />
+模块间的依赖关系:<br />
+<img src="https://i.loli.net/2020/11/15/bVdfR42cqmD5pCe.png" alt="p2" /></p>
+<p>Linux 0.11架构图:<br />
+<img src="https://i.loli.net/2020/11/15/oDLirR6PepFW94z.png" alt="p3" /></p>
+<h3 id="linux进程控制">Linux进程控制</h3>
+<p>内核态程序是不可抢占的(不会被schedule切换)， 用户态程序可以被抢占<br />
+一个进程可以在内核态或用户态下执行，内核堆栈和用户堆栈是分开的</p>
+<h4 id="任务数据结构">任务数据结构</h4>
+<p>进程上下文：当一个进程在执行时， CPU的所有寄存器中的值、进程的状态以及堆栈中的内容被称为该进程的上下文。<br />
+睡眠等待状态被分为可中断和不可中断</p>
+<h4 id="进程五种运行状态">进程五种运行状态</h4>
+<p>运行状态：进程正在被CPU执行，或者准备就绪随时可由调度程序执行<br />
+可中断睡眠状态：当系统产生中断或释放进程正在等待的资源或进程收到一个型号，进程能被唤醒转换到就绪状态<br />
+不可中断睡眠状态：只有被使用wake_up()明确唤醒时才能转换到可运行的就绪状态<br />
+暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态<br />
+僵死状态：进程已停止运行，但父进程还没有询问其状态<br />
+进程状态及转换关系：<br />
+<img src="https://i.loli.net/2020/11/15/ImOjX5zcegqHrWy.png" alt="p4" /><br />
+进程调度发生的情况:<br />
+进程时间片用完<br />
+进程自动放弃CPU使用权</p>
+<p>内核态时进程不能被 抢占，内核执行临界区代码时禁止一切中断</p>
+<h4 id="进程初始化">进程初始化</h4>
+<p>sched_init()：<br />
+设置任务0运行环境变量<br />
+预先设置好任务0数据结构个字段<br />
+在全局描述符表中添加任务0的TTS(任务状态段)描述符和LDT(局部描述符表)的段描述符，并把他们分别加载到tr(任务寄存器)和(ldr)局部描述符表寄存器</p>
+<p>move_to_user_mod()：<br />
+把运行特权级从内核态0级变换到用户态3级, 但是任然继续执行原来的代码.</p>
+<h4 id="创建新进程">创建新进程</h4>
+<p>过程：<br />
+使用fork创建，所有金产能都是通过复制进程0得到， 都是进程0的子进程<br />
+申请内存<br />
+复制当前进程数据结构<br />
+清除信号位图<br />
+设置时间片<br />
+设置tss中各寄存器的值</p>
+<h4 id="进程调度">进程调度</h4>
+<p>被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略<br />
+schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如 果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：<br />
+<img src="https://i.loli.net/2020/11/15/2G6qtLsyOWzCYdI.png" alt="p5" /><br />
+如果此时没有其他进程运行，系统就会选择0号进程</p>
+<h4 id="进程切换">进程切换</h4>
+<p>switch_to():<br />
+如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中</p>
+<p>任务切换操作示意图:<br />
+<img src="https://i.loli.net/2020/11/15/rLQUxbc7ntiTAHs.png" alt="p6" /></p>
+<h4 id="进程终止">进程终止</h4>
+<p>流程:<br />
+用户程序调用exit, 内核执行do_exit<br />
+关闭进程会释放内存，关闭进程打开着的所有文件<br />
+如果有子进程，让init进出给你作为紫金城的父进程<br />
+如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br />
+将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br />
+调用do_exit</p>
+<p>进程终止时，其数据结构还保留，因为父进程要用到<br />
+父进程使用wait或waitpid等待子进程终止</p>
+<h3 id="linux内核对内存的使用方法">Linux内核对内存的使用方法</h3>
+<p>Linux 0.11内核物理内存分布： <img src="https://i.loli.net/2020/11/15/ds7uKzQkUq8lySg.png" alt="p6" /></p>
+<p>Intel CPU两种内存管理系统：内存分段，分页 三种地址 进程的逻辑地址: 程序产生与段相关的偏移地址 CPU的线性地址: 逻辑地址 + 基地址实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号 如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址</p>
+<p>分页机制应用：建立一个大而连续的内存空间映像</p>
+<p>虚拟内存，是一种利用二级或外部存储空间，使程序不受物理内存限制的方法，通常要大于物理内存</p>
+<p>虚拟内存实现： 程序申请一段内存，如果内存页表中相应页面不存在内存中，CPU产生一个缺页中断，并把引起中断的线性地址放到CR2控制寄存器中， 中断处理程序通过地址把页面从二级存储空间（如硬盘）加载到物理内存， 如果内存已占满，则借助二级存储空间一部分作为交换缓冲区（Swapper）把内存中暂时不用的页面交换到二级缓冲区中，然后吧要求的页面调入内存。</p>
+<p>内存映射 虚拟内存通过局部段描述符表(LDT)变换为CPU整个线性地址空间中的地址，再使用也目录表PDT(一级页表)和页表PT(二级页表)映射到物理地址页.</p>
+<h3 id="linux系统中堆栈的使用方法">Linux系统中堆栈的使用方法</h3>
 ]]></content>
       <categories>
         <category>Linux</category>
       </categories>
-      <tags>
-        <tag>Linux内核</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>linux系统编程</title>
+    <url>/2020/03/30/linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<a id="more"></a>
+<h3 id="exec函数簇和system区别">exec函数簇和system区别</h3>
+<p>exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行</p>
+<h3 id="守护进程">守护进程</h3>
+<p>守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
   </entry>
   <entry>
     <title>go</title>
@@ -358,90 +443,59 @@ channel带缓冲区</p>
       </categories>
   </entry>
   <entry>
-    <title>《Linux内核完全注释》笔记</title>
-    <url>/2020/02/18/linux%E5%86%85%E6%A0%B8%E5%AE%8C%E5%85%A8%E6%B3%A8%E9%87%8A/</url>
+    <title>linux内核实战</title>
+    <url>/2020/05/07/linux%E5%86%85%E6%A0%B8%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<a id="more"></a>
-<h2 id="第二章-linux内核体系结构">第二章 Linux内核体系结构</h2>
-<h3 id="linux内核模式">Linux内核模式</h3>
-<p>操作系统体系结构模式主要分为：<br />
-整体式单内核(宏内核)<br />
-层次式微内核</p>
-<p>单核模式内核层次:<br />
-调用服务的主程序层<br />
-执行系统调用的服务层<br />
-支持系统调用的底层函数<br />
-<img src="https://i.loli.net/2020/11/15/6Pl4EXJVho9FMTN.png" alt="p1" /></p>
-<h3 id="linux内核系统体系结构">Linux内核系统体系结构</h3>
-<p>Linux内核主要由5个模块构成：进程调度模块，内存管理模块，文件系统模块，进程间通信模块，网络接口模块<br />
-模块间的依赖关系:<br />
-<img src="https://i.loli.net/2020/11/15/bVdfR42cqmD5pCe.png" alt="p2" /></p>
-<p>Linux 0.11架构图:<br />
-<img src="https://i.loli.net/2020/11/15/oDLirR6PepFW94z.png" alt="p3" /></p>
-<h3 id="linux进程控制">Linux进程控制</h3>
-<p>内核态程序是不可抢占的(不会被schedule切换)， 用户态程序可以被抢占<br />
-一个进程可以在内核态或用户态下执行，内核堆栈和用户堆栈是分开的</p>
-<h4 id="任务数据结构">任务数据结构</h4>
-<p>进程上下文：当一个进程在执行时， CPU的所有寄存器中的值、进程的状态以及堆栈中的内容被称为该进程的上下文。<br />
-睡眠等待状态被分为可中断和不可中断</p>
-<h4 id="进程五种运行状态">进程五种运行状态</h4>
-<p>运行状态：进程正在被CPU执行，或者准备就绪随时可由调度程序执行<br />
-可中断睡眠状态：当系统产生中断或释放进程正在等待的资源或进程收到一个型号，进程能被唤醒转换到就绪状态<br />
-不可中断睡眠状态：只有被使用wake_up()明确唤醒时才能转换到可运行的就绪状态<br />
-暂停状态：当进程收到SIGSTOP、SIGTSTP、SIGTTIN或SIGTTOU进入暂停状态，像其发送SIGCONT转换到可运行状态<br />
-僵死状态：进程已停止运行，但父进程还没有询问其状态<br />
-进程状态及转换关系：<br />
-<img src="https://i.loli.net/2020/11/15/ImOjX5zcegqHrWy.png" alt="p4" /><br />
-进程调度发生的情况:<br />
-进程时间片用完<br />
-进程自动放弃CPU使用权</p>
-<p>内核态时进程不能被 抢占，内核执行临界区代码时禁止一切中断</p>
-<h4 id="进程初始化">进程初始化</h4>
-<p>sched_init()：<br />
-设置任务0运行环境变量<br />
-预先设置好任务0数据结构个字段<br />
-在全局描述符表中添加任务0的TTS(任务状态段)描述符和LDT(局部描述符表)的段描述符，并把他们分别加载到tr(任务寄存器)和(ldr)局部描述符表寄存器</p>
-<p>move_to_user_mod()：<br />
-把运行特权级从内核态0级变换到用户态3级, 但是任然继续执行原来的代码.</p>
-<h4 id="创建新进程">创建新进程</h4>
-<p>过程：<br />
-使用fork创建，所有金产能都是通过复制进程0得到， 都是进程0的子进程<br />
-申请内存<br />
-复制当前进程数据结构<br />
-清除信号位图<br />
-设置时间片<br />
-设置tss中各寄存器的值</p>
-<h4 id="进程调度">进程调度</h4>
-<p>被抢占的进程仍处于TASK_RUNNING, 但是没被cpu执行，抢占发生在用户态，内核态不能被抢占，Linux 0.11 采用优先级排队调度策略<br />
-schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如 果这些进程时间片都用完就根据优先权值priority重新分配时间片公式：<br />
-<img src="https://i.loli.net/2020/11/15/2G6qtLsyOWzCYdI.png" alt="p5" /><br />
-如果此时没有其他进程运行，系统就会选择0号进程</p>
-<h4 id="进程切换">进程切换</h4>
-<p>switch_to():<br />
-如果切换的就是当前进程则什么也不做， 否则ljmp新进程的tss地址处， cpu各寄存器状态会保存到原来进程的tss， 然后将新进程的tss寄存器信息恢复到cpu中</p>
-<p>任务切换操作示意图:<br />
-<img src="https://i.loli.net/2020/11/15/rLQUxbc7ntiTAHs.png" alt="p6" /></p>
-<h4 id="进程终止">进程终止</h4>
-<p>流程:<br />
-用户程序调用exit, 内核执行do_exit<br />
-关闭进程会释放内存，关闭进程打开着的所有文件<br />
-如果有子进程，让init进出给你作为紫金城的父进程<br />
-如果进程是会话头进程且控制终端，则释放子进程，并向会话所有进程发送SIGHUP<br />
-将进程状态至为TASK_ZOMBIE, 并向原父进程发送SIGCHLD<br />
-调用do_exit</p>
-<p>进程终止时，其数据结构还保留，因为父进程要用到<br />
-父进程使用wait或waitpid等待子进程终止</p>
-<h3 id="linux内核对内存的使用方法">Linux内核对内存的使用方法</h3>
-<p>Linux 0.11内核物理内存分布： <img src="https://i.loli.net/2020/11/15/ds7uKzQkUq8lySg.png" alt="p6" /></p>
-<p>Intel CPU两种内存管理系统：内存分段，分页 三种地址 进程的逻辑地址: 程序产生与段相关的偏移地址 CPU的线性地址: 逻辑地址 + 基地址实际物理内存地址: CPU外部地址总线上的寻址物理内存的地址信号 如果启用了分页机制，线性地址会使用页目录和页表中的项变换成物理地址，如果没有启用线性地址直接成为物理地址</p>
-<p>分页机制应用：建立一个大而连续的内存空间映像</p>
-<p>虚拟内存，是一种利用二级或外部存储空间，使程序不受物理内存限制的方法，通常要大于物理内存</p>
-<p>虚拟内存实现： 程序申请一段内存，如果内存页表中相应页面不存在内存中，CPU产生一个缺页中断，并把引起中断的线性地址放到CR2控制寄存器中， 中断处理程序通过地址把页面从二级存储空间（如硬盘）加载到物理内存， 如果内存已占满，则借助二级存储空间一部分作为交换缓冲区（Swapper）把内存中暂时不用的页面交换到二级缓冲区中，然后吧要求的页面调入内存。</p>
-<p>内存映射 虚拟内存通过局部段描述符表(LDT)变换为CPU整个线性地址空间中的地址，再使用也目录表PDT(一级页表)和页表PT(二级页表)映射到物理地址页.</p>
-<h3 id="linux系统中堆栈的使用方法">Linux系统中堆栈的使用方法</h3>
+<h3 id="内核c中结构体初始化">内核C中结构体初始化</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span>&#123;</span></span><br><span class="line">  <span class="keyword">int</span> a;</span><br><span class="line">  <span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> __percpu       __attribute__((noderef, address_space(3)))</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">As</span>&#123;</span> </span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">A</span> <span class="title">gdt</span>[2];</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PER_CPU_DEF_ATTRIBUTES</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFINE_AS \</span></span><br><span class="line">        __percpu PER_CPU_DEF_ATTRIBUTES \</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">As</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">main</span>()&#123;</span></span><br><span class="line">    <span class="comment">//struct As ss =&#123;.gdt=&#123;[0]=&#123;.a= 1, .b = 2&#125;, [1]=&#123;.a=3, .b=4&#125;&#125;&#125;;</span></span><br><span class="line">    DEFINE_AS ss =&#123;.gdt=&#123;[<span class="number">0</span>]=&#123;.a= <span class="number">1</span>, .b = <span class="number">2</span>&#125;, [<span class="number">1</span>]=&#123;.a=<span class="number">3</span>, .b=<span class="number">4</span>&#125;&#125;&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ss.gdt[<span class="number">0</span>].a);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Linux</category>
       </categories>
+      <tags>
+        <tag>Linux内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>makefile</title>
+    <url>/2020/07/04/makefile/</url>
+    <content><![CDATA[<ul>
+<li><p>makefile中赋值号<br />
+= 直接赋值<br />
+:= 把之前的值替换掉<br />
+?= 如果变量中没值则赋值，有值则不赋值<br />
++= 在变量未追加</p></li>
+<li><p>makefile中的shell<br />
+作用域<br />
+目标项冒号后另起一行才是shell代码<br />
+$(shell 这里是shell代码)<br />
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">define</span> get_trunk_path  </span><br><span class="line">    trunk_path=`pwd`; \ </span><br><span class="line">    for dir in <span class="variable">$(dirs)</span>; do \ </span><br><span class="line">      if [[ $$&#123;trunk_path&#125; = *$$dir* ]]; then \ </span><br><span class="line">        trunk_path=`echo $$&#123;trunk_path&#125; | sed <span class="string">"s/\/$$dir.*//"</span>`; \</span><br><span class="line">        break; \    </span><br><span class="line">      fi \    </span><br><span class="line">    done; \</span><br><span class="line">    echo $$&#123;trunk_path&#125;</span><br><span class="line"><span class="keyword">endef</span>  </span><br><span class="line"></span><br><span class="line">PATH_PLATFORM_PRJ := <span class="variable">$(<span class="built_in">shell</span> $(<span class="built_in">call</span> get_trunk_path)</span>)</span><br></pre></td></tr></table></figure> makefile中的shell，每一行是一个进程，不同行之间变量值不能传递。所以，Makefile中的shell不管多长也要写在一行，每行后面加; 如上例</p></li>
+</ul>
+<p>makefile定义的变量使用<span class="math inline">\({var}, shell定义的变量使用\)</span>${var}<br />
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">//运行方式，直接make</span><br><span class="line">PATH=<span class="string">"data"</span></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">   echo &#123;PATH&#125;</span><br><span class="line">   PATH=<span class="string">"555"</span>;\</span><br><span class="line">   echo $&#123;PATH&#125;;\ //data</span><br><span class="line">   echo $$&#123;PATH&#125; //555</span><br></pre></td></tr></table></figure> makefile中赋值可以这样写var = 123, shell中不能留空格var=123</p>
+<ul>
+<li>makefile中的模式规则<br />
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">%:%.cpp  #冒号左边表示所有的target, 右边表示依赖的cpp文件           </span></span><br><span class="line">  g++ <span class="variable">$&lt;</span> -o <span class="variable">$@</span>   <span class="comment">#"$&lt;"表示了所有依赖目标的挨个值, "$@"表示所有的目标的挨个值</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>muduo笔记</title>
+    <url>/2020/04/04/muduo%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<a id="more"></a>
+<ul>
+<li>non-blocking 和 IO multiplexing 一起使用</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>网络编程</tag>
+      </tags>
   </entry>
   <entry>
     <title>interview</title>
@@ -629,60 +683,6 @@ schedule 首先在TASK_RUNNING进程中选，谁counter值最大执行谁 如 �
       </tags>
   </entry>
   <entry>
-    <title>linux系统编程</title>
-    <url>/2020/03/30/linux%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<a id="more"></a>
-<h3 id="exec函数簇和system区别">exec函数簇和system区别</h3>
-<p>exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行</p>
-<h3 id="守护进程">守护进程</h3>
-<p>守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>muduo笔记</title>
-    <url>/2020/04/04/muduo%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<a id="more"></a>
-<ul>
-<li>non-blocking 和 IO multiplexing 一起使用</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>网络编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>makefile</title>
-    <url>/2020/07/04/makefile/</url>
-    <content><![CDATA[<ul>
-<li><p>makefile中赋值号<br />
-= 直接赋值<br />
-:= 把之前的值替换掉<br />
-?= 如果变量中没值则赋值，有值则不赋值<br />
-+= 在变量未追加</p></li>
-<li><p>makefile中的shell<br />
-作用域<br />
-目标项冒号后另起一行才是shell代码<br />
-$(shell 这里是shell代码)<br />
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">define</span> get_trunk_path  </span><br><span class="line">    trunk_path=`pwd`; \ </span><br><span class="line">    for dir in <span class="variable">$(dirs)</span>; do \ </span><br><span class="line">      if [[ $$&#123;trunk_path&#125; = *$$dir* ]]; then \ </span><br><span class="line">        trunk_path=`echo $$&#123;trunk_path&#125; | sed <span class="string">"s/\/$$dir.*//"</span>`; \</span><br><span class="line">        break; \    </span><br><span class="line">      fi \    </span><br><span class="line">    done; \</span><br><span class="line">    echo $$&#123;trunk_path&#125;</span><br><span class="line"><span class="keyword">endef</span>  </span><br><span class="line"></span><br><span class="line">PATH_PLATFORM_PRJ := <span class="variable">$(<span class="built_in">shell</span> $(<span class="built_in">call</span> get_trunk_path)</span>)</span><br></pre></td></tr></table></figure> makefile中的shell，每一行是一个进程，不同行之间变量值不能传递。所以，Makefile中的shell不管多长也要写在一行，每行后面加; 如上例</p></li>
-</ul>
-<p>makefile定义的变量使用<span class="math inline">\({var}, shell定义的变量使用\)</span>${var}<br />
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">//运行方式，直接make</span><br><span class="line">PATH=<span class="string">"data"</span></span><br><span class="line"><span class="section">all:</span></span><br><span class="line">   echo &#123;PATH&#125;</span><br><span class="line">   PATH=<span class="string">"555"</span>;\</span><br><span class="line">   echo $&#123;PATH&#125;;\ //data</span><br><span class="line">   echo $$&#123;PATH&#125; //555</span><br></pre></td></tr></table></figure> makefile中赋值可以这样写var = 123, shell中不能留空格var=123</p>
-<ul>
-<li>makefile中的模式规则<br />
-<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">%:%.cpp  #冒号左边表示所有的target, 右边表示依赖的cpp文件           </span></span><br><span class="line">  g++ <span class="variable">$&lt;</span> -o <span class="variable">$@</span>   <span class="comment">#"$&lt;"表示了所有依赖目标的挨个值, "$@"表示所有的目标的挨个值</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>mysql面试</title>
     <url>/2020/03/03/mysql_interview/</url>
     <content><![CDATA[<a id="more"></a>
@@ -762,6 +762,92 @@ Mysql8.0后没有查询缓存功能<br />
       </tags>
   </entry>
   <entry>
+    <title>rust实战课</title>
+    <url>/2020/12/20/rust%E5%AE%9E%E6%88%98%E8%AF%BE/</url>
+    <content><![CDATA[<h3 id="rust词法结构"><strong>Rust词法结构</strong></h3>
+<h4 id="rust编译过程"><strong>Rust编译过程</strong></h4>
+<figure>
+<img src="https://i.loli.net/2020/12/20/DV7NEZxKSvlW8n5.png" alt="编译过程" /><figcaption>编译过程</figcaption>
+</figure>
+<h4 id="六大词法结构"><strong>六大词法结构</strong></h4>
+<ul>
+<li><p><strong>关键字(Keywords)</strong> <strong>严格关键字</strong>: <img src="https://i.loli.net/2020/12/20/YyaGKU6XPxgvj1M.png" alt="关键字" /> <strong>保留字</strong>: <img src="https://i.loli.net/2020/12/20/zglahqPXjfs2xUS.png" alt="保留字" /> 被保留的关键字不代表将来一定会使用</p>
+<p><strong>弱关键字</strong>: <img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220141457554.png" alt="弱关键字" /></p></li>
+<li><p><strong>标识符(Identifier)</strong></p>
+<p>以下划线或字母开头的, 将来支持非ASCII标示符 <img src="https://i.loli.net/2020/12/20/B5rJkmPKMYwsNhC.png" alt="标识符" /></p></li>
+<li><p>注释(Comment)</p></li>
+<li><p>空白(Whitespace)</p>
+<figure>
+<img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220142904808.png" alt="image-20201220142904808" /><figcaption>image-20201220142904808</figcaption>
+</figure></li>
+<li><p>词条(Tokens)</p></li>
+<li><p>路径(Path)</p></li>
+</ul>
+<h3 id="面向表达式"><strong>面向表达式</strong></h3>
+<p>分号表达式返回值是永远为自身的单元类型() 分号表达式只有在块表达式最后一行才会进行求值, 其他时候只作为'连接符'存在 块表达式只对其最后一行表达式进行求值</p>
+<h4 id="编译期计算"><strong>编译期计算</strong></h4>
+<ul>
+<li><p><strong>过程宏 + Build脚本(build.rs)</strong></p></li>
+<li><p><strong>类似于Cpp中constexpr的CTFE功能</strong> 常量表达式与常量上下文 <img src="https://i.loli.net/2020/12/20/3FQ8worYRxuz5Ot.png" alt="常量函数" /></p>
+常量上下文(const context) 包含:
+<ol type="1">
+<li>常量值初始化位置</li>
+<li>静态数组的长度表达式, [T;N]</li>
+<li>重复的长度表达式, 类似于[0;10]</li>
+<li>静态变量, 枚举判别式的初始化位置</li>
+</ol>
+常量传播和编译期计算是不同的:
+<ol type="1">
+<li>常量传播是编译器的一种优化</li>
+<li>常量传播并不能改变程序的任何行为, 并且对开发者是影藏的</li>
+<li>编译期计算是指编译是执行的代码, 必须知道其结果, 才能继续执行</li>
+</ol>
+常量安全(Const Safe)
+<ol type="1">
+<li>Rust里的大部分表达式都可用作常量表达式</li>
+<li>并不是所有常量表达式都可以用在常量上下文</li>
+<li>编译期求值必须得到一个确定性的结果</li>
+</ol>
+<p>常量函数(const fn) <img src="https://i.loli.net/2020/12/20/huRA9swCbzktKyG.png" /></p>
+<p>支持内部嵌入式定义和递归 <img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220151852450.png" alt="image-20201220151852450" /></p>
+常量安全子系统类型系统
+<ol type="1">
+<li>普通的fn关键字定义的函数,是safe rust主类型系统保证安全</li>
+<li>const fn定义的函数, 是Safe Rust 主类型系统下有一个专门用于常量计算的子类型系统来 保证常量安全的</li>
+</ol>
+常量上下文可接受的常量表达式
+<ol type="1">
+<li>const fn 函数</li>
+<li>元组结构体</li>
+<li>元组的值</li>
+<li>反例
+<ol type="1">
+<li><img src="https://i.loli.net/2020/12/20/WrMZ2b4oFeIaCUT.png" /></li>
+<li><img src="https://i.loli.net/2020/12/20/WGJmBpxHflM4ukD.png" /></li>
+</ol></li>
+</ol>
+<p>常量泛型(const generic) Rust中以下定义数组属于不同类型 <img src="https://i.loli.net/2020/12/20/lvbWZG3aJouLDBd.png" /> 常量泛型 <img src="https://i.loli.net/2020/12/20/J9XVqK3MrahfHxZ.png" /></p>
+<p>#### <strong>所有权</strong> Rust中表达式分类: <img src="https://i.loli.net/2020/12/20/Aupbcf6rEKaIZBz.png" /></p>
+<p>表达式背后的内存管理: <img src="https://i.loli.net/2020/12/20/1OCGTJNLHEKQVA7.png" /></p>
+位置表达式:
+<ol type="1">
+<li>静态变脸初始化, 比如static mut LEVELS:u32 = 0;</li>
+<li>解引用表达式, *expr</li>
+<li>数组索引表达式, expr[expr]</li>
+<li>字段表达式, expr.field</li>
+<li>加上括号的表达式, (expr)</li>
+<li>除此之外, 都是值表达式</li>
+</ol></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>rust</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>奔跑吧Linux内核入门篇笔记</title>
     <url>/2020/11/16/%E5%A5%94%E8%B7%91%E5%90%A7Linux%E5%86%85%E6%A0%B8%E5%85%A5%E9%97%A8%E7%AF%87%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<a id="more"></a>
@@ -776,6 +862,65 @@ Mysql8.0后没有查询缓存功能<br />
       </categories>
       <tags>
         <tag>Linux内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模板</title>
+    <url>/2020/03/29/%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<a id="more"></a>
+<h2 id="函数模板">函数模板</h2>
+<p>定义模板是不会生成代码，只有当实例化时才会生成<br />
+### 类型模板参数 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">a</span>, <span class="title">T</span> <span class="title">b</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="非类型模板参数">非类型模板参数</h3>
+<p>非类型是指不是泛型， 即基本类型 即显示使用&lt;&gt;指定 非类型模板参数必须是常量， 因为模板代码在编译期生成 * 所有参数都是非类型 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">int</span> a, <span class="keyword">int</span> b&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="number">1</span>, <span class="number">2</span>&gt;() <span class="comment">//显示指定参数</span></span><br></pre></td></tr></table></figure> * 非类型和类型参数混合 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">a</span> , <span class="title">int</span> <span class="title">b</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">c</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)c + a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="keyword">int</span>, <span class="number">1</span>, <span class="number">2</span>&gt;(<span class="number">3</span>);</span><br></pre></td></tr></table></figure> * 非类型模板也可以不用&lt;&gt;指定 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">unsigned</span> L1, <span class="keyword">unsigned</span> L1&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strcomp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>(&amp;p1)[L1], <span class="keyword">const</span> <span class="keyword">char</span>(&amp;p2)[L2])</span></span>&#123;  <span class="comment">//数组的引用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>(p1, p2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strcomp(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//字符串长度由编译器默认推到</span></span><br><span class="line">strcomp&lt;<span class="number">5</span>, <span class="number">6</span>&gt;(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//也可以显示指定</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="类模板">类模板</h2>
+<p>类模板编译器不能自动推导参数所以要显示用&lt;&gt;指定</p>
+<h3 id="类模板成员函数">类模板成员函数</h3>
+<ul>
+<li><p>定义在类内部不用写类型参数<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p></li>
+<li><p>定义在类外部</p></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="非类型模板参数-1">非类型模板参数</h3>
+<p>非类型参数不能是浮点数和类 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span> = 100&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T, V&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="typename使用场景">typename使用场景</h2>
+<ul>
+<li>模板类型参数<br />
+</li>
+<li>使用类的类型成员， 用typename来标示这个类型<br />
+一般使用::后面跟类型时，编译器默认会当作类的成员变量。为防止这种情况使用必须使用typename(这里不能使用class代替)</li>
+</ul>
+<p>例1：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">mystring</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> T* Iterator;</span><br><span class="line"></span><br><span class="line">    <span class="function">Iterator <span class="title">begin</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">mystring</span>&lt;T&gt;:</span>:Iterator mystring&lt;T&gt;::begin()&#123;</span><br><span class="line">    <span class="comment">//....    </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例2： <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//饿汉单例模式</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">CHSingleton</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    CHSingleton()</span><br><span class="line">    &#123;</span><br><span class="line">        _destory.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~CHSingleton()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T *<span class="title">Instance</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _instance; &#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CDestory</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        CDestory()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"CDestory"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ~CDestory()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"~CDestory"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">delete</span> CHSingleton::_instance;</span><br><span class="line">            CHSingleton::_instance = <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">thread_local</span> <span class="keyword">static</span> T *_instance;</span><br><span class="line">    <span class="keyword">static</span> CDestory _destory;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">thread_local</span> <span class="title">T</span> *<span class="title">CHSingleton</span>&lt;T&gt;:</span>:_instance = <span class="keyword">new</span> T;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">CHSingleton</span>&lt;T&gt;:</span>:CDestory CHSingleton&lt;T&gt;::_destory;</span><br></pre></td></tr></table></figure></p>
+<h2 id="可调用对象做函数模板的默认参数">可调用对象做函数模板的默认参数</h2>
+<p>c++11以后支持模板函数默认参数<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*func)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//函数指针</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">Func</span>=<span class="title">func1</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">tfunc</span>(<span class="title">const</span> <span class="title">T</span>&amp; <span class="title">i</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">j</span>, <span class="title">Func</span> <span class="title">f</span>= <span class="title">func1</span>)&#123;</span></span><br><span class="line">    f(i, j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//函数对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">O</span>=<span class="title">Obj</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">tfunc</span>(<span class="title">const</span> <span class="title">T</span>&amp; <span class="title">i</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">j</span>, <span class="title">O</span> <span class="title">o</span>= <span class="title">Obj</span>())&#123;</span></span><br><span class="line">    o(i, j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="成员函数模板">成员函数模板</h2>
+<p>成员函数模板不能是虚函数， ### 普通类的成员函数模板 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">func</span>(<span class="title">T</span> <span class="title">t</span>)&#123;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A a;</span><br><span class="line">a.func(<span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="类模板中的成员函数模板">类模板中的成员函数模板</h3>
+<ul>
+<li>类成员模板函数定义在类内<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">C</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">A</span>(<span class="title">T1</span> <span class="title">a</span>, <span class="title">T2</span> <span class="title">b</span>)&#123;</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">func</span>(<span class="title">T3</span> <span class="title">c</span>)&#123;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    C c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">a.func(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure></li>
+<li>类成员模板函数定义在类外<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">temp&lt;<span class="class"><span class="keyword">class</span> <span class="title">C</span>&gt;  //先写类模板申明</span></span><br><span class="line"><span class="class"><span class="title">temp</span>&lt;class T1, class T2&gt; //再写成员函数模板申明 </span></span><br><span class="line"><span class="class"><span class="title">A</span>&lt;C&gt;:</span>:A(T1 a, T2 b)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> ## 模板显式实例化 为防止多个cpp文件中实例化相同的模板类， c++11中使用显示实例化解决 每种类型的模板只需实例化一次， 其他的cpp文件声明就行， 只有使用到该类型模板才用实例化<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.cpp</span></span><br><span class="line"><span class="keyword">template</span>  A&lt;<span class="keyword">float</span>&gt;;  <span class="comment">//显式实例化类</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>  <span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>;<span class="comment">//显示实例化函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//b.cpp</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">template</span> A&lt;<span class="keyword">float</span>&gt;; <span class="comment">//显式实例化类声明</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">template</span>  <span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>;<span class="comment">//显示实例化函数申明</span></span><br></pre></td></tr></table></figure> 类模板的实例化会实例化类模板的所有成员函数， 包括内联和类成员模板函数(vs中)</li>
+</ul>
+<h2 id="using-定义模板别名">using 定义模板别名</h2>
+<ul>
+<li>定义一个值为任意参数的模板别名<br />
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">using</span> <span class="title">s_map</span> = <span class="title">std</span>:</span>:<span class="built_in">map</span>&lt;<span class="built_in">string</span>, T&gt;;</span><br><span class="line"></span><br><span class="line">s_map&lt;<span class="keyword">int</span>&gt; m;</span><br><span class="line">m.insert(&#123;<span class="string">"first"</span>, <span class="number">1</span>&#125;);</span><br></pre></td></tr></table></figure></li>
+<li>定义一个函数指针模板 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">using</span> <span class="title">funcptr</span> = <span class="title">bool</span> (*)(<span class="title">T</span>, <span class="title">T</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">funcptr&lt;<span class="keyword">int</span>&gt; f_ptr;</span><br><span class="line">f_ptr = func;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="显示指定模板参数">显示指定模板参数</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>, <span class="title">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T1</span> <span class="title">sum</span>(<span class="title">T2</span> <span class="title">i</span>, <span class="title">T3</span> <span class="title">j</span>)&#123;</span></span><br><span class="line">    T1 res = i + j;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数2,3能推导出来， 能省略</span></span><br><span class="line"><span class="keyword">auto</span> res = sum&lt;<span class="keyword">double</span>&gt;(<span class="number">200000000</span>, <span class="number">200000000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>, <span class="title">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T3</span> <span class="title">sum</span>(<span class="title">T1</span> <span class="title">i</span>, <span class="title">T2</span> <span class="title">j</span>)&#123;</span></span><br><span class="line">    T3 res = i + j;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数不能省</span></span><br><span class="line"><span class="keyword">auto</span> res = sum&lt;<span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span>&gt;(<span class="number">200000000</span>, <span class="number">200000000</span>);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>泛型</tag>
       </tags>
   </entry>
   <entry>
@@ -911,6 +1056,330 @@ man sh 查看<br />
       <categories>
         <category>Linux</category>
       </categories>
+  </entry>
+  <entry>
+    <title>秒杀系统设计</title>
+    <url>/2020/07/29/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h3 id="需求原型设计">需求原型设计</h3>
+<p>主要设计页面(墨刀原型设计工具)</p>
+<ul>
+<li>前台用户登录页面，商品展示页面，抢购结果页面</li>
+<li>后台订单管理页面</li>
+</ul>
+<h3 id="系统架构设计">系统架构设计</h3>
+<ul>
+<li>前端页面需要承载大流量</li>
+<li>在大并发状态下要解决超卖问题</li>
+<li>后端接口需要满足横向扩展 <img src="https://i.loli.net/2020/11/15/FtBYQHPuaxyLzUC.png" alt="project_seckill" /></li>
+</ul>
+<h3 id="rabbitmq">RabbitMQ</h3>
+<ul>
+<li>定义和特征<br />
+RabbitMQ是面向消息的中间件，用于组件之间的解耦，主要体现在消息的发送者和消费者之间无强依赖关系<br />
+RabbitMQ特点，高可用, 扩展性, 多语言客户端，管理界面等 主要使用场景，流量削峰，异步处理，应用解耦</li>
+<li>管理命令介绍　 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rabbtmq-plugins list  &#x2F;&#x2F;查看插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management  &#x2F;&#x2F;安装管理界面</span><br><span class="line">rabbitmq-plugins disable rabbitmq_management &#x2F;&#x2F;卸载管理界面　</span><br><span class="line">rabbitmqctl list_users  &#x2F;&#x2F;列出已创建的用户</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置用户和密码</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置角色</span><br></pre></td></tr></table></figure></li>
+<li>核心概念 VirtualHost Connection Exchange Channel Queue Binding</li>
+</ul>
+<p>*常用工作模式　 1. Simple模式　 <img src="https://i.loli.net/2020/11/15/sBLOTY5aGIrV2iN.png" alt="project_seckill02" /></p>
+<ol start="2" type="1">
+<li><p>Work, 工作模式 　一个消息只能被一个消费者获取　 <img src="https://i.loli.net/2020/11/15/rAZk5BtOSqgluYQ.png" alt="project_seckill_2020073101" /></p></li>
+<li><p>Publish/Subscribe 订阅模式 消息被路由投递给多个队列，一个消息被多个消费者获取 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080201" /></p></li>
+<li><p>Routing, 路由模式　 一个消息被多个消费者获取，并且消息的目标队列可被生产者指定 <img src="https://i.loli.net/2020/11/15/5ob4Hif3r9KtDml.png" alt="project_seckill_2020080202" /></p></li>
+<li><p>Topic模式 用BindingKey 以通配符， (#：一个或多个词，*：一个词)的方式指定 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080203" /></p></li>
+<li><p>RPC模式</p></li>
+</ol>
+<h3 id="后台功能开发">后台功能开发　　</h3>
+<ul>
+<li>商品模型设计开发　　</li>
+<li>商品增删改查功能开发</li>
+<li>后台商品管理页面　</li>
+</ul>
+]]></content>
+      <categories>
+        <category>project</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络编程</title>
+    <url>/2020/08/27/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>##　Tcp中的异常处理　 当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息: 1. connect一个不存在的端口，客户端会收到一条RST，报错Connection refused 2. 程序崩溃或异常退出，会向对端发送 3. 对端断电重启，send数据时会收到来自对端的RST 4. close(sockfd)时，直接丢弃接收缓冲区未读取的数据，并给对方发一个RST。这个是由 SO_LINGER选项来控制的</p>
+<p>有些情况服务端感知不到客户端断开: 1. 客户端断电或者网络异常　 2. 拔掉网线 这个时候服务端可能存在资源泄露的情况, 直至服务端资源耗尽拒绝提供服务, 解决方法加心跳</p>
+<h3 id="tcp半开连接">Tcp半开连接</h3>
+<p>https://blog.csdn.net/larry_zeng1/article/details/78437050</p>
+<p>引用: <a href="https://segmentfault.com/a/1190000017411330" target="_blank" rel="noopener">断开TCP连接</a> <a href="https://cloud.tencent.com/developer/news/24414" target="_blank" rel="noopener">TCP 异常关闭研究分析</a></p>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>趣谈linux操作系统笔记</title>
+    <url>/2020/03/06/%E8%B6%A3%E8%B0%88linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="核心原理篇">核心原理篇</h2>
+<h3 id="综述">综述</h3>
+<ul>
+<li><p>操作系统内核体系结构图<br />
+<img src="https://i.loli.net/2020/11/15/pbBWAYXISkgerhP.png" alt="p1" /></p></li>
+<li><p>linux 命令图谱 <img src="https://i.loli.net/2020/11/15/TurwAvLhRlDn2mN.png" alt="p2" /></p></li>
+<li><p>系统调用图谱 <img src="https://i.loli.net/2020/11/15/HXYI9Bvx4Ff7lJO.png" alt="p3" /></p></li>
+</ul>
+<h3 id="系统初始化">系统初始化</h3>
+<h4 id="x86架构">X86架构</h4>
+<ul>
+<li><p>计算机工作模式图<br />
+<img src="https://i.loli.net/2020/11/15/Nox2ZbL5W9QqXB7.png" alt="p4" /></p></li>
+<li><p>CPU组成<br />
+运算单元: 加法、位移<br />
+控制单元: CPU内部缓存和寄存器组<br />
+数据单元: 取指令， 根据指令取数据， 计算结果后存放数据</p></li>
+<li><p>X86架构<br />
+<img src="https://i.loli.net/2020/11/15/olItSPWQ4s9vMzu.png" alt="image-20201115153051673" /></p></li>
+<li><p>程序执行过程图<br />
+<img src="https://i.loli.net/2020/11/15/iyR6zdnIXJgtDsM.png" alt="p6" /></p></li>
+<li><p>总线<br />
+地址总线: 位数决定寻址的范围<br />
+数据总线: 位数决定次能拿多少数据</p></li>
+<li><p>8086 结构图:<br />
+<img src="https://i.loli.net/2020/11/15/8xHsFyU1KAgBc6S.png" alt="p7" /></p></li>
+</ul>
+<p>寄存器:<br />
+8个16位通用寄存器，用于计算过程中暂存数据， AX、BX、CX、DX、SP、BP、SI、DI, 其中 AX、BX、CX、DX 可以分成两个 8 位的寄存器来使用，分别是 AH、AL、BH、BL、CH、CL、DH、DL<br />
+16位IP(Instruction Pointer Register), 指令指针寄存器，存放下一条指令在内存中的地址<br />
+4个16位段寄存器， CS(代码段寄存器)、DS(数据段的寄存器)、SS(栈寄存器)、ES</p>
+<p>实模式：<br />
+CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 通用寄存器中存放数据段的偏移地址<br />
+8086的地址总线位20位，寻址方式：起始地址*16+偏移量， 每个段的最大寻址64k</p>
+<ul>
+<li>80386 寄存器:<br />
+8个32位通用寄存器， 低16位保留了16位和八位的使用方式， 高16位没有分的原因是不兼容之前的架构(8080和8086最大寻址分别是2<sup>16和2</sup>20, 通用寄存器保存地址的偏移量,高16位地址已经大于2^16)<br />
+32位指令寄存器EIP<br />
+4个16位段寄存器<br />
+<img src="https://i.loli.net/2020/11/15/gBIZs18zRj5Et2p.png" alt="p8" /></li>
+</ul>
+<p>保护模式： 段的起始地址存放在内存的某个地方，这个地方是一个表格，表格里面一项项是段描述符， 这里面才是段的起始地址， 段寄存器里面存放的是表格中的哪一项，即选择子。 CPU从段寄存器中找到表格中的选择子， 然后简介找到段起始地址， 为了更快速的拿到段起始地址， 段寄存器会从内存中拿到 CPU 的描述符高速缓存器中<br />
+<img src="https://i.loli.net/2020/11/15/EBncydGJ17zAo2X.png" alt="p9" /></p>
+]]></content>
+      <categories>
+        <category>linux内核</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>mysql</title>
+    <url>/2020/07/04/mysql/</url>
+    <content><![CDATA[<h3 id="基本操作">基本操作</h3>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#新建数据库</span><br><span class="line">CREATE DATABASE 名</span><br><span class="line">#显示当前使用的数据库</span><br><span class="line">select database();</span><br><span class="line"># 查询数据库支持的存储引擎  </span><br><span class="line">show engines;</span><br><span class="line">#删除表  </span><br><span class="line">DROP TABLES 名</span><br></pre></td></tr></table></figure>
+<h4 id="创建表">创建表</h4>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#语法  </span><br><span class="line">CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name [(create_definition,…)] [table_options]</span><br><span class="line">[select_statement] </span><br><span class="line">#TEMPORARY：表示创建临时表，在当前会话结束后将自动消失</span><br><span class="line">#IF NOT EXISTS：在建表前，先判断表是否存在，只有该表不存在时才创建</span><br><span class="line">#create_definition：建表语句的关键部分，用于定义表中各列的属性</span><br><span class="line">#table_options：表的配置选项，例如：表的默认存储引擎、字符集</span><br><span class="line">#select_statement：通过select语句建表</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">create table contacts(</span><br><span class="line">    id int not null auto_increment primay key,</span><br><span class="line">    name varchar(30),</span><br><span class="line">    phone varchar(20)</span><br><span class="line">) engine&#x3D;innodb default charset&#x3D;utf8;</span><br></pre></td></tr></table></figure>
+<h4 id="字段操作">字段操作</h4>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#添加</span><br><span class="line">alter table stat_online_players add time char(12);</span><br><span class="line">#删除, 如果是主键, 必须先删掉主键约束</span><br><span class="line">alter table stat_online_players drop column hour, drop column minute;</span><br><span class="line">#修改字段  </span><br><span class="line">alter table base modify recover_time int(10) NOT NULL DEFAULT &#39;0&#39;;</span><br><span class="line"></span><br><span class="line">#修改字段名 </span><br><span class="line">alter table base change barrier archive_chip binary(24) ;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>删除带主键约束的行<br />
+<img src="/images/mysql_20200705_1.png" alt="p1" /></p></li>
+<li><p>删除主键约束 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_online_players drop primary key; #增加主键约束（要先删掉数据吗?)</span><br><span class="line">alter table stat_online_players add primary key(zone_id, date);#主键要先删再加才行</span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<h4 id="数据操作">数据操作</h4>
+<h5 id="插入数据">插入数据</h5>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#INSERT 插入单条数据：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name (field1, field2, ..., fieldN) <span class="keyword">VALUES</span> (value1, value2, ..., valueN)</span><br><span class="line">eg:</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> contacts(<span class="keyword">name</span>, sex, phone) <span class="keyword">values</span>(<span class="string">'张三'</span>, <span class="number">1</span>, <span class="string">'11111111111'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">#INSERT 插入多条数据：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name (field1, field2, ..., fieldN) <span class="keyword">VALUES</span> (valueA1, valueA2, ..., valueAN), (valueB1,</span><br><span class="line">valueB2, ..., valueBN), …, (valueN1, valueN2, ..., valueNN);</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> contacts(<span class="keyword">name</span>, sex, phone) <span class="keyword">values</span>(<span class="string">'李四'</span>, <span class="number">1</span>, <span class="string">'22222222222'</span>), (<span class="string">'lily\'</span>s cat<span class="string">', 2, '</span><span class="number">33333333333</span><span class="string">'), ("jane'</span>s<span class="string">", 2, '44444444444');</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意事项:<br />
+如果字段是字符型，值必须使用单引号或者双引号，如”value”;如果值本身带单引号或双引号，需要转义<br />
+如果所有列都要添加数据，insert into语句可以不指定列,即<br />
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name <span class="keyword">VALUES</span> (value1, value2, ..., valueN);</span><br></pre></td></tr></table></figure></li>
+<li>insert into 和 replace into 比较<br />
+数据存在时, replace 为替换 数据不存在时，replace 为插入且效率比insert高</li>
+</ul>
+<h5 id="修改数据">修改数据</h5>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法:</span></span><br><span class="line"><span class="keyword">UPDATE</span> table_name <span class="keyword">SET</span> field1=newValue1, field2=newValue2 [<span class="keyword">WHERE</span> Clause]</span><br><span class="line"><span class="comment">--eg:</span></span><br><span class="line"><span class="keyword">update</span> contacts <span class="keyword">set</span> sex=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">update</span> contacts <span class="keyword">set</span> sex=<span class="number">2</span>, phone=<span class="string">'55555555555'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>注意事项： 可以同时更新一个或多个字段<br />
+可以通过where子句来指定更新的范围，如果不带where，则更新数据表中的所有记录</p>
+<h5 id="删除数据">删除数据</h5>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法:</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span> Clause]</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg:</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> contacts <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+<p>注意事项： 可以通过where子句来指定删除的范围，如果不带where，则删除数据表中的所有记录</p>
+<h5 id="查询语句">查询语句</h5>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line">[<span class="keyword">WHERE</span> where_condition]</span><br><span class="line">[<span class="keyword">GROUP</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125;, ... [<span class="keyword">WITH</span> <span class="keyword">ROLLUP</span>]]</span><br><span class="line">[<span class="keyword">HAVING</span> where_condition]</span><br><span class="line">[<span class="keyword">ORDER</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125; [<span class="keyword">ASC</span> | <span class="keyword">DESC</span>], ... [<span class="keyword">WITH</span> <span class="keyword">ROLLUP</span>]]</span><br><span class="line">[<span class="keyword">LIMIT</span> &#123;[<span class="keyword">offset</span>,] <span class="keyword">row_count</span> | <span class="keyword">row_count</span> <span class="keyword">OFFSET</span> <span class="keyword">offset</span>&#125;]</span><br></pre></td></tr></table></figure>
+<h6 id="where语句">where语句</h6>
+<p>在SQL中，insert、update、delete和select后面都能带where子句，用于插入、修改、删除或查询指定条件的记录<br />
+单条件查询<br />
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name 运算符 <span class="keyword">value</span></span><br><span class="line">运算符            描述</span><br><span class="line">=                 等于</span><br><span class="line">&lt;&gt;                或 != 不等于</span><br><span class="line">&gt;                 大于</span><br><span class="line">&lt;                 小于</span><br><span class="line">&gt;=                大于等于</span><br><span class="line">&lt;=                小于等于</span><br><span class="line"><span class="keyword">between</span> <span class="keyword">and</span>       选取介于两个值之间的数据范围；在MySQL中，相当于&gt;=并且&lt;=</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> salary <span class="keyword">between</span> <span class="number">10000</span> <span class="keyword">and</span> <span class="number">12000</span>;</span><br></pre></td></tr></table></figure> 多条件查询<br />
+在where子句中，使用and、or可以把两个或多个过滤条件结合起来<br />
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> condition1 <span class="keyword">AND</span> condition2 <span class="keyword">OR</span> condition3</span><br><span class="line">运算符              描述</span><br><span class="line"><span class="keyword">and</span>                表示左右两边的条件同时成立</span><br><span class="line"><span class="keyword">or</span>                 表示左右两边只要有一个条件成立</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> sex=<span class="string">'男'</span> <span class="keyword">and</span> (salary &lt;=<span class="number">4000</span> <span class="keyword">or</span> salary &gt;= <span class="number">10000</span>);</span><br></pre></td></tr></table></figure></p>
+<h6 id="in运算符">in运算符</h6>
+<p>运算符 IN 允许我们在 WHERE 子句中过滤某个字段的多个值<br />
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name <span class="keyword">IN</span>(value1, value2, …)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure></p>
+<h6 id="like运算符">like运算符</h6>
+<p>在where子句中，有时候我们需要查询包含xxx 字符串的所有记录，这时就需要用到运算符like<br />
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name <span class="keyword">LIKE</span> ‘%<span class="keyword">value</span>%’ </span><br><span class="line"><span class="comment">-- eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%小%'</span>;</span><br></pre></td></tr></table></figure> 说明 LIKE子句中的%类似于正则表达式中的*，匹配任意0个或多个字符 LIKE子句中的_匹配任意单个字符 LIKE子句中如果没有%和_，就相当于运算符=的效果</p>
+<h5 id="查询结果排序和分页">查询结果排序和分页　</h5>
+<ul>
+<li><p>order by <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name1, table_name2</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> column_name, column_name [<span class="keyword">ASC</span>|<span class="keyword">DESC</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> empolyee <span class="keyword">order</span> <span class="keyword">by</span> sex, salary <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure> 说明： ASC表示按升序排列，DESC表示按降序排列。 默认情况下，对列按升序排</p></li>
+<li><p>limit <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name1, table_name2</span><br><span class="line"><span class="keyword">LIMIT</span> [<span class="keyword">offset</span>,] <span class="keyword">row_count</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--eg  </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">5</span>, <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">10</span>, <span class="number">5</span>;</span><br></pre></td></tr></table></figure> 说明： offset指定要返回的第一行的偏移量。第一行的偏移量是0，而不是1。 row_count指定要返回的最大行数。 limit的分页公式: limit (page-1)*row_count, row_count</p></li>
+</ul>
+<h5 id="分组">分组　</h5>
+<ul>
+<li><p>group by 示根据某种规则对数据进行分组，它必须配合聚合函数进行使用，对数 据进行分组后可以进行count、sum、avg、max和min等运算。 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name, aggregate_function(column_name)</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> column_name</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg</span></span><br><span class="line"><span class="keyword">select</span> sex, <span class="keyword">count</span>(*) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> sex;</span><br></pre></td></tr></table></figure> 说明: aggregate_function表示聚合函数 group by可以对一列或多列进行分组</p></li>
+<li>having WHERE 关键字无法与聚合函数一起使用。HAVING 子句可 以对分组后的各组数据进行筛选 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name, aggregate_function(column_name)</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">operator</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> column_name</span><br><span class="line"><span class="keyword">HAVING</span> aggregate_function(column_name) <span class="keyword">operator</span> <span class="keyword">value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--eg</span></span><br><span class="line"><span class="keyword">select</span> dept, <span class="keyword">count</span>(*) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> dept <span class="keyword">having</span> <span class="keyword">count</span>(*) &lt; <span class="number">5</span>;</span><br></pre></td></tr></table></figure></li>
+<li>group_concat<br />
+group_concat配合group by一起使用，用于将某一列的值按指定的分隔符进行拼接 MySQL默认的分隔符为逗号 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line">group_concat([distinct] column_name [order by column_name asc/desc ] [separator '分隔符'])   </span><br><span class="line"></span><br><span class="line"><span class="comment">--eg </span></span><br><span class="line"><span class="keyword">select</span> dept, <span class="keyword">count</span>(*), <span class="keyword">group_concat</span>(<span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">desc</span> separator <span class="string">';'</span>) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> dept;</span><br></pre></td></tr></table></figure> ##### 去重<br />
+</li>
+<li><p>distinct 支持单列和多列　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name, column_name</span><br><span class="line"><span class="keyword">FROM</span> table_name;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> username, city <span class="keyword">from</span> footprint;</span><br></pre></td></tr></table></figure></p></li>
+</ul>
+<h4 id="多表操作">多表操作　　</h4>
+<h5 id="表连接">表连接　　</h5>
+<p>在多个表之间通过一定的连接条件，使表之间发生关联，进而能从多个表之间获取数据　　　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> table1.column, table2.column</span><br><span class="line"><span class="keyword">FROM</span> table1, table2</span><br><span class="line"><span class="keyword">WHERE</span> table1.column1 = table2.column2;</span><br></pre></td></tr></table></figure> * 表连接几种方式　　 内连接　join或inner join<br />
+自连接　同一张表内的连接　 外连接　左外连接　left join, 右外连接 right join, 全外连接 full join</p>
+<ul>
+<li>各种表连接的区别　 <img src="https://i.loli.net/2020/11/15/FcB6hIZyu9iNspG.png" alt="p20200714_1" /> 交叉连接（cross join）：没有用where子句的交叉连接将产生笛卡尔积，第一个表的行数乘以第二个表的行数等于笛卡尔积 和结果集的大小</li>
+</ul>
+<h6 id="内连接">内连接　</h6>
+<p><img src="https://i.loli.net/2020/08/18/xW1zZPBD2gAykva.png"/> <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">inner</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B <span class="keyword">while</span> A.stu_no = B.stu_no;</span><br></pre></td></tr></table></figure></p>
+<h6 id="左连接">左连接　</h6>
+<p><img src="https://i.loli.net/2020/08/18/BtTodxEVWwKn4Gi.png"/> <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">left</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br></pre></td></tr></table></figure></p>
+<h6 id="笛卡尔积">笛卡尔积</h6>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B</span><br></pre></td></tr></table></figure>
+<h5 id="自连接">自连接　</h5>
+<p>一种特殊的表连接，它是指相互连接的表在物理上同为一张表，但是逻辑上是多张表。自 连接通常用于表中的数据有层次结构，如区域表、菜单表、商品分类表等　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#自连接语法</span></span><br><span class="line"><span class="keyword">SELECT</span> A.column, B.column</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">table</span> A, <span class="keyword">table</span> B</span><br><span class="line"><span class="keyword">WHERE</span> A.column = B.column;</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/NHFdTWZBmAqSYU2.png"/></p>
+<h5 id="子查询">子查询　</h5>
+<p>又成为内部查询和嵌套查询　 <img src="https://i.loli.net/2020/08/19/zJZjmYDhnICQ5fq.png"/>　 select 学号 姓名 地址 from 学生表 where 学号 in (select 学号 from 成绩表 where 科目=计算机) * 子查询in <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">IN</span>(</span><br><span class="line"> <span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span>]</span><br><span class="line">);</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/VITdOj3hgZGqNpX.png"/></p>
+<ul>
+<li>子查询exists <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name1</span><br><span class="line"><span class="keyword">FROM</span> table_name1</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table_name2 <span class="keyword">WHERE</span> condition);</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/gLpx9WRwhtc5Hay.png"/></li>
+</ul>
+<h4 id="用户管理">用户管理　　</h4>
+<h5 id="mysql权限体系">mysql权限体系　</h5>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>层级</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>全局层级</td>
+<td>适用于一个给定服务器中的所有数据库。这些权限存储在mysql.user表中。 GRANT ALL ON <em>.</em>和REVOKE ALL ON <em>.</em>只授予和撤销全局权限</td>
+</tr>
+<tr class="even">
+<td>数据库层级</td>
+<td>适用于一个给定数据库中的所有目标。这些权限存储在mysql.db和mysql.host表中。 GRANT ALL ON db_name.<em>和REVOKE ALL ON db_name.</em>只授予和撤销数据库权限</td>
+</tr>
+<tr class="odd">
+<td>表层级</td>
+<td>适用于一个给定表中的所有列。这些权限存储在mysql.talbes_priv表中。 GRANT ALL ON db_name.tbl_name和REVOKE ALL ON db_name.tbl_name只授予和撤销表权限</td>
+</tr>
+<tr class="even">
+<td>列层级</td>
+<td>适用于一个给定表中的单一列。这些权限存储在mysql.columns_priv表中。当使用REVOKE时，您必须指 定与被授权列相同的列</td>
+</tr>
+<tr class="odd">
+<td>子程序层级</td>
+<td>CREATE ROUTINE, ALTER ROUTINE, EXECUTE和GRANT权限适用于已存储的子程序。这些权限可以被 授予为全局层级和数据库层级。而且，除了CREATE ROUTINE外，这些权限可以被授予为子程序层级， 并存储在mysql.procs_priv表中</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL的权限信息主要存储在以下几张表中，当用户连接数据库时，MySQL会根据这些表对用户 进行权限验证</p>
+<table>
+<thead>
+<tr class="header">
+<th>表名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>user</td>
+<td>用户权限表，记录账号、密码及全局性权限信息</td>
+</tr>
+<tr class="even">
+<td>db</td>
+<td>记录数据库相关权限</td>
+</tr>
+<tr class="odd">
+<td>table_priv</td>
+<td>用户对某个表拥有的权限</td>
+</tr>
+<tr class="even">
+<td>column_priv</td>
+<td>用户对某表的某个列所拥有的权限</td>
+</tr>
+<tr class="odd">
+<td>procs_priv</td>
+<td>用户对存储过程及存储函数的操作权限</td>
+</tr>
+</tbody>
+</table>
+<p>在MySQL中，使用CREATE USER来创建用户，用户创建后没有任何权限 <strong>MySQL的用户账号由两部分组成：用户名和主机名，即用户名@主机名，主机名可以是IP或机器名称, 主机名为%表示允许任何地址的主机远程登录MySQL数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#创建用户</span><br><span class="line">CREATE USER &#39;用户名&#39; [@&#39;主机名&#39;] [IDENTIFIED BY &#39;密码&#39;];</span><br><span class="line">#删除用户</span><br><span class="line">DROP USER &#39;用户名&#39; [@&#39;主机名&#39;];</span><br><span class="line">#修改密码</span><br><span class="line">ALTER USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED BY &#39;新密码&#39;;</span><br></pre></td></tr></table></figure>
+<h5 id="权限管理">权限管理　</h5>
+<p>在MySQL数据库中，使用grant命令授权、revoke命令撤销授权</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#授权</span><br><span class="line">grant all privileges on databaseName.tableName to &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#撤销授权</span><br><span class="line">revoke all privileges on databaseName.tableName from &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#查看权限</span><br><span class="line">show grants for &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br></pre></td></tr></table></figure>
+<h6 id="权限列表">权限列表　</h6>
+<p>使用grant和revoke进行授权、撤销授权时，需要指定具体是哪些权限，这些权限大体可以分为3类，数据类、结构类和管理类</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 39%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>数据</th>
+<th>结构</th>
+<th style="text-align: left;">管理</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SELECT INSERT UPDATE DELETE FILE</td>
+<td>CREATE ALTER INDEX DROP CREATE TEMPORARY TABLES SHOW VIEW CREATE ROUTINE ALTER ROUTINE EXECUTE CREATE VIEW EVENT TRIGGER</td>
+<td style="text-align: left;">USAGE GRANT SUPER PROCESS RELOAD SHUTDOWN SHOW DATABASES LOCK TABLES REFERENCES REPUCATION CUENT REPUCATION SLAVE CREATE USER</td>
+</tr>
+</tbody>
+</table>
+<h6 id="禁止root远程登录">禁止root远程登录</h6>
+<ol type="1">
+<li>root是MySQL数据库的超级管理员，几乎拥有所有权限，一旦泄露后果非常严重；</li>
+<li>root是MySQL数据库的默认用户，所有人都知道，如果不禁止远程登录，可以针对root用户暴 力破解密码 <img src="https://i.loli.net/2020/08/19/7C6q2On1VrbZwaM.png"/></li>
+</ol>
+<h6 id="忘记root密码解决">忘记root密码解决</h6>
+<p><img src="https://i.loli.net/2020/08/19/oaiRTSve8bZQpF2.png"/><br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭权限验证</span><br><span class="line">mysqld --defaults-file&#x3D;&quot;.&#x2F;my.cnf&quot; --console --skip-granttables --shared-memory</span><br><span class="line">#参数--defaults-file的值为配置文件my.cnf的完整路径</span><br></pre></td></tr></table></figure> MySQL关闭权限验证后，直接通过 mysql 命令即可连接到数据库，并可正常执行各类操作 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#修改root用户的密码</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>sql导出数据库<br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">＃只导整个库结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃导出整个库结构和数据:</span><br><span class="line">    mysqldump -uroot -p1234 sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃只导出表结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 concern &gt; concern.sql</span><br></pre></td></tr></table></figure></li>
+<li><p>sql导入数据库　　 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source [所在的路径&#x2F;&#x2F;*.sql]</span><br><span class="line">mysql -uabc_f -p abc &lt; abc.sql</span><br></pre></td></tr></table></figure></p></li>
+<li><p>查看端口 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show global variables like &#39;port&#39;</span><br></pre></td></tr></table></figure></p></li>
+<li><p>显示建表语句<br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show create table mainline_task_stat_zkw</span><br></pre></td></tr></table></figure></p></li>
+<li><p>调换行的位置 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_online_players modify player int(10) unsigned after time;</span><br></pre></td></tr></table></figure></p></li>
+<li><p>求和 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select sum(peoples) as total from tutorial_stage_stat where day_id&#x3D;19;</span><br></pre></td></tr></table></figure></p></li>
+<li>修改表结构 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_key_data_online modify &#96;date&#96; char(12) NOT NULL</span><br></pre></td></tr></table></figure></li>
+<li>按列显示<br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from T_Account limit 1\G</span><br></pre></td></tr></table></figure></li>
+<li><p>pymysql <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安装(centos 6)：</span><br><span class="line">安装pip: sudo yum -y install epel-release, sudo yum -y install python-pip</span><br><span class="line">安装mypython: yum install -y mysql-devel, python-devel python-setuptools</span><br><span class="line">             pip install MySQL-python</span><br><span class="line">安装mysql.connector包 pip install mysql-connector</span><br></pre></td></tr></table></figure></p></li>
+<li><p>查看mysql 配置文件的方法<br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">which mysqld</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysql --verbose --help | grep -A 1 &#39;Default options&#39;</span><br></pre></td></tr></table></figure></p></li>
+<li><p>MySQL中文乱码 <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjg4MTE2Ng==&amp;idx=4&amp;mid=100000774&amp;sn=c4ed7a8c2fee681523c3e30600be4bf8" target="_blank" rel="noopener">彻底解决MySQL中文乱码</a></p></li>
+<li><p>mysql修改数据库表和表中的字段的编码格式的修改 <a href="https://blog.csdn.net/luo4105/article/details/50804148" target="_blank" rel="noopener">mysql修改数据库表和表中的字段的编码格式的修改</a></p></li>
+<li><p>mysql的latin1支持中文 <a href="https://blog.csdn.net/congcongsuiyue/article/details/41979643" target="_blank" rel="noopener">mysql的latin1支持中文</a></p></li>
+<li><p>mysql 两表联合查询 <a href="https://blog.csdn.net/wj123446/article/details/52870114/" target="_blank" rel="noopener">mysql两表联合查询的四种情况</a></p></li>
+<li>mysql 设置最大连接数 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.第一种：命令行查看和修改最大连接数(max_connections)。</span><br><span class="line">  &gt;mysql -uuser -ppassword(命令行登录MySQL)</span><br><span class="line">  mysql&gt;show variables like &#39;max_connections&#39;;(查可以看当前的最大连接数)</span><br><span class="line">  msyql&gt;set global max_connections&#x3D;1000;(设置最大连接数为1000，可以再次查看是否设置成功)</span><br><span class="line">  mysql&gt;exit  </span><br><span class="line">2.设置&#x2F;etc&#x2F;my.cnf</span><br><span class="line">  注:似乎两者都要设置才会成功</span><br></pre></td></tr></table></figure></li>
+<li><p>查看错误日志路径<br />
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在配置中查看</span><br><span class="line">&#x2F;data&#x2F;mysql&#x2F;var</span><br><span class="line">数据库存放路径</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;message</span><br><span class="line">系统日志</span><br></pre></td></tr></table></figure></p></li>
+<li><p>数据库遭到攻击 <a href="https://jason5.cn/blog/ji-%5B%3F%5D-ci-shu-ju-ku-bei-gong-ji-de-jing-li.html" target="_blank" rel="noopener">数据库遭到攻击</a></p></li>
+</ul>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>mysql基础</title>
@@ -1273,429 +1742,6 @@ in 在存储过程中修值是传入值得一份拷贝，传入的值不会改�
       </tags>
   </entry>
   <entry>
-    <title>mysql</title>
-    <url>/2020/07/04/mysql/</url>
-    <content><![CDATA[<h3 id="基本操作">基本操作</h3>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#新建数据库</span><br><span class="line">CREATE DATABASE 名</span><br><span class="line">#显示当前使用的数据库</span><br><span class="line">select database();</span><br><span class="line"># 查询数据库支持的存储引擎  </span><br><span class="line">show engines;</span><br><span class="line">#删除表  </span><br><span class="line">DROP TABLES 名</span><br></pre></td></tr></table></figure>
-<h4 id="创建表">创建表</h4>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#语法  </span><br><span class="line">CREATE [TEMPORARY] TABLE [IF NOT EXISTS] table_name [(create_definition,…)] [table_options]</span><br><span class="line">[select_statement] </span><br><span class="line">#TEMPORARY：表示创建临时表，在当前会话结束后将自动消失</span><br><span class="line">#IF NOT EXISTS：在建表前，先判断表是否存在，只有该表不存在时才创建</span><br><span class="line">#create_definition：建表语句的关键部分，用于定义表中各列的属性</span><br><span class="line">#table_options：表的配置选项，例如：表的默认存储引擎、字符集</span><br><span class="line">#select_statement：通过select语句建表</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">create table contacts(</span><br><span class="line">    id int not null auto_increment primay key,</span><br><span class="line">    name varchar(30),</span><br><span class="line">    phone varchar(20)</span><br><span class="line">) engine&#x3D;innodb default charset&#x3D;utf8;</span><br></pre></td></tr></table></figure>
-<h4 id="字段操作">字段操作</h4>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#添加</span><br><span class="line">alter table stat_online_players add time char(12);</span><br><span class="line">#删除, 如果是主键, 必须先删掉主键约束</span><br><span class="line">alter table stat_online_players drop column hour, drop column minute;</span><br><span class="line">#修改字段  </span><br><span class="line">alter table base modify recover_time int(10) NOT NULL DEFAULT &#39;0&#39;;</span><br><span class="line"></span><br><span class="line">#修改字段名 </span><br><span class="line">alter table base change barrier archive_chip binary(24) ;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>删除带主键约束的行<br />
-<img src="/images/mysql_20200705_1.png" alt="p1" /></p></li>
-<li><p>删除主键约束 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_online_players drop primary key; #增加主键约束（要先删掉数据吗?)</span><br><span class="line">alter table stat_online_players add primary key(zone_id, date);#主键要先删再加才行</span><br></pre></td></tr></table></figure></p></li>
-</ul>
-<h4 id="数据操作">数据操作</h4>
-<h5 id="插入数据">插入数据</h5>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#INSERT 插入单条数据：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name (field1, field2, ..., fieldN) <span class="keyword">VALUES</span> (value1, value2, ..., valueN)</span><br><span class="line">eg:</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> contacts(<span class="keyword">name</span>, sex, phone) <span class="keyword">values</span>(<span class="string">'张三'</span>, <span class="number">1</span>, <span class="string">'11111111111'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">#INSERT 插入多条数据：</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name (field1, field2, ..., fieldN) <span class="keyword">VALUES</span> (valueA1, valueA2, ..., valueAN), (valueB1,</span><br><span class="line">valueB2, ..., valueBN), …, (valueN1, valueN2, ..., valueNN);</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> contacts(<span class="keyword">name</span>, sex, phone) <span class="keyword">values</span>(<span class="string">'李四'</span>, <span class="number">1</span>, <span class="string">'22222222222'</span>), (<span class="string">'lily\'</span>s cat<span class="string">', 2, '</span><span class="number">33333333333</span><span class="string">'), ("jane'</span>s<span class="string">", 2, '44444444444');</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>注意事项:<br />
-如果字段是字符型，值必须使用单引号或者双引号，如”value”;如果值本身带单引号或双引号，需要转义<br />
-如果所有列都要添加数据，insert into语句可以不指定列,即<br />
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name <span class="keyword">VALUES</span> (value1, value2, ..., valueN);</span><br></pre></td></tr></table></figure></li>
-<li>insert into 和 replace into 比较<br />
-数据存在时, replace 为替换 数据不存在时，replace 为插入且效率比insert高</li>
-</ul>
-<h5 id="修改数据">修改数据</h5>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法:</span></span><br><span class="line"><span class="keyword">UPDATE</span> table_name <span class="keyword">SET</span> field1=newValue1, field2=newValue2 [<span class="keyword">WHERE</span> Clause]</span><br><span class="line"><span class="comment">--eg:</span></span><br><span class="line"><span class="keyword">update</span> contacts <span class="keyword">set</span> sex=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">update</span> contacts <span class="keyword">set</span> sex=<span class="number">2</span>, phone=<span class="string">'55555555555'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-<p>注意事项： 可以同时更新一个或多个字段<br />
-可以通过where子句来指定更新的范围，如果不带where，则更新数据表中的所有记录</p>
-<h5 id="删除数据">删除数据</h5>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法:</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span> Clause]</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg:</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> contacts <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
-<p>注意事项： 可以通过where子句来指定删除的范围，如果不带where，则删除数据表中的所有记录</p>
-<h5 id="查询语句">查询语句</h5>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line">[<span class="keyword">WHERE</span> where_condition]</span><br><span class="line">[<span class="keyword">GROUP</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125;, ... [<span class="keyword">WITH</span> <span class="keyword">ROLLUP</span>]]</span><br><span class="line">[<span class="keyword">HAVING</span> where_condition]</span><br><span class="line">[<span class="keyword">ORDER</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125; [<span class="keyword">ASC</span> | <span class="keyword">DESC</span>], ... [<span class="keyword">WITH</span> <span class="keyword">ROLLUP</span>]]</span><br><span class="line">[<span class="keyword">LIMIT</span> &#123;[<span class="keyword">offset</span>,] <span class="keyword">row_count</span> | <span class="keyword">row_count</span> <span class="keyword">OFFSET</span> <span class="keyword">offset</span>&#125;]</span><br></pre></td></tr></table></figure>
-<h6 id="where语句">where语句</h6>
-<p>在SQL中，insert、update、delete和select后面都能带where子句，用于插入、修改、删除或查询指定条件的记录<br />
-单条件查询<br />
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name 运算符 <span class="keyword">value</span></span><br><span class="line">运算符            描述</span><br><span class="line">=                 等于</span><br><span class="line">&lt;&gt;                或 != 不等于</span><br><span class="line">&gt;                 大于</span><br><span class="line">&lt;                 小于</span><br><span class="line">&gt;=                大于等于</span><br><span class="line">&lt;=                小于等于</span><br><span class="line"><span class="keyword">between</span> <span class="keyword">and</span>       选取介于两个值之间的数据范围；在MySQL中，相当于&gt;=并且&lt;=</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> salary <span class="keyword">between</span> <span class="number">10000</span> <span class="keyword">and</span> <span class="number">12000</span>;</span><br></pre></td></tr></table></figure> 多条件查询<br />
-在where子句中，使用and、or可以把两个或多个过滤条件结合起来<br />
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> condition1 <span class="keyword">AND</span> condition2 <span class="keyword">OR</span> condition3</span><br><span class="line">运算符              描述</span><br><span class="line"><span class="keyword">and</span>                表示左右两边的条件同时成立</span><br><span class="line"><span class="keyword">or</span>                 表示左右两边只要有一个条件成立</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> sex=<span class="string">'男'</span> <span class="keyword">and</span> (salary &lt;=<span class="number">4000</span> <span class="keyword">or</span> salary &gt;= <span class="number">10000</span>);</span><br></pre></td></tr></table></figure></p>
-<h6 id="in运算符">in运算符</h6>
-<p>运算符 IN 允许我们在 WHERE 子句中过滤某个字段的多个值<br />
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name <span class="keyword">IN</span>(value1, value2, …)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure></p>
-<h6 id="like运算符">like运算符</h6>
-<p>在where子句中，有时候我们需要查询包含xxx 字符串的所有记录，这时就需要用到运算符like<br />
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name <span class="keyword">WHERE</span> column_name <span class="keyword">LIKE</span> ‘%<span class="keyword">value</span>%’ </span><br><span class="line"><span class="comment">-- eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'%小%'</span>;</span><br></pre></td></tr></table></figure> 说明 LIKE子句中的%类似于正则表达式中的*，匹配任意0个或多个字符 LIKE子句中的_匹配任意单个字符 LIKE子句中如果没有%和_，就相当于运算符=的效果</p>
-<h5 id="查询结果排序和分页">查询结果排序和分页　</h5>
-<ul>
-<li><p>order by <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name1, table_name2</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> column_name, column_name [<span class="keyword">ASC</span>|<span class="keyword">DESC</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> empolyee <span class="keyword">order</span> <span class="keyword">by</span> sex, salary <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure> 说明： ASC表示按升序排列，DESC表示按降序排列。 默认情况下，对列按升序排</p></li>
-<li><p>limit <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name1, column_name2</span><br><span class="line"><span class="keyword">FROM</span> table_name1, table_name2</span><br><span class="line"><span class="keyword">LIMIT</span> [<span class="keyword">offset</span>,] <span class="keyword">row_count</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--eg  </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">5</span>, <span class="number">5</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">limit</span> <span class="number">10</span>, <span class="number">5</span>;</span><br></pre></td></tr></table></figure> 说明： offset指定要返回的第一行的偏移量。第一行的偏移量是0，而不是1。 row_count指定要返回的最大行数。 limit的分页公式: limit (page-1)*row_count, row_count</p></li>
-</ul>
-<h5 id="分组">分组　</h5>
-<ul>
-<li><p>group by 示根据某种规则对数据进行分组，它必须配合聚合函数进行使用，对数 据进行分组后可以进行count、sum、avg、max和min等运算。 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法 </span></span><br><span class="line"><span class="keyword">SELECT</span> column_name, aggregate_function(column_name)</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> column_name</span><br><span class="line"></span><br><span class="line"><span class="comment">--eg</span></span><br><span class="line"><span class="keyword">select</span> sex, <span class="keyword">count</span>(*) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> sex;</span><br></pre></td></tr></table></figure> 说明: aggregate_function表示聚合函数 group by可以对一列或多列进行分组</p></li>
-<li>having WHERE 关键字无法与聚合函数一起使用。HAVING 子句可 以对分组后的各组数据进行筛选 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line"><span class="keyword">SELECT</span> column_name, aggregate_function(column_name)</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">operator</span> <span class="keyword">value</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> column_name</span><br><span class="line"><span class="keyword">HAVING</span> aggregate_function(column_name) <span class="keyword">operator</span> <span class="keyword">value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--eg</span></span><br><span class="line"><span class="keyword">select</span> dept, <span class="keyword">count</span>(*) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> dept <span class="keyword">having</span> <span class="keyword">count</span>(*) &lt; <span class="number">5</span>;</span><br></pre></td></tr></table></figure></li>
-<li>group_concat<br />
-group_concat配合group by一起使用，用于将某一列的值按指定的分隔符进行拼接 MySQL默认的分隔符为逗号 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法　</span></span><br><span class="line">group_concat([distinct] column_name [order by column_name asc/desc ] [separator '分隔符'])   </span><br><span class="line"></span><br><span class="line"><span class="comment">--eg </span></span><br><span class="line"><span class="keyword">select</span> dept, <span class="keyword">count</span>(*), <span class="keyword">group_concat</span>(<span class="keyword">name</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">name</span> <span class="keyword">desc</span> separator <span class="string">';'</span>) <span class="keyword">from</span> employee <span class="keyword">group</span> <span class="keyword">by</span> dept;</span><br></pre></td></tr></table></figure> ##### 去重<br />
-</li>
-<li><p>distinct 支持单列和多列　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 语法</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column_name, column_name</span><br><span class="line"><span class="keyword">FROM</span> table_name;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- eg</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> username, city <span class="keyword">from</span> footprint;</span><br></pre></td></tr></table></figure></p></li>
-</ul>
-<h4 id="多表操作">多表操作　　</h4>
-<h5 id="表连接">表连接　　</h5>
-<p>在多个表之间通过一定的连接条件，使表之间发生关联，进而能从多个表之间获取数据　　　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">-- 语法  </span></span><br><span class="line"><span class="keyword">SELECT</span> table1.column, table2.column</span><br><span class="line"><span class="keyword">FROM</span> table1, table2</span><br><span class="line"><span class="keyword">WHERE</span> table1.column1 = table2.column2;</span><br></pre></td></tr></table></figure> * 表连接几种方式　　 内连接　join或inner join<br />
-自连接　同一张表内的连接　 外连接　左外连接　left join, 右外连接 right join, 全外连接 full join</p>
-<ul>
-<li>各种表连接的区别　 <img src="https://i.loli.net/2020/11/15/FcB6hIZyu9iNspG.png" alt="p20200714_1" /> 交叉连接（cross join）：没有用where子句的交叉连接将产生笛卡尔积，第一个表的行数乘以第二个表的行数等于笛卡尔积 和结果集的大小</li>
-</ul>
-<h6 id="内连接">内连接　</h6>
-<p><img src="https://i.loli.net/2020/08/18/xW1zZPBD2gAykva.png"/> <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">inner</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B <span class="keyword">while</span> A.stu_no = B.stu_no;</span><br></pre></td></tr></table></figure></p>
-<h6 id="左连接">左连接　</h6>
-<p><img src="https://i.loli.net/2020/08/18/BtTodxEVWwKn4Gi.png"/> <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A <span class="keyword">left</span> <span class="keyword">join</span> score B <span class="keyword">on</span>(A.stu_no = B.stu_no);</span><br></pre></td></tr></table></figure></p>
-<h6 id="笛卡尔积">笛卡尔积</h6>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> A.stu_no, A.name, B.course, B.score <span class="keyword">from</span> student A score B</span><br></pre></td></tr></table></figure>
-<h5 id="自连接">自连接　</h5>
-<p>一种特殊的表连接，它是指相互连接的表在物理上同为一张表，但是逻辑上是多张表。自 连接通常用于表中的数据有层次结构，如区域表、菜单表、商品分类表等　 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">#自连接语法</span></span><br><span class="line"><span class="keyword">SELECT</span> A.column, B.column</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">table</span> A, <span class="keyword">table</span> B</span><br><span class="line"><span class="keyword">WHERE</span> A.column = B.column;</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/NHFdTWZBmAqSYU2.png"/></p>
-<h5 id="子查询">子查询　</h5>
-<p>又成为内部查询和嵌套查询　 <img src="https://i.loli.net/2020/08/19/zJZjmYDhnICQ5fq.png"/>　 select 学号 姓名 地址 from 学生表 where 学号 in (select 学号 from 成绩表 where 科目=计算机) * 子查询in <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> column_name <span class="keyword">IN</span>(</span><br><span class="line"> <span class="keyword">SELECT</span> column_name <span class="keyword">FROM</span> table_name [<span class="keyword">WHERE</span>]</span><br><span class="line">);</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/VITdOj3hgZGqNpX.png"/></p>
-<ul>
-<li>子查询exists <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column_name1</span><br><span class="line"><span class="keyword">FROM</span> table_name1</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> table_name2 <span class="keyword">WHERE</span> condition);</span><br></pre></td></tr></table></figure> <img src="https://i.loli.net/2020/08/19/gLpx9WRwhtc5Hay.png"/></li>
-</ul>
-<h4 id="用户管理">用户管理　　</h4>
-<h5 id="mysql权限体系">mysql权限体系　</h5>
-<table>
-<colgroup>
-<col style="width: 14%" />
-<col style="width: 85%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>层级</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>全局层级</td>
-<td>适用于一个给定服务器中的所有数据库。这些权限存储在mysql.user表中。 GRANT ALL ON <em>.</em>和REVOKE ALL ON <em>.</em>只授予和撤销全局权限</td>
-</tr>
-<tr class="even">
-<td>数据库层级</td>
-<td>适用于一个给定数据库中的所有目标。这些权限存储在mysql.db和mysql.host表中。 GRANT ALL ON db_name.<em>和REVOKE ALL ON db_name.</em>只授予和撤销数据库权限</td>
-</tr>
-<tr class="odd">
-<td>表层级</td>
-<td>适用于一个给定表中的所有列。这些权限存储在mysql.talbes_priv表中。 GRANT ALL ON db_name.tbl_name和REVOKE ALL ON db_name.tbl_name只授予和撤销表权限</td>
-</tr>
-<tr class="even">
-<td>列层级</td>
-<td>适用于一个给定表中的单一列。这些权限存储在mysql.columns_priv表中。当使用REVOKE时，您必须指 定与被授权列相同的列</td>
-</tr>
-<tr class="odd">
-<td>子程序层级</td>
-<td>CREATE ROUTINE, ALTER ROUTINE, EXECUTE和GRANT权限适用于已存储的子程序。这些权限可以被 授予为全局层级和数据库层级。而且，除了CREATE ROUTINE外，这些权限可以被授予为子程序层级， 并存储在mysql.procs_priv表中</td>
-</tr>
-</tbody>
-</table>
-<p>MySQL的权限信息主要存储在以下几张表中，当用户连接数据库时，MySQL会根据这些表对用户 进行权限验证</p>
-<table>
-<thead>
-<tr class="header">
-<th>表名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>user</td>
-<td>用户权限表，记录账号、密码及全局性权限信息</td>
-</tr>
-<tr class="even">
-<td>db</td>
-<td>记录数据库相关权限</td>
-</tr>
-<tr class="odd">
-<td>table_priv</td>
-<td>用户对某个表拥有的权限</td>
-</tr>
-<tr class="even">
-<td>column_priv</td>
-<td>用户对某表的某个列所拥有的权限</td>
-</tr>
-<tr class="odd">
-<td>procs_priv</td>
-<td>用户对存储过程及存储函数的操作权限</td>
-</tr>
-</tbody>
-</table>
-<p>在MySQL中，使用CREATE USER来创建用户，用户创建后没有任何权限 <strong>MySQL的用户账号由两部分组成：用户名和主机名，即用户名@主机名，主机名可以是IP或机器名称, 主机名为%表示允许任何地址的主机远程登录MySQL数据库</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#创建用户</span><br><span class="line">CREATE USER &#39;用户名&#39; [@&#39;主机名&#39;] [IDENTIFIED BY &#39;密码&#39;];</span><br><span class="line">#删除用户</span><br><span class="line">DROP USER &#39;用户名&#39; [@&#39;主机名&#39;];</span><br><span class="line">#修改密码</span><br><span class="line">ALTER USER &#39;用户名&#39;@&#39;主机名&#39; IDENTIFIED BY &#39;新密码&#39;;</span><br></pre></td></tr></table></figure>
-<h5 id="权限管理">权限管理　</h5>
-<p>在MySQL数据库中，使用grant命令授权、revoke命令撤销授权</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#授权</span><br><span class="line">grant all privileges on databaseName.tableName to &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#撤销授权</span><br><span class="line">revoke all privileges on databaseName.tableName from &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#查看权限</span><br><span class="line">show grants for &#39;用户名&#39; [@&#39;主机名&#39;] ;</span><br></pre></td></tr></table></figure>
-<h6 id="权限列表">权限列表　</h6>
-<p>使用grant和revoke进行授权、撤销授权时，需要指定具体是哪些权限，这些权限大体可以分为3类，数据类、结构类和管理类</p>
-<table>
-<colgroup>
-<col style="width: 21%" />
-<col style="width: 39%" />
-<col style="width: 39%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>数据</th>
-<th>结构</th>
-<th style="text-align: left;">管理</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SELECT INSERT UPDATE DELETE FILE</td>
-<td>CREATE ALTER INDEX DROP CREATE TEMPORARY TABLES SHOW VIEW CREATE ROUTINE ALTER ROUTINE EXECUTE CREATE VIEW EVENT TRIGGER</td>
-<td style="text-align: left;">USAGE GRANT SUPER PROCESS RELOAD SHUTDOWN SHOW DATABASES LOCK TABLES REFERENCES REPUCATION CUENT REPUCATION SLAVE CREATE USER</td>
-</tr>
-</tbody>
-</table>
-<h6 id="禁止root远程登录">禁止root远程登录</h6>
-<ol type="1">
-<li>root是MySQL数据库的超级管理员，几乎拥有所有权限，一旦泄露后果非常严重；</li>
-<li>root是MySQL数据库的默认用户，所有人都知道，如果不禁止远程登录，可以针对root用户暴 力破解密码 <img src="https://i.loli.net/2020/08/19/7C6q2On1VrbZwaM.png"/></li>
-</ol>
-<h6 id="忘记root密码解决">忘记root密码解决</h6>
-<p><img src="https://i.loli.net/2020/08/19/oaiRTSve8bZQpF2.png"/><br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭权限验证</span><br><span class="line">mysqld --defaults-file&#x3D;&quot;.&#x2F;my.cnf&quot; --console --skip-granttables --shared-memory</span><br><span class="line">#参数--defaults-file的值为配置文件my.cnf的完整路径</span><br></pre></td></tr></table></figure> MySQL关闭权限验证后，直接通过 mysql 命令即可连接到数据库，并可正常执行各类操作 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#刷新权限</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">#修改root用户的密码</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>sql导出数据库<br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">＃只导整个库结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃导出整个库结构和数据:</span><br><span class="line">    mysqldump -uroot -p1234 sg17_s0 &gt; sg17_s0.sql</span><br><span class="line">＃只导出表结构:</span><br><span class="line">    mysqldump -uroot -p1234 -d sg17_s0 concern &gt; concern.sql</span><br></pre></td></tr></table></figure></li>
-<li><p>sql导入数据库　　 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source [所在的路径&#x2F;&#x2F;*.sql]</span><br><span class="line">mysql -uabc_f -p abc &lt; abc.sql</span><br></pre></td></tr></table></figure></p></li>
-<li><p>查看端口 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show global variables like &#39;port&#39;</span><br></pre></td></tr></table></figure></p></li>
-<li><p>显示建表语句<br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show create table mainline_task_stat_zkw</span><br></pre></td></tr></table></figure></p></li>
-<li><p>调换行的位置 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_online_players modify player int(10) unsigned after time;</span><br></pre></td></tr></table></figure></p></li>
-<li><p>求和 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select sum(peoples) as total from tutorial_stage_stat where day_id&#x3D;19;</span><br></pre></td></tr></table></figure></p></li>
-<li>修改表结构 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter table stat_key_data_online modify &#96;date&#96; char(12) NOT NULL</span><br></pre></td></tr></table></figure></li>
-<li>按列显示<br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from T_Account limit 1\G</span><br></pre></td></tr></table></figure></li>
-<li><p>pymysql <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">安装(centos 6)：</span><br><span class="line">安装pip: sudo yum -y install epel-release, sudo yum -y install python-pip</span><br><span class="line">安装mypython: yum install -y mysql-devel, python-devel python-setuptools</span><br><span class="line">             pip install MySQL-python</span><br><span class="line">安装mysql.connector包 pip install mysql-connector</span><br></pre></td></tr></table></figure></p></li>
-<li><p>查看mysql 配置文件的方法<br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">which mysqld</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysql --verbose --help | grep -A 1 &#39;Default options&#39;</span><br></pre></td></tr></table></figure></p></li>
-<li><p>MySQL中文乱码 <a href="https://mp.weixin.qq.com/s?__biz=MzIzNjg4MTE2Ng==&amp;idx=4&amp;mid=100000774&amp;sn=c4ed7a8c2fee681523c3e30600be4bf8" target="_blank" rel="noopener">彻底解决MySQL中文乱码</a></p></li>
-<li><p>mysql修改数据库表和表中的字段的编码格式的修改 <a href="https://blog.csdn.net/luo4105/article/details/50804148" target="_blank" rel="noopener">mysql修改数据库表和表中的字段的编码格式的修改</a></p></li>
-<li><p>mysql的latin1支持中文 <a href="https://blog.csdn.net/congcongsuiyue/article/details/41979643" target="_blank" rel="noopener">mysql的latin1支持中文</a></p></li>
-<li><p>mysql 两表联合查询 <a href="https://blog.csdn.net/wj123446/article/details/52870114/" target="_blank" rel="noopener">mysql两表联合查询的四种情况</a></p></li>
-<li>mysql 设置最大连接数 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.第一种：命令行查看和修改最大连接数(max_connections)。</span><br><span class="line">  &gt;mysql -uuser -ppassword(命令行登录MySQL)</span><br><span class="line">  mysql&gt;show variables like &#39;max_connections&#39;;(查可以看当前的最大连接数)</span><br><span class="line">  msyql&gt;set global max_connections&#x3D;1000;(设置最大连接数为1000，可以再次查看是否设置成功)</span><br><span class="line">  mysql&gt;exit  </span><br><span class="line">2.设置&#x2F;etc&#x2F;my.cnf</span><br><span class="line">  注:似乎两者都要设置才会成功</span><br></pre></td></tr></table></figure></li>
-<li><p>查看错误日志路径<br />
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在配置中查看</span><br><span class="line">&#x2F;data&#x2F;mysql&#x2F;var</span><br><span class="line">数据库存放路径</span><br><span class="line">&#x2F;var&#x2F;log&#x2F;message</span><br><span class="line">系统日志</span><br></pre></td></tr></table></figure></p></li>
-<li><p>数据库遭到攻击 <a href="https://jason5.cn/blog/ji-%5B%3F%5D-ci-shu-ju-ku-bei-gong-ji-de-jing-li.html" target="_blank" rel="noopener">数据库遭到攻击</a></p></li>
-</ul>
-]]></content>
-      <categories>
-        <category>中间件</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>秒杀系统设计</title>
-    <url>/2020/07/29/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
-    <content><![CDATA[<h3 id="需求原型设计">需求原型设计</h3>
-<p>主要设计页面(墨刀原型设计工具)</p>
-<ul>
-<li>前台用户登录页面，商品展示页面，抢购结果页面</li>
-<li>后台订单管理页面</li>
-</ul>
-<h3 id="系统架构设计">系统架构设计</h3>
-<ul>
-<li>前端页面需要承载大流量</li>
-<li>在大并发状态下要解决超卖问题</li>
-<li>后端接口需要满足横向扩展 <img src="https://i.loli.net/2020/11/15/FtBYQHPuaxyLzUC.png" alt="project_seckill" /></li>
-</ul>
-<h3 id="rabbitmq">RabbitMQ</h3>
-<ul>
-<li>定义和特征<br />
-RabbitMQ是面向消息的中间件，用于组件之间的解耦，主要体现在消息的发送者和消费者之间无强依赖关系<br />
-RabbitMQ特点，高可用, 扩展性, 多语言客户端，管理界面等 主要使用场景，流量削峰，异步处理，应用解耦</li>
-<li>管理命令介绍　 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rabbtmq-plugins list  &#x2F;&#x2F;查看插件</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management  &#x2F;&#x2F;安装管理界面</span><br><span class="line">rabbitmq-plugins disable rabbitmq_management &#x2F;&#x2F;卸载管理界面　</span><br><span class="line">rabbitmqctl list_users  &#x2F;&#x2F;列出已创建的用户</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置用户和密码</span><br><span class="line">rabbitmqctl set_user_tags　colin administrator　&#x2F;&#x2F;设置角色</span><br></pre></td></tr></table></figure></li>
-<li>核心概念 VirtualHost Connection Exchange Channel Queue Binding</li>
-</ul>
-<p>*常用工作模式　 1. Simple模式　 <img src="https://i.loli.net/2020/11/15/sBLOTY5aGIrV2iN.png" alt="project_seckill02" /></p>
-<ol start="2" type="1">
-<li><p>Work, 工作模式 　一个消息只能被一个消费者获取　 <img src="https://i.loli.net/2020/11/15/rAZk5BtOSqgluYQ.png" alt="project_seckill_2020073101" /></p></li>
-<li><p>Publish/Subscribe 订阅模式 消息被路由投递给多个队列，一个消息被多个消费者获取 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080201" /></p></li>
-<li><p>Routing, 路由模式　 一个消息被多个消费者获取，并且消息的目标队列可被生产者指定 <img src="https://i.loli.net/2020/11/15/5ob4Hif3r9KtDml.png" alt="project_seckill_2020080202" /></p></li>
-<li><p>Topic模式 用BindingKey 以通配符， (#：一个或多个词，*：一个词)的方式指定 <img src="https://i.loli.net/2020/11/15/TSKRGmzy6i8XfcM.png" alt="project_seckill_2020080203" /></p></li>
-<li><p>RPC模式</p></li>
-</ol>
-<h3 id="后台功能开发">后台功能开发　　</h3>
-<ul>
-<li>商品模型设计开发　　</li>
-<li>商品增删改查功能开发</li>
-<li>后台商品管理页面　</li>
-</ul>
-]]></content>
-      <categories>
-        <category>project</category>
-      </categories>
-      <tags>
-        <tag>go</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络编程</title>
-    <url>/2020/08/27/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<p>##　Tcp中的异常处理　 当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息: 1. connect一个不存在的端口，客户端会收到一条RST，报错Connection refused 2. 程序崩溃或异常退出，会向对端发送 3. 对端断电重启，send数据时会收到来自对端的RST 4. close(sockfd)时，直接丢弃接收缓冲区未读取的数据，并给对方发一个RST。这个是由 SO_LINGER选项来控制的</p>
-<p>有些情况服务端感知不到客户端断开: 1. 客户端断电或者网络异常　 2. 拔掉网线 这个时候服务端可能存在资源泄露的情况, 直至服务端资源耗尽拒绝提供服务, 解决方法加心跳</p>
-<h3 id="tcp半开连接">Tcp半开连接</h3>
-<p>https://blog.csdn.net/larry_zeng1/article/details/78437050</p>
-<p>引用: <a href="https://segmentfault.com/a/1190000017411330" target="_blank" rel="noopener">断开TCP连接</a> <a href="https://cloud.tencent.com/developer/news/24414" target="_blank" rel="noopener">TCP 异常关闭研究分析</a></p>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>模板</title>
-    <url>/2020/03/29/%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<a id="more"></a>
-<h2 id="函数模板">函数模板</h2>
-<p>定义模板是不会生成代码，只有当实例化时才会生成<br />
-### 类型模板参数 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">a</span>, <span class="title">T</span> <span class="title">b</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="非类型模板参数">非类型模板参数</h3>
-<p>非类型是指不是泛型， 即基本类型 即显示使用&lt;&gt;指定 非类型模板参数必须是常量， 因为模板代码在编译期生成 * 所有参数都是非类型 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">int</span> a, <span class="keyword">int</span> b&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="number">1</span>, <span class="number">2</span>&gt;() <span class="comment">//显示指定参数</span></span><br></pre></td></tr></table></figure> * 非类型和类型参数混合 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">a</span> , <span class="title">int</span> <span class="title">b</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">add</span>(<span class="title">T</span> <span class="title">c</span>)&#123;</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)c + a + b;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add&lt;<span class="keyword">int</span>, <span class="number">1</span>, <span class="number">2</span>&gt;(<span class="number">3</span>);</span><br></pre></td></tr></table></figure> * 非类型模板也可以不用&lt;&gt;指定 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">unsigned</span> L1, <span class="keyword">unsigned</span> L1&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strcomp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>(&amp;p1)[L1], <span class="keyword">const</span> <span class="keyword">char</span>(&amp;p2)[L2])</span></span>&#123;  <span class="comment">//数组的引用</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>(p1, p2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">strcomp(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//字符串长度由编译器默认推到</span></span><br><span class="line">strcomp&lt;<span class="number">5</span>, <span class="number">6</span>&gt;(<span class="string">"test"</span>, <span class="string">"test2"</span>); <span class="comment">//也可以显示指定</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="类模板">类模板</h2>
-<p>类模板编译器不能自动推导参数所以要显示用&lt;&gt;指定</p>
-<h3 id="类模板成员函数">类模板成员函数</h3>
-<ul>
-<li><p>定义在类内部不用写类型参数<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p></li>
-<li><p>定义在类外部</p></li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="非类型模板参数-1">非类型模板参数</h3>
-<p>非类型参数不能是浮点数和类 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span> = 100&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">int</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">A</span>&lt;T, V&gt;:</span>:func()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="typename使用场景">typename使用场景</h2>
-<ul>
-<li>模板类型参数<br />
-</li>
-<li>使用类的类型成员， 用typename来标示这个类型<br />
-一般使用::后面跟类型时，编译器默认会当作类的成员变量。为防止这种情况使用必须使用typename(这里不能使用class代替)</li>
-</ul>
-<p>例1：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">mystring</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> T* Iterator;</span><br><span class="line"></span><br><span class="line">    <span class="function">Iterator <span class="title">begin</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">mystring</span>&lt;T&gt;:</span>:Iterator mystring&lt;T&gt;::begin()&#123;</span><br><span class="line">    <span class="comment">//....    </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>例2： <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//饿汉单例模式</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">CHSingleton</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    CHSingleton()</span><br><span class="line">    &#123;</span><br><span class="line">        _destory.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~CHSingleton()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T *<span class="title">Instance</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _instance; &#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CDestory</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        CDestory()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"CDestory"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ~CDestory()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"~CDestory"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">delete</span> CHSingleton::_instance;</span><br><span class="line">            CHSingleton::_instance = <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">thread_local</span> <span class="keyword">static</span> T *_instance;</span><br><span class="line">    <span class="keyword">static</span> CDestory _destory;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">thread_local</span> <span class="title">T</span> *<span class="title">CHSingleton</span>&lt;T&gt;:</span>:_instance = <span class="keyword">new</span> T;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">typename</span> <span class="title">CHSingleton</span>&lt;T&gt;:</span>:CDestory CHSingleton&lt;T&gt;::_destory;</span><br></pre></td></tr></table></figure></p>
-<h2 id="可调用对象做函数模板的默认参数">可调用对象做函数模板的默认参数</h2>
-<p>c++11以后支持模板函数默认参数<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(*func)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//函数指针</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">Func</span>=<span class="title">func1</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">tfunc</span>(<span class="title">const</span> <span class="title">T</span>&amp; <span class="title">i</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">j</span>, <span class="title">Func</span> <span class="title">f</span>= <span class="title">func1</span>)&#123;</span></span><br><span class="line">    f(i, j);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//函数对象</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">O</span>=<span class="title">Obj</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">tfunc</span>(<span class="title">const</span> <span class="title">T</span>&amp; <span class="title">i</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">j</span>, <span class="title">O</span> <span class="title">o</span>= <span class="title">Obj</span>())&#123;</span></span><br><span class="line">    o(i, j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="成员函数模板">成员函数模板</h2>
-<p>成员函数模板不能是虚函数， ### 普通类的成员函数模板 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">func</span>(<span class="title">T</span> <span class="title">t</span>)&#123;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A a;</span><br><span class="line">a.func(<span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
-<h3 id="类模板中的成员函数模板">类模板中的成员函数模板</h3>
-<ul>
-<li>类成员模板函数定义在类内<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">C</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">A</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">A</span>(<span class="title">T1</span> <span class="title">a</span>, <span class="title">T2</span> <span class="title">b</span>)&#123;</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">func</span>(<span class="title">T3</span> <span class="title">c</span>)&#123;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    C c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">a.func(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure></li>
-<li>类成员模板函数定义在类外<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">temp&lt;<span class="class"><span class="keyword">class</span> <span class="title">C</span>&gt;  //先写类模板申明</span></span><br><span class="line"><span class="class"><span class="title">temp</span>&lt;class T1, class T2&gt; //再写成员函数模板申明 </span></span><br><span class="line"><span class="class"><span class="title">A</span>&lt;C&gt;:</span>:A(T1 a, T2 b)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> ## 模板显式实例化 为防止多个cpp文件中实例化相同的模板类， c++11中使用显示实例化解决 每种类型的模板只需实例化一次， 其他的cpp文件声明就行， 只有使用到该类型模板才用实例化<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//a.cpp</span></span><br><span class="line"><span class="keyword">template</span>  A&lt;<span class="keyword">float</span>&gt;;  <span class="comment">//显式实例化类</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>  <span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>;<span class="comment">//显示实例化函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//b.cpp</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">template</span> A&lt;<span class="keyword">float</span>&gt;; <span class="comment">//显式实例化类声明</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">template</span>  <span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>;<span class="comment">//显示实例化函数申明</span></span><br></pre></td></tr></table></figure> 类模板的实例化会实例化类模板的所有成员函数， 包括内联和类成员模板函数(vs中)</li>
-</ul>
-<h2 id="using-定义模板别名">using 定义模板别名</h2>
-<ul>
-<li>定义一个值为任意参数的模板别名<br />
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">using</span> <span class="title">s_map</span> = <span class="title">std</span>:</span>:<span class="built_in">map</span>&lt;<span class="built_in">string</span>, T&gt;;</span><br><span class="line"></span><br><span class="line">s_map&lt;<span class="keyword">int</span>&gt; m;</span><br><span class="line">m.insert(&#123;<span class="string">"first"</span>, <span class="number">1</span>&#125;);</span><br></pre></td></tr></table></figure></li>
-<li>定义一个函数指针模板 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">using</span> <span class="title">funcptr</span> = <span class="title">bool</span> (*)(<span class="title">T</span>, <span class="title">T</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">funcptr&lt;<span class="keyword">int</span>&gt; f_ptr;</span><br><span class="line">f_ptr = func;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="显示指定模板参数">显示指定模板参数</h2>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>, <span class="title">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T1</span> <span class="title">sum</span>(<span class="title">T2</span> <span class="title">i</span>, <span class="title">T3</span> <span class="title">j</span>)&#123;</span></span><br><span class="line">    T1 res = i + j;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数2,3能推导出来， 能省略</span></span><br><span class="line"><span class="keyword">auto</span> res = sum&lt;<span class="keyword">double</span>&gt;(<span class="number">200000000</span>, <span class="number">200000000</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>, <span class="title">class</span> <span class="title">T3</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">T3</span> <span class="title">sum</span>(<span class="title">T1</span> <span class="title">i</span>, <span class="title">T2</span> <span class="title">j</span>)&#123;</span></span><br><span class="line">    T3 res = i + j;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//参数不能省</span></span><br><span class="line"><span class="keyword">auto</span> res = sum&lt;<span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span>&gt;(<span class="number">200000000</span>, <span class="number">200000000</span>);</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>c++</category>
-      </categories>
-      <tags>
-        <tag>泛型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>趣谈linux操作系统笔记</title>
-    <url>/2020/03/06/%E8%B6%A3%E8%B0%88linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="核心原理篇">核心原理篇</h2>
-<h3 id="综述">综述</h3>
-<ul>
-<li><p>操作系统内核体系结构图<br />
-<img src="https://i.loli.net/2020/11/15/pbBWAYXISkgerhP.png" alt="p1" /></p></li>
-<li><p>linux 命令图谱 <img src="https://i.loli.net/2020/11/15/TurwAvLhRlDn2mN.png" alt="p2" /></p></li>
-<li><p>系统调用图谱 <img src="https://i.loli.net/2020/11/15/HXYI9Bvx4Ff7lJO.png" alt="p3" /></p></li>
-</ul>
-<h3 id="系统初始化">系统初始化</h3>
-<h4 id="x86架构">X86架构</h4>
-<ul>
-<li><p>计算机工作模式图<br />
-<img src="https://i.loli.net/2020/11/15/Nox2ZbL5W9QqXB7.png" alt="p4" /></p></li>
-<li><p>CPU组成<br />
-运算单元: 加法、位移<br />
-控制单元: CPU内部缓存和寄存器组<br />
-数据单元: 取指令， 根据指令取数据， 计算结果后存放数据</p></li>
-<li><p>X86架构<br />
-<img src="https://i.loli.net/2020/11/15/olItSPWQ4s9vMzu.png" alt="image-20201115153051673" /></p></li>
-<li><p>程序执行过程图<br />
-<img src="https://i.loli.net/2020/11/15/iyR6zdnIXJgtDsM.png" alt="p6" /></p></li>
-<li><p>总线<br />
-地址总线: 位数决定寻址的范围<br />
-数据总线: 位数决定次能拿多少数据</p></li>
-<li><p>8086 结构图:<br />
-<img src="https://i.loli.net/2020/11/15/8xHsFyU1KAgBc6S.png" alt="p7" /></p></li>
-</ul>
-<p>寄存器:<br />
-8个16位通用寄存器，用于计算过程中暂存数据， AX、BX、CX、DX、SP、BP、SI、DI, 其中 AX、BX、CX、DX 可以分成两个 8 位的寄存器来使用，分别是 AH、AL、BH、BL、CH、CL、DH、DL<br />
-16位IP(Instruction Pointer Register), 指令指针寄存器，存放下一条指令在内存中的地址<br />
-4个16位段寄存器， CS(代码段寄存器)、DS(数据段的寄存器)、SS(栈寄存器)、ES</p>
-<p>实模式：<br />
-CS和DS中都存放这段的起始地址， IP中存放代码段偏移地址， 通用寄存器中存放数据段的偏移地址<br />
-8086的地址总线位20位，寻址方式：起始地址*16+偏移量， 每个段的最大寻址64k</p>
-<ul>
-<li>80386 寄存器:<br />
-8个32位通用寄存器， 低16位保留了16位和八位的使用方式， 高16位没有分的原因是不兼容之前的架构(8080和8086最大寻址分别是2<sup>16和2</sup>20, 通用寄存器保存地址的偏移量,高16位地址已经大于2^16)<br />
-32位指令寄存器EIP<br />
-4个16位段寄存器<br />
-<img src="https://i.loli.net/2020/11/15/gBIZs18zRj5Et2p.png" alt="p8" /></li>
-</ul>
-<p>保护模式： 段的起始地址存放在内存的某个地方，这个地方是一个表格，表格里面一项项是段描述符， 这里面才是段的起始地址， 段寄存器里面存放的是表格中的哪一项，即选择子。 CPU从段寄存器中找到表格中的选择子， 然后简介找到段起始地址， 为了更快速的拿到段起始地址， 段寄存器会从内存中拿到 CPU 的描述符高速缓存器中<br />
-<img src="https://i.loli.net/2020/11/15/EBncydGJ17zAo2X.png" alt="p9" /></p>
-]]></content>
-      <categories>
-        <category>linux内核</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>patchelf</title>
-    <url>/2020/03/26/%E5%B7%A5%E5%85%B7/patchelf/</url>
-    <content><![CDATA[<a id="more"></a>
-<h2 id="简介">简介</h2>
-<p>PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。</p>
-<h2 id="安装">安装</h2>
-<p>wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 ./configure --prefix=/usr/local make &amp;&amp; make install</p>
-<h2 id="使用">使用</h2>
-<h3 id="修改动态库的rpath">修改动态库的rpath</h3>
-<p>rpath全称是run-time search path。Linux下所有elf格式的文件都包含它，特别是可执行文件。它规定了可执行文件在寻找.so文件时的第一优先位置. linux下在链接共享库的时候可以通过rpath选项来指定运行时共享库加载路径。通过这个选项指定的路径会写到ELF文件dynamic段的RPATH里, 运行时链接器会在此路径下搜索ELF文件所依赖的共享库</p>
-<p>编译代码时如果不指定所依赖动态库的路径很可能会编译报错<br />
-有如下解决方法: * 将所依赖的动态库路径添加到LD_LIBRARY_PATH环境变量中 * 链接时直接将搜索路径写到rpath中，如: gcc -L. -larith main.c -Wl,-rpath=依赖动态库所在路径 -o main readelf -d main | grep PATH //查看rpath 如果我们拿到的时已经编译好的可执行文件，就不能像方法2一样指定rpath, 这时可以使用pathelf, 它可以修改elf文件，如: patchelf --set-rpath 依赖动态库路径 main 或 patchelf --set-rpath '$ORIGIN/lib' main //ORIGIN会在运行时解析成程序所在路径 * ldd main //查看可执行程序依赖动态库</p>
-<p>--set-rpath 实际上是修改runpath, 关于rpath和runpath的区别，前者不会覆盖LD_LIBARAY_PATH, 后者会推荐使用后者</p>
-<p>--force-rpath pathelf的默认动作是修改runpath, 如果要修改rpath就要加上该字段</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">patchelf [--force-rpath] --set-rpath &quot;&lt;desired-rpath&gt;&quot; &lt;path-to-elf&gt;</span><br></pre></td></tr></table></figure>
-<p><desired-path> 是用逗号分隔的目录列表，例如： /my/libs:/my/other/libs<br />
-如果指定--force-rpath，则设置RPATH，否则设置RUNPATH</p>
-<h3 id="修改动态库的名称">修改动态库的名称</h3>
-<p>如果有这样的场景: 某一个库依赖了一个第三库库的版本1，另外一个库依赖了同样的这个第三库的版本2，两个库的名字是一样的，程序运行时两个动态库都要加载，但是加载的时候由于第三库版本不一致导致程序运行过程中崩溃。这种情况下就可以通关patchelf修改其中一个的依赖库的名字，从而达到同时加载不同版本的动态库的效果，解决运行中的崩溃问题。 相关命令: patchelf --print-needed test.so //查看依赖动态库，假设test.so依赖a.so patchelf --replace-needed a.so b.so test.so //将a.so改成b.so</p>
-<h3 id="删除rpath中未使用的路径">删除rpath中未使用的路径</h3>
-<pre><code>patchelf --shrink-rpath 可执行文件
-patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   </code></pre>
-<h3 id="修改动态链接器dynamic-linker">修改动态链接器(dynamic linker)</h3>
-<p>在实际运行程序时，经常会遇到一个问题，电脑上安装的glibc版本不符合要求，由于glibc是最底层的库，不可能重新编译glibc，这样会导致系统崩溃。两种方法修改： 有代码的情况下，gcc main.c -o main - -Wl --dynamic-linker 动态链接库路径 二进制文件情况下，patchelf --set-interpreter 动态链接库路径 可执行文件</p>
-<h2 id="兼容性">兼容性</h2>
-<p>PatchELF已在i386-linux， x86_64-linux和powerpc-linux上进行了测试。它能在所有32位或64位，大端或小端 Linux平台上运行。稍作修改，它也可以在其他ELF平台上运行</p>
-<p>关于动态库的搜索： https://blog.csdn.net/FoxBryant/article/details/53389804 https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox https://en.wikipedia.org/wiki/Rpath</p>
-<pre><code>                                                                                                                         https://nixos.org/patchelf.html
-                                                                                                                          https://www.dazhuanlan.com/2019/09/24/5d89371175726/
-                                                                                                                         https://blog.csdn.net/force_eagle/article/details/48263365
-                                                                                                                         https://www.jianshu.com/p/505a32ccdc91
-                                                                                                                         http://shibing.github.io/2016/08/20/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%B8%8Erpath/
-                                                                                                                         https://blog.csdn.net/farmwang/article/details/73195799                                                                                                                     https://cqlin1995.github.io/2018/06/26/%E8%BF%90%E8%A1%8C%E4%B8%8D%E5%90%8Cglibc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%87%E4%BB%B6/</code></pre>
-<p>ORIGIN https://medium.com/<span class="citation" data-cites="nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98">@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98</span></p>
-]]></content>
-      <categories>
-        <category>tools</category>
-      </categories>
-  </entry>
-  <entry>
     <title>cpp细节</title>
     <url>/2020/01/08/cpp/cpp%E7%BB%86%E8%8A%82/</url>
     <content><![CDATA[<h2 id="移动构造函数中如果有拷贝动态内存要注意将指针赋空">移动构造函数中如果有拷贝动态内存要注意将指针赋空</h2>
@@ -1747,6 +1793,46 @@ patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   </co
 ]]></content>
       <categories>
         <category>c++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>patchelf</title>
+    <url>/2020/03/26/%E5%B7%A5%E5%85%B7/patchelf/</url>
+    <content><![CDATA[<a id="more"></a>
+<h2 id="简介">简介</h2>
+<p>PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。</p>
+<h2 id="安装">安装</h2>
+<p>wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar -zxvf patchelf-0.10.tar.gz cd patchelf-0.10 ./configure --prefix=/usr/local make &amp;&amp; make install</p>
+<h2 id="使用">使用</h2>
+<h3 id="修改动态库的rpath">修改动态库的rpath</h3>
+<p>rpath全称是run-time search path。Linux下所有elf格式的文件都包含它，特别是可执行文件。它规定了可执行文件在寻找.so文件时的第一优先位置. linux下在链接共享库的时候可以通过rpath选项来指定运行时共享库加载路径。通过这个选项指定的路径会写到ELF文件dynamic段的RPATH里, 运行时链接器会在此路径下搜索ELF文件所依赖的共享库</p>
+<p>编译代码时如果不指定所依赖动态库的路径很可能会编译报错<br />
+有如下解决方法: * 将所依赖的动态库路径添加到LD_LIBRARY_PATH环境变量中 * 链接时直接将搜索路径写到rpath中，如: gcc -L. -larith main.c -Wl,-rpath=依赖动态库所在路径 -o main readelf -d main | grep PATH //查看rpath 如果我们拿到的时已经编译好的可执行文件，就不能像方法2一样指定rpath, 这时可以使用pathelf, 它可以修改elf文件，如: patchelf --set-rpath 依赖动态库路径 main 或 patchelf --set-rpath '$ORIGIN/lib' main //ORIGIN会在运行时解析成程序所在路径 * ldd main //查看可执行程序依赖动态库</p>
+<p>--set-rpath 实际上是修改runpath, 关于rpath和runpath的区别，前者不会覆盖LD_LIBARAY_PATH, 后者会推荐使用后者</p>
+<p>--force-rpath pathelf的默认动作是修改runpath, 如果要修改rpath就要加上该字段</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">patchelf [--force-rpath] --set-rpath &quot;&lt;desired-rpath&gt;&quot; &lt;path-to-elf&gt;</span><br></pre></td></tr></table></figure>
+<p><desired-path> 是用逗号分隔的目录列表，例如： /my/libs:/my/other/libs<br />
+如果指定--force-rpath，则设置RPATH，否则设置RUNPATH</p>
+<h3 id="修改动态库的名称">修改动态库的名称</h3>
+<p>如果有这样的场景: 某一个库依赖了一个第三库库的版本1，另外一个库依赖了同样的这个第三库的版本2，两个库的名字是一样的，程序运行时两个动态库都要加载，但是加载的时候由于第三库版本不一致导致程序运行过程中崩溃。这种情况下就可以通关patchelf修改其中一个的依赖库的名字，从而达到同时加载不同版本的动态库的效果，解决运行中的崩溃问题。 相关命令: patchelf --print-needed test.so //查看依赖动态库，假设test.so依赖a.so patchelf --replace-needed a.so b.so test.so //将a.so改成b.so</p>
+<h3 id="删除rpath中未使用的路径">删除rpath中未使用的路径</h3>
+<pre><code>patchelf --shrink-rpath 可执行文件
+patchelf --remove-rpath &lt;path-to-elf&gt; //同时删除RPATH和RUNPATH   </code></pre>
+<h3 id="修改动态链接器dynamic-linker">修改动态链接器(dynamic linker)</h3>
+<p>在实际运行程序时，经常会遇到一个问题，电脑上安装的glibc版本不符合要求，由于glibc是最底层的库，不可能重新编译glibc，这样会导致系统崩溃。两种方法修改： 有代码的情况下，gcc main.c -o main - -Wl --dynamic-linker 动态链接库路径 二进制文件情况下，patchelf --set-interpreter 动态链接库路径 可执行文件</p>
+<h2 id="兼容性">兼容性</h2>
+<p>PatchELF已在i386-linux， x86_64-linux和powerpc-linux上进行了测试。它能在所有32位或64位，大端或小端 Linux平台上运行。稍作修改，它也可以在其他ELF平台上运行</p>
+<p>关于动态库的搜索： https://blog.csdn.net/FoxBryant/article/details/53389804 https://blog.csdn.net/dbzhang800/article/details/6918413#commentBox https://en.wikipedia.org/wiki/Rpath</p>
+<pre><code>                                                                                                                         https://nixos.org/patchelf.html
+                                                                                                                          https://www.dazhuanlan.com/2019/09/24/5d89371175726/
+                                                                                                                         https://blog.csdn.net/force_eagle/article/details/48263365
+                                                                                                                         https://www.jianshu.com/p/505a32ccdc91
+                                                                                                                         http://shibing.github.io/2016/08/20/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E4%B8%8Erpath/
+                                                                                                                         https://blog.csdn.net/farmwang/article/details/73195799                                                                                                                     https://cqlin1995.github.io/2018/06/26/%E8%BF%90%E8%A1%8C%E4%B8%8D%E5%90%8Cglibc%E7%89%88%E6%9C%AC%E7%9A%84%E6%96%87%E4%BB%B6/</code></pre>
+<p>ORIGIN https://medium.com/<span class="citation" data-cites="nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98">@nehckl0/creating-relocatable-linux-executables-by-setting-rpath-with-origin-45de573a2e98</span></p>
+]]></content>
+      <categories>
+        <category>tools</category>
       </categories>
   </entry>
   <entry>
