@@ -85,7 +85,7 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="//cdnjs.cat.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
 
@@ -110,12 +110,12 @@
 
 
 
-<meta name="description" content="Rust词法结构 Rust编译过程  编译过程  六大词法结构  关键字(Keywords) 严格关键字:  保留字:  被保留的关键字不代表将来一定会使用 弱关键字:  标识符(Identifier) 以下划线或字母开头的, 将来支持非ASCII标示符  注释(Comment) 空白(Whitespace)  image-20201220142904808  词条(Tokens) 路径(Path">
+<meta name="description" content="Rust词法结构Rust编译过程 六大词法结构 关键字(Keywords)严格关键字:保留字:被保留的关键字不代表将来一定会使用 弱关键字:    标识符(Identifier) 以下划线或字母开头的, 将来支持非ASCII标示符  注释(Comment)   空白(Whitespace)   词条(Tokens)  路径(Path)   面向表达式 分号表达式返回值是永远为自身的单元类型() 分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rust实战课">
 <meta property="og:url" content="http://yoursite.com/2020/12/20/rust%E5%AE%9E%E6%88%98%E8%AF%BE/index.html">
 <meta property="og:site_name" content="Colin&#39;s Home">
-<meta property="og:description" content="Rust词法结构 Rust编译过程  编译过程  六大词法结构  关键字(Keywords) 严格关键字:  保留字:  被保留的关键字不代表将来一定会使用 弱关键字:  标识符(Identifier) 以下划线或字母开头的, 将来支持非ASCII标示符  注释(Comment) 空白(Whitespace)  image-20201220142904808  词条(Tokens) 路径(Path">
+<meta property="og:description" content="Rust词法结构Rust编译过程 六大词法结构 关键字(Keywords)严格关键字:保留字:被保留的关键字不代表将来一定会使用 弱关键字:    标识符(Identifier) 以下划线或字母开头的, 将来支持非ASCII标示符  注释(Comment)   空白(Whitespace)   词条(Tokens)  路径(Path)   面向表达式 分号表达式返回值是永远为自身的单元类型() 分">
 <meta property="og:image" content="https://i.loli.net/2020/12/20/DV7NEZxKSvlW8n5.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/20/YyaGKU6XPxgvj1M.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/20/zglahqPXjfs2xUS.png">
@@ -543,7 +543,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  625
+                  620
                 </span>
               
 
@@ -581,80 +581,78 @@ $(function() {
       
 
       
-        <h3 id="rust词法结构"><strong>Rust词法结构</strong></h3>
-<h4 id="rust编译过程"><strong>Rust编译过程</strong></h4>
-<figure>
-<img src="https://i.loli.net/2020/12/20/DV7NEZxKSvlW8n5.png" alt="编译过程" /><figcaption>编译过程</figcaption>
-</figure>
-<h4 id="六大词法结构"><strong>六大词法结构</strong></h4>
-<ul>
-<li><p><strong>关键字(Keywords)</strong> <strong>严格关键字</strong>: <img src="https://i.loli.net/2020/12/20/YyaGKU6XPxgvj1M.png" alt="关键字" /> <strong>保留字</strong>: <img src="https://i.loli.net/2020/12/20/zglahqPXjfs2xUS.png" alt="保留字" /> 被保留的关键字不代表将来一定会使用</p>
-<p><strong>弱关键字</strong>: <img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220141457554.png" alt="弱关键字" /></p></li>
-<li><p><strong>标识符(Identifier)</strong></p>
-<p>以下划线或字母开头的, 将来支持非ASCII标示符 <img src="https://i.loli.net/2020/12/20/B5rJkmPKMYwsNhC.png" alt="标识符" /></p></li>
-<li><p>注释(Comment)</p></li>
-<li><p>空白(Whitespace)</p>
-<figure>
-<img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220142904808.png" alt="image-20201220142904808" /><figcaption>image-20201220142904808</figcaption>
-</figure></li>
-<li><p>词条(Tokens)</p></li>
-<li><p>路径(Path)</p></li>
+        <h3 id="Rust词法结构"><a href="#Rust词法结构" class="headerlink" title="Rust词法结构"></a><strong>Rust词法结构</strong></h3><h4 id="Rust编译过程"><a href="#Rust编译过程" class="headerlink" title="Rust编译过程"></a><strong>Rust编译过程</strong></h4><p><img src="https://i.loli.net/2020/12/20/DV7NEZxKSvlW8n5.png" alt="编译过程"></p>
+<h4 id="六大词法结构"><a href="#六大词法结构" class="headerlink" title="六大词法结构"></a><strong>六大词法结构</strong></h4><ul>
+<li><p><strong>关键字(Keywords)</strong><br><strong>严格关键字</strong>:<br><img src="https://i.loli.net/2020/12/20/YyaGKU6XPxgvj1M.png" alt="关键字"><br><strong>保留字</strong>:<br><img src="https://i.loli.net/2020/12/20/zglahqPXjfs2xUS.png" alt="保留字"><br>被保留的关键字不代表将来一定会使用</p>
+<p><strong>弱关键字</strong>:<br><img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220141457554.png" alt="弱关键字"></p>
+</li>
 </ul>
-<h3 id="面向表达式"><strong>面向表达式</strong></h3>
-<p>分号表达式返回值是永远为自身的单元类型() 分号表达式只有在块表达式最后一行才会进行求值, 其他时候只作为'连接符'存在 块表达式只对其最后一行表达式进行求值</p>
-<h4 id="编译期计算"><strong>编译期计算</strong></h4>
 <ul>
-<li><p><strong>过程宏 + Build脚本(build.rs)</strong></p></li>
-<li><p><strong>类似于Cpp中constexpr的CTFE功能</strong> 常量表达式与常量上下文 <img src="https://i.loli.net/2020/12/20/3FQ8worYRxuz5Ot.png" alt="常量函数" /></p>
-常量上下文(const context) 包含:
-<ol type="1">
+<li><p><strong>标识符(Identifier)</strong></p>
+<p>以下划线或字母开头的, 将来支持非ASCII标示符<br><img src="https://i.loli.net/2020/12/20/B5rJkmPKMYwsNhC.png" alt="标识符"></p>
+</li>
+<li><p>注释(Comment) </p>
+</li>
+<li><p>空白(Whitespace)</p>
+<p><img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220142904808.png" alt="image-20201220142904808"></p>
+</li>
+<li><p>词条(Tokens)</p>
+</li>
+<li><p>路径(Path)</p>
+</li>
+</ul>
+<h3 id="面向表达式"><a href="#面向表达式" class="headerlink" title="面向表达式"></a><strong>面向表达式</strong></h3><p> 分号表达式返回值是永远为自身的单元类型()<br> 分号表达式只有在块表达式最后一行才会进行求值, 其他时候只作为’连接符’存在<br> 块表达式只对其最后一行表达式进行求值</p>
+<h4 id="编译期计算"><a href="#编译期计算" class="headerlink" title="编译期计算"></a><strong>编译期计算</strong></h4><ul>
+<li><p><strong>过程宏 + Build脚本(build.rs)</strong></p>
+</li>
+<li><p><strong>类似于Cpp中constexpr的CTFE功能</strong></p>
+<pre><code>常量表达式与常量上下文
+</code></pre><p>  <img src="https://i.loli.net/2020/12/20/3FQ8worYRxuz5Ot.png" alt="常量函数"></p>
+<p>  常量上下文(const context) 包含:</p>
+<ol>
 <li>常量值初始化位置</li>
 <li>静态数组的长度表达式, [T;N]</li>
 <li>重复的长度表达式, 类似于[0;10]</li>
-<li>静态变量, 枚举判别式的初始化位置</li>
-</ol>
-常量传播和编译期计算是不同的:
-<ol type="1">
+<li><p>静态变量, 枚举判别式的初始化位置</p>
+<p>常量传播和编译期计算是不同的:</p>
+</li>
 <li>常量传播是编译器的一种优化</li>
 <li>常量传播并不能改变程序的任何行为, 并且对开发者是影藏的</li>
-<li>编译期计算是指编译是执行的代码, 必须知道其结果, 才能继续执行</li>
-</ol>
-常量安全(Const Safe)
-<ol type="1">
+<li><p>编译期计算是指编译是执行的代码, 必须知道其结果, 才能继续执行  </p>
+<p>常量安全(Const Safe)    </p>
+</li>
 <li>Rust里的大部分表达式都可用作常量表达式</li>
 <li>并不是所有常量表达式都可以用在常量上下文</li>
-<li>编译期求值必须得到一个确定性的结果</li>
-</ol>
-<p>常量函数(const fn) <img src="https://i.loli.net/2020/12/20/huRA9swCbzktKyG.png" /></p>
-<p>支持内部嵌入式定义和递归 <img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220151852450.png" alt="image-20201220151852450" /></p>
-常量安全子系统类型系统
-<ol type="1">
+<li><p>编译期求值必须得到一个确定性的结果 </p>
+<p>常量函数(const fn)<br><img src="https://i.loli.net/2020/12/20/huRA9swCbzktKyG.png" alt=""></p>
+<p>支持内部嵌入式定义和递归<br><img src="/home/cp/blog/colinblack.github.io/source/_posts/image-20201220151852450.png" alt="image-20201220151852450"></p>
+<p>常量安全子系统类型系统</p>
+<ol>
 <li>普通的fn关键字定义的函数,是safe rust主类型系统保证安全</li>
-<li>const fn定义的函数, 是Safe Rust 主类型系统下有一个专门用于常量计算的子类型系统来 保证常量安全的</li>
+<li>const fn定义的函数, 是Safe Rust 主类型系统下有一个专门用于常量计算的子类型系统来            保证常量安全的</li>
 </ol>
-常量上下文可接受的常量表达式
-<ol type="1">
+<p>常量上下文可接受的常量表达式</p>
+<ol>
 <li>const fn 函数</li>
 <li>元组结构体</li>
 <li>元组的值</li>
-<li>反例
-<ol type="1">
-<li><img src="https://i.loli.net/2020/12/20/WrMZ2b4oFeIaCUT.png" /></li>
-<li><img src="https://i.loli.net/2020/12/20/WGJmBpxHflM4ukD.png" /></li>
-</ol></li>
+<li>反例<br>(1)<br><img src="https://i.loli.net/2020/12/20/WrMZ2b4oFeIaCUT.png" alt=""><br>(2)<br><img src="https://i.loli.net/2020/12/20/WGJmBpxHflM4ukD.png" alt=""></li>
 </ol>
-<p>常量泛型(const generic) Rust中以下定义数组属于不同类型 <img src="https://i.loli.net/2020/12/20/lvbWZG3aJouLDBd.png" /> 常量泛型 <img src="https://i.loli.net/2020/12/20/J9XVqK3MrahfHxZ.png" /></p>
-<p>#### <strong>所有权</strong> Rust中表达式分类: <img src="https://i.loli.net/2020/12/20/Aupbcf6rEKaIZBz.png" /></p>
-<p>表达式背后的内存管理: <img src="https://i.loli.net/2020/12/20/1OCGTJNLHEKQVA7.png" /></p>
-位置表达式:
-<ol type="1">
+<p>常量泛型(const generic)<br>Rust中以下定义数组属于不同类型<br><img src="https://i.loli.net/2020/12/20/lvbWZG3aJouLDBd.png" alt=""><br>常量泛型<br><img src="https://i.loli.net/2020/12/20/J9XVqK3MrahfHxZ.png" alt=""></p>
+<h4 id="所有权"><a href="#所有权" class="headerlink" title="所有权"></a><strong>所有权</strong></h4><p>Rust中表达式分类:<br><img src="https://i.loli.net/2020/12/20/Aupbcf6rEKaIZBz.png" alt=""></p>
+<p>表达式背后的内存管理:<br><img src="https://i.loli.net/2020/12/20/1OCGTJNLHEKQVA7.png" alt=""></p>
+<p>位置表达式:</p>
+<ol>
 <li>静态变脸初始化, 比如static mut LEVELS:u32 = 0;</li>
 <li>解引用表达式, *expr</li>
 <li>数组索引表达式, expr[expr]</li>
 <li>字段表达式, expr.field</li>
 <li>加上括号的表达式, (expr)</li>
 <li>除此之外, 都是值表达式</li>
-</ol></li>
+</ol>
+</li>
+</ol>
+</li>
 </ul>
 
       
@@ -879,7 +877,7 @@ $(function() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#rust词法结构"><span class="nav-number">1.</span> <span class="nav-text">Rust词法结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rust编译过程"><span class="nav-number">1.1.</span> <span class="nav-text">Rust编译过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六大词法结构"><span class="nav-number">1.2.</span> <span class="nav-text">六大词法结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向表达式"><span class="nav-number">2.</span> <span class="nav-text">面向表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译期计算"><span class="nav-number">2.1.</span> <span class="nav-text">编译期计算</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rust词法结构"><span class="nav-number">1.</span> <span class="nav-text">Rust词法结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Rust编译过程"><span class="nav-number">1.1.</span> <span class="nav-text">Rust编译过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六大词法结构"><span class="nav-number">1.2.</span> <span class="nav-text">六大词法结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向表达式"><span class="nav-number">2.</span> <span class="nav-text">面向表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译期计算"><span class="nav-number">2.1.</span> <span class="nav-text">编译期计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#所有权"><span class="nav-number">2.2.</span> <span class="nav-text">所有权</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -900,7 +898,7 @@ $(function() {
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

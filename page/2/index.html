@@ -85,7 +85,7 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="//cdnjs.cat.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
 
@@ -527,7 +527,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  267
+                  265
                 </span>
               
 
@@ -568,16 +568,10 @@ $(function() {
         
           
           
-makefile中赋值号
-= 直接赋值
-:= 把之前的值替换掉
-?= 如果变量中没值则赋值，有值则不赋值
-+= 在变量未追加
-makefile中的shell
-作用域
-目标项冒号后另起一行才是shell代码
-$(shell 这里是shell代码)
-123456789101112define get_
+makefile中赋值号=  直接赋值:= 把之前的值替换掉?= 如果变量中没值则赋值，有值则不赋值+= 在变量未追加   
+
+makefile中的shell作用域目标项冒号后另起一行才是shell代码$(shell  这里是shell代码)    
+123456789101112define g
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -774,8 +768,7 @@ $(shell 这里是shell代码)
       
         
           
-          语法
-1234567891011121314#! /bin/bash                                                                                                                    
+          语法1234567891011121314#! /bin/bash                                                                                                                     
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -972,16 +965,14 @@ $(shell 这里是shell代码)
       
         
           
-          
+            
 项目构建
-
 个人
 
 公司
 
 
-工具
-12345678go fmt -w *.go   //格式化代码 go fmt github.com/hello   go run  src/xx/xx.go  //编译+执行go build -o /bin/test /src/test  //编译生成二进制文
+工具12345678go fmt -w *.go   //格式化代码 go fmt github.com/hello   go run  src/xx/xx.go  //编译+执行go build -o /bin/test /src/test  //编译生成二进制文
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1138,7 +1129,7 @@ $(shell 这里是shell代码)
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  96
+                  95
                 </span>
               
 
@@ -1178,9 +1169,8 @@ $(shell 这里是shell代码)
       
         
           
-          
-内核C中结构体初始化
-1234567891011121314151617181920struct A&#123;  int a;  int b;&#125;;# define __percpu       __attribute__((noderef, address_space(3)))stru
+            
+内核C中结构体初始化1234567891011121314151617181920struct A&#123;  int a;  int b;&#125;;# define __percpu       __attribute__((noderef, address_space(3)))str
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1377,7 +1367,7 @@ $(shell 这里是shell代码)
       
         
           
-          
+           
 
 non-blocking 和 IO multiplexing 一起使用
 
@@ -1538,7 +1528,7 @@ non-blocking 和 IO multiplexing 一起使用
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  72
+                  71
                 </span>
               
 
@@ -1578,11 +1568,9 @@ non-blocking 和 IO multiplexing 一起使用
       
         
           
-          
-exec函数簇和system区别
-exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行
-守护进程
-守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径
+            
+exec函数簇和system区别exec是新进程复制原来的进程， pid不变， exec后的代码不会被执行   
+守护进程守护进程会清理环境变量， 所以守护进程中使用exec执行系统命令时最好加上绝对路径  
 
           
           <!--noindex-->
@@ -1781,11 +1769,9 @@ exec是新进程复制原来的进程， pid不变， exec后的代码不会被�
         
           
           
-函数模板
-定义模板是不会生成代码，只有当实例化时才会生成
-### 类型模板参数 1234template&lt;class T&gt;T add(T a, T b)&#123;    return a + b;&#125;
-非类型模板参数
-非类型是指不是泛型， 即基本类型 即显示使用&lt;&gt
+函数模板定义模板是不会生成代码，只有当实例化时才会生成  
+类型模板参数1234template&lt;class T&gt;T add(T a, T b)&#123;    return a + b;&#125;
+非类型模板参数非类型是指不是泛型， 即基本类型即显示使用&lt;&gt;指定非类型
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1983,10 +1969,8 @@ exec是新进程复制原来的进程， pid不变， exec后的代码不会被�
         
           
           
-简介
-PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。
-安装
-wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar 
+简介PatchELF 是一个用来修改elf格式的动态库和可执行程序的小工具，可以修改动态链接库的库名字，以及链接库的rpath。  
+安装wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gztar -
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2183,28 +2167,25 @@ wget https://nixos.org/releases/patchelf/patchelf-0.10/patchelf-0.10.tar.gz tar
       
         
           
-          核心原理篇
-综述
-
+          核心原理篇综述
 操作系统内核体系结构图
 
-linux 命令图谱 
-系统调用图谱 
+linux 命令图谱
 
-系统初始化
-X86架构
-
-计算机工作模式图
-
-CPU组成
-运算单元: 加法、位移
-控制单元: CPU内部缓存和寄存器组
-数据单元: 取指令， 根据指令取数据， 计算结果后存放数据
-X86架构
-
-程序执行过程图
+系统调用图谱
 
 
+系统初始化X86架构
+计算机工作模式图    
+
+
+CPU组成运算单元: 加法、位移控制单元: CPU内部缓存和寄存器组数据单元: 取指令， 根据指令取数据， 计算结果后存放数据  
+
+
+X86架构  
+
+
+程序执行
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2402,19 +2383,11 @@ X86架构
         
           
           
-基础
-MySQL 执行一条查询语句的内部执行过程
-
-答案：
-链接器=》分析器=》优化器=》执行器=》存储引擎
-
-
-
-客户端先通过连接器连接到 MySQL 服务器
-
-连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器
-
-分析器会对
+基础MySQL 执行一条查询语句的内部执行过程
+答案：链接器=》分析器=》优化器=》执行器=》存储引擎    
+客户端先通过连接器连接到 MySQL 服务器   
+连接器权限验证通过之后，先查询是否有查询缓存，如果有缓存（之前执行过此语句）则直接返回缓存数据，如果没有缓存则进入分析器     
+分
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2600,7 +2573,7 @@ MySQL 执行一条查询语句的内部执行过程
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -85,7 +85,7 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="//cdnjs.cat.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
 
@@ -527,7 +527,7 @@ $(function() {
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  625
+                  620
                 </span>
               
 
@@ -567,19 +567,22 @@ $(function() {
       
         
           
-          Rust词法结构
-Rust编译过程
-
-编译过程
-
+          Rust词法结构Rust编译过程
 六大词法结构
+关键字(Keywords)严格关键字:保留字:被保留的关键字不代表将来一定会使用
+弱关键字:
 
-关键字(Keywords) 严格关键字:  保留字:  被保留的关键字不代表将来一定会使用
-弱关键字: 
+
+
 标识符(Identifier)
-以下划线或字母开头的, 将来支持非ASCII标示符 
-注释(Comment)
-空白(Whites
+以下划线或字母开头的, 将来支持非ASCII标示符
+
+注释(Comment) 
+
+空白(Whitespace)
+
+
+词条
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -777,10 +780,8 @@ Rust编译过程
         
           
           
-7. 内存管理
-7.1 从硬件角度看内存管理
-7.1.2 分段机制
-解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离 缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到
+7. 内存管理7.1 从硬件角度看内存管理7.1.2  分段机制解决地址空间保护问题, 总结为增加一个虚拟内存, 通过cpu提供的地址映射方法将虚拟地址转换成实际物理地址, 多进程运行时虚拟地址空间相互隔离缺点: 内存使用效率低下, 以进程为单位换入换出, 内存不足时需要将整个进程空间换出到磁盘
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -937,7 +938,7 @@ Rust编译过程
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  518
+                  516
                 </span>
               
 
@@ -979,13 +980,14 @@ Rust编译过程
           
           
 微服务实战
-PHP电商单体应用准备　
-基于 Laravel 开源项目 Laracom 快速构建在线商城系统
-1. 环境准备　
-开始之前，需要确保本地具备以下软件: * PHP 7.1+ * Composer * Git
-2. 安装Homestead
+PHP电商单体应用准备　基于 Laravel 开源项目 Laracom 快速构建在线商城系统1. 环境准备　开始之前，需要确保本地具备以下软件:
 
-安装vagrant 直接去官网下载: http
+PHP 7.1+
+Composer
+Git
+
+2. 安装Homestead
+安装vagrant直接去官网下载:https://www.va
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1120,7 +1122,7 @@ PHP电商单体应用准备　
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  106
+                  104
                 </span>
               
 
@@ -1160,14 +1162,14 @@ PHP电商单体应用准备　
       
         
           
-          动态规划
-5.最长回文子串
-状态转移方程: 子串长度大于２: \[
-P(i,j) = P(i+1, j-1) ∧ (Si == Sj) 
-\] 否则: \[
-\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}
-\]
+          动态规划5.最长回文子串状态转移方程:子串长度大于２:
 
+P(i,j) = P(i+1, j-1) ∧ (Si == Sj)否则:
+
+\begin{cases} P(i,i) = true \\ P(i, i+1) = (Si == Si+1) \end{cases}遍历方式:
+
+斜着遍历
+从上至下
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1302,7 +1304,7 @@ P(i,j) = P(i+1, j-1) ∧ (Si == Sj)
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  259
+                  252
                 </span>
               
 
@@ -1342,7 +1344,10 @@ P(i,j) = P(i+1, j-1) ∧ (Si == Sj)
       
         
           
-          ##　Tcp中的异常处理　 当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息: 1. connect一个不存在的端口，客户端会收到一条RST，报错Connection refused 2. 程序崩溃或
+          　Tcp中的异常处理　当客户段因位置原因崩溃或异常退出后，内核会发给服务端一条rst消息, 此时epoll变为可读，read 到rst报错, 一下情况会收到对端rst消息:
+
+connect一个不存在的端口，客户端会收到一条RST，报错Connection refused
+程序崩溃或异常退出，会向对
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1539,16 +1544,7 @@ P(i,j) = P(i+1, j-1) ∧ (Si == Sj)
       
         
           
-          内存管理　
-物理内存管理　
-页
-区域　
-内存分配　
-Slab, Slub, Slob
-高端内存　
-Per-CPU
-虚拟内存　
-
+          内存管理　物理内存管理　页区域　内存分配　Slab, Slub, Slob高端内存　Per-CPU虚拟内存　
           
           <!--noindex-->
           <div class="post-button text-center">
@@ -1683,7 +1679,7 @@ Per-CPU
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3k
+                  2.9k
                 </span>
               
 
@@ -1723,40 +1719,26 @@ Per-CPU
       
         
           
-          消息队列　
-为什么使用消息队列　
+          消息队列　为什么使用消息队列　
+解耦解耦前:解耦后:  
 
-解耦 解耦前:
-
-解耦后:
-
-异步
-同步:
+异步同步:  
 
 
-异步:
+异步:  
 
+削峰削峰前:  
 
-削峰
-削峰前:
-
-
-削峰后:
-
-消息队列优缺点　　
-
-interview_2020080407
-
+削峰后:  
+消息队列优缺点　　  
 kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　
 
 
 
-
-
-
-
-
-
+特性
+ActiveMQ
+RabbitMQ
+Rocke
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1913,7 +1895,7 @@ kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  411
+                  404
                 </span>
               
 
@@ -1953,22 +1935,18 @@ kafka, activemq, rabbitmq, rocketmq都有哪些优缺点　　
       
         
           
-          需求原型设计
-主要设计页面(墨刀原型设计工具)
+          需求原型设计主要设计页面(墨刀原型设计工具)
 
-前台用户登录页面，商品展示页面，抢购结果页面
-后台订单管理页面
+前台用户登录页面，商品展示页面，抢购结果页面 
+后台订单管理页面 
 
 系统架构设计
-
 前端页面需要承载大流量
 在大并发状态下要解决超卖问题
-后端接口需要满足横向扩展 
+后端接口需要满足横向扩展
 
 RabbitMQ
-
-定义和特征
-RabbitMQ是面向消息的中间件，用于组件之间的解
+定义和特征RabbitMQ是面向消息的中间件，用于组件之间的解耦，主
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2125,7 +2103,7 @@ RabbitMQ是面向消息的中间件，用于组件之间的解
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  846
+                  843
                 </span>
               
 
@@ -2165,7 +2143,7 @@ RabbitMQ是面向消息的中间件，用于组件之间的解
       
         
           
-          如果对象数组中没有默认构造函数，要像下面这样初始化: 1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt;
+          如果对象数组中没有默认构造函数，要像下面这样初始化:1234567891011121314#include &lt;iostream&gt;class A&#123;public:    A(int* p)       : p_(p)&#123;        std::cout &lt;&lt; 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2338,7 +2316,7 @@ RabbitMQ是面向消息的中间件，用于组件之间的解
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  14
+                  13
                 </span>
               
             </div>
@@ -2362,10 +2340,8 @@ RabbitMQ是面向消息的中间件，用于组件之间的解
       
         
           
-          基本操作
-12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名
-创建表
-123456789101112131415#语法  CREATE
+          基本操作12345678#新建数据库CREATE DATABASE 名#显示当前使用的数据库select database();# 查询数据库支持的存储引擎  show engines;#删除表  DROP TABLES 名
+创建表123456789101112131415#语法  CREATE [
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2551,7 +2527,7 @@ RabbitMQ是面向消息的中间件，用于组件之间的解
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
